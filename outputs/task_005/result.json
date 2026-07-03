@@ -1,0 +1,17 @@
+{
+  "task_id": "task_005",
+  "type": "analysis_task",
+  "status": "success",
+  "started_at": "2026-07-03T19:02:02",
+  "finished_at": "2026-07-03T19:02:02",
+  "duration_seconds": 0.097,
+  "summary": "analysis_task completed: 读取 outputs/task_004/result.md，把其中的直播预告封面视觉方案整理成可执行封面生产清单。",
+  "output_files": [
+    "outputs/task_005/output.txt",
+    "outputs/task_005/prompt.txt",
+    "outputs/task_005/result.json",
+    "outputs/task_005/result.md",
+    "outputs/task_005/run.log"
+  ],
+  "error": ""
+}

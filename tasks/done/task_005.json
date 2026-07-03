@@ -1,0 +1,36 @@
+{
+  "id": "task_005",
+  "type": "analysis_task",
+  "goal": "读取 outputs/task_004/result.md，把其中的直播预告封面视觉方案整理成可执行封面生产清单。",
+  "input": {
+    "files": [
+      "outputs/task_004/result.md"
+    ],
+    "text": "请基于 task_004 的输出，整理一份适合设计师执行的封面生产清单。要求从视觉方案中提炼可落地信息，而不是重新发散。"
+  },
+  "constraints": {
+    "language": "zh-CN",
+    "output_format": "markdown + json",
+    "dependencies": "不需要额外依赖",
+    "must_include": [
+      "推荐优先级排序",
+      "每套方案适合的使用场景",
+      "主标题建议",
+      "副标题建议",
+      "画面主体",
+      "背景氛围",
+      "构图方式",
+      "字体/文字层级建议",
+      "品牌露出方式",
+      "AI生图中文提示词",
+      "AI生图英文提示词",
+      "后期PS/Figma处理清单",
+      "风险点和避坑建议"
+    ]
+  },
+  "expected_outputs": [
+    "outputs/task_005/result.md",
+    "outputs/task_005/result.json"
+  ],
+  "status": "pending"
+}
