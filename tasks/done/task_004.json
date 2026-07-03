@@ -1,0 +1,27 @@
+{
+  "id": "task_004",
+  "type": "design_prompt_task",
+  "goal": "根据直播主题生成 3 个直播预告封面视觉方案提示词。",
+  "input": {
+    "files": [],
+    "text": "直播主题：作业批改机，真的没有差别吗？核心卖点：对比市面主流作业批改方式，突出自动赋分、学习闭环、系统逻辑差异。品牌：读书郎智慧教育。风格要求：教育科技感、专业可信、不要过度卡通。"
+  },
+  "constraints": {
+    "language": "zh-CN",
+    "output_format": "markdown + json",
+    "dependencies": "不需要额外依赖",
+    "must_include": [
+      "主视觉方向",
+      "画面构图",
+      "文字层级",
+      "中文提示词",
+      "英文提示词",
+      "适合放在封面上的标题建议"
+    ]
+  },
+  "expected_outputs": [
+    "outputs/task_004/result.md",
+    "outputs/task_004/result.json"
+  ],
+  "status": "pending"
+}

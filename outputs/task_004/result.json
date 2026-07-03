@@ -1,0 +1,17 @@
+{
+  "task_id": "task_004",
+  "type": "design_prompt_task",
+  "status": "success",
+  "started_at": "2026-07-03T18:24:36",
+  "finished_at": "2026-07-03T18:24:36",
+  "duration_seconds": 0.088,
+  "summary": "design_prompt_task completed: 根据直播主题生成 3 个直播预告封面视觉方案提示词。",
+  "output_files": [
+    "outputs/task_004/output.txt",
+    "outputs/task_004/prompt.txt",
+    "outputs/task_004/result.json",
+    "outputs/task_004/result.md",
+    "outputs/task_004/run.log"
+  ],
+  "error": ""
+}
