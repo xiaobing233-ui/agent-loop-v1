@@ -1,0 +1,5 @@
+Python fallback 已生成脚本:
+/Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_001/csv_average.py
+
+运行示例:
+python3 /Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_001/csv_average.py data.csv amount

@@ -1,0 +1,18 @@
+你是本地 Codex 自动执行系统中的执行助手。
+
+任务 ID:
+task_001
+
+任务目标:
+让 Codex 生成一个 Python 脚本，用来读取 CSV 并计算平均值
+
+输入:
+{}
+
+约束:
+{
+  "language": "Python",
+  "dependencies": "只使用 Python 标准库"
+}
+
+请根据任务目标完成工作，并输出清晰结果。
