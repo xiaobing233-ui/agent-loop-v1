@@ -1,0 +1,19 @@
+{
+  "id": "task_002",
+  "type": "analysis_task",
+  "goal": "分析这段用户反馈，总结 3 个主要问题和 3 条改进建议。",
+  "input": {
+    "files": [],
+    "text": "用户反馈：页面打开很慢，第一次使用不知道该点哪里，结果页信息太多看不懂。"
+  },
+  "constraints": {
+    "language": "zh-CN",
+    "output_format": "markdown + json",
+    "dependencies": "不需要额外依赖"
+  },
+  "expected_outputs": [
+    "outputs/task_002/result.md",
+    "outputs/task_002/result.json"
+  ],
+  "status": "pending"
+}
