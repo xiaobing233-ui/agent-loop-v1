@@ -183,9 +183,9 @@ outputs/{task_id}/run.log
 `result.json` 里的 `status` 有 3 种重要语义：
 
 ```text
-success  = 真正执行器成功完成，runner 通常是 codex
-fallback = 系统流程成功，但没有真正调用 Codex，只生成兜底摘要
-failed   = 执行失败
+success + runner=codex           = 真正 Codex 非交互执行成功
+failed  + runner=codex           = 检测到 Codex，但执行失败
+fallback + runner=python_fallback = 没有调用 Codex，只生成兜底摘要
 ```
 
 只有满足下面 3 个条件，才算真正业务成功：
@@ -197,6 +197,8 @@ result.json 里的 status 是 success
 ```
 
 如果 `status` 是 `fallback`，说明 worker 闭环跑通了，但没有真正调用 Codex。需要检查本地是否安装 `codex` CLI，以及运行 worker 的终端里 `codex` 命令是否可用。
+
+如果 `status` 是 `failed` 且 `runner` 是 `codex`，说明已经检测到 Codex CLI，但执行器调用失败。常见原因是当前 Codex CLI 只能启动交互 TUI，或非交互命令运行失败。
 
 worker 还会防止重复执行：
 
@@ -258,10 +260,25 @@ worker 会自动完成后续闭环。
 
 `worker/codex_runner.sh` 会自动检测本机是否安装了 `codex` 命令。
 
-如果已安装，会调用：
+worker 是后台非交互环境，没有可用 TTY。Codex 如果只能启动交互式 TUI，就不能直接被 worker 自动调用。需要 Codex CLI 支持非交互执行命令，runner 才能真正自动完成任务。
+
+如果已安装，并且 `codex exec --help` 显示支持非交互执行，runner 会调用：
 
 ```bash
-codex "<prompt内容>"
+codex -a never exec --skip-git-repo-check --color never -s workspace-write -C <repo> -o <output_file> -
+```
+
+其中 `-` 表示从 stdin 读取 prompt，`-o` 用于写入最后结果。
+
+如果已安装 Codex，但没有发现非交互执行模式，`result.json` 会标记为：
+
+```json
+{
+  "status": "failed",
+  "runner": "codex",
+  "summary": "Codex CLI is available but no non-interactive execution mode was found",
+  "error": "Codex appears to require an interactive TTY/TUI; worker runs without TTY"
+}
 ```
 
 如果没有安装，会使用 Python 标准库 fallback。fallback 会写入 `output.txt`、`result.md`、`result.json` 和 `run.log`，但 `result.json` 会明确标记：
@@ -274,3 +291,9 @@ codex "<prompt内容>"
 ```
 
 看到 `fallback` 时，不要把它当作真正的业务结果；请先确认 `command -v codex` 能在启动 worker 的同一个终端里找到 Codex CLI。
+
+可以运行诊断脚本查看当前 Codex 能力：
+
+```bash
+bash worker/diagnose_codex.sh
+```

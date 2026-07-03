@@ -1,0 +1,19 @@
+{
+  "id": "task_008",
+  "type": "analysis_task",
+  "goal": "测试 Codex 是否可以在 worker 非交互环境中执行。如果不支持，请明确输出失败原因。",
+  "input": {
+    "files": [],
+    "text": "请用一句话说明当前 runner 是否真正调用了 Codex，以及是否支持非交互执行。"
+  },
+  "constraints": {
+    "language": "zh-CN",
+    "output_format": "markdown + json",
+    "dependencies": "不需要额外依赖"
+  },
+  "expected_outputs": [
+    "outputs/task_008/result.md",
+    "outputs/task_008/result.json"
+  ],
+  "status": "pending"
+}

@@ -6,7 +6,7 @@
 #
 # 功能：
 # 1. 接收 prompt 文件路径和 task_id
-# 2. 如果本机有 codex CLI，就调用 codex 执行
+# 2. 如果本机有 codex CLI，就优先调用非交互模式执行
 # 3. 如果本机没有 codex CLI，就使用 Python 标准库 fallback，并明确标记 status=fallback
 # 4. 输出 v2 标准文件到 outputs/{task_id}/result.json、result.md、run.log
 
@@ -277,6 +277,88 @@ print(f"python fallback wrote: {output_file}")
 PY
 }
 
+find_codex_bin() {
+  if command -v codex >/dev/null 2>&1; then
+    command -v codex
+    return 0
+  fi
+
+  local app_codex="/Applications/Codex.app/Contents/Resources/codex"
+  if [ -x "${app_codex}" ]; then
+    echo "${app_codex}"
+    return 0
+  fi
+
+  return 1
+}
+
+codex_supports_exec() {
+  "${CODEX_BIN}" exec --help 2>&1 | grep -qi "non-interactively"
+}
+
+run_codex_exec_with_timeout() {
+  if ! command -v "${PYTHON_BIN}" >/dev/null 2>&1; then
+    log "Python 不可用，无法为 Codex exec 提供 timeout 包装"
+    echo "Python 不可用，无法为 Codex exec 提供 timeout 包装；未执行 Codex。" > "${OUTPUT_FILE}"
+    return 1
+  fi
+
+  "${PYTHON_BIN}" - "${CODEX_BIN}" "${PROMPT_FILE}" "${OUTPUT_FILE}" "${RUN_LOG}" "${ROOT_DIR}" "60" >> "${RUN_LOG}" 2>&1 <<'PY'
+import subprocess
+import sys
+from pathlib import Path
+
+codex_bin = sys.argv[1]
+prompt_file = Path(sys.argv[2])
+output_file = Path(sys.argv[3])
+run_log = Path(sys.argv[4])
+root_dir = sys.argv[5]
+timeout_seconds = int(sys.argv[6])
+
+command = [
+    codex_bin,
+    "-a",
+    "never",
+    "exec",
+    "--skip-git-repo-check",
+    "--color",
+    "never",
+    "-s",
+    "workspace-write",
+    "-C",
+    root_dir,
+    "-o",
+    str(output_file),
+    "-",
+]
+
+with prompt_file.open("rb") as stdin_file, run_log.open("ab") as log_file:
+    log_file.write(("codex exec command: " + " ".join(command) + "\n").encode("utf-8"))
+    try:
+        result = subprocess.run(
+            command,
+            stdin=stdin_file,
+            stdout=log_file,
+            stderr=log_file,
+            timeout=timeout_seconds,
+        )
+    except subprocess.TimeoutExpired:
+        log_file.write(
+            f"codex exec timed out after {timeout_seconds} seconds\n".encode("utf-8")
+        )
+        output_file.write_text(
+            f"Codex non-interactive execution timed out after {timeout_seconds} seconds.\n",
+            encoding="utf-8",
+        )
+        sys.exit(124)
+
+if not output_file.exists():
+    output_file.write_text("", encoding="utf-8")
+
+sys.exit(result.returncode)
+PY
+}
+
 # 第六步：检查 prompt 文件是否存在。
 if [ ! -f "${PROMPT_FILE}" ]; then
   log "prompt 文件不存在: ${PROMPT_FILE}"
@@ -292,17 +374,43 @@ log "output: ${OUTPUT_FILE}"
 log "result_json: ${RESULT_JSON}"
 log "result_md: ${RESULT_MD}"
 log "run_log: ${RUN_LOG}"
+if [ -t 0 ]; then
+  STDIN_TTY="yes"
+else
+  STDIN_TTY="no"
+fi
+if [ -t 1 ]; then
+  STDOUT_TTY="yes"
+else
+  STDOUT_TTY="no"
+fi
+log "tty: stdin=${STDIN_TTY}, stdout=${STDOUT_TTY}, TERM=${TERM:-}"
 
 # 第七步：如果安装了 codex CLI，就真实调用；否则使用 Python fallback。
-if command -v codex >/dev/null 2>&1; then
-  CODEX_BIN="$(command -v codex)"
-  log "检测到 codex CLI: ${CODEX_BIN}，正在调用..."
-
-  # 这里使用 prompt 文件内容作为 Codex 输入，并把结果写入 output.txt。
-  # 如果你的 codex CLI 参数不同，可以只调整这一行。
-  codex "$(cat "${PROMPT_FILE}")" > "${OUTPUT_FILE}" 2>> "${RUN_LOG}"
-  CODEX_EXIT_CODE=$?
+if CODEX_BIN="$(find_codex_bin)"; then
+  log "检测到 codex CLI: ${CODEX_BIN}"
   RUNNER="codex"
+
+  if codex_supports_exec; then
+    log "检测到 Codex 非交互子命令: exec，正在调用..."
+    run_codex_exec_with_timeout
+    CODEX_EXIT_CODE=$?
+    if [ "${CODEX_EXIT_CODE}" -ne 0 ] && [ ! -s "${OUTPUT_FILE}" ]; then
+      echo "Codex non-interactive execution failed; see run.log." > "${OUTPUT_FILE}"
+    fi
+  else
+    log "Codex CLI 可用，但未发现非交互执行模式；不会启动交互 TUI"
+    {
+      echo "Codex CLI is available but no non-interactive execution mode was found."
+      echo
+      echo "Codex appears to require an interactive TTY/TUI; worker runs without TTY."
+      echo "stdin_tty=${STDIN_TTY}"
+      echo "stdout_tty=${STDOUT_TTY}"
+      echo "TERM=${TERM:-}"
+    } > "${OUTPUT_FILE}"
+    CODEX_EXIT_CODE=1
+    CODEX_FAILURE_KIND="no_noninteractive"
+  fi
 else
   log "未检测到 codex CLI，本次未真正执行 Codex，只生成 fallback 结果"
   write_fallback_output
@@ -317,12 +425,20 @@ if [ "${RUNNER}" = "python_fallback" ] && [ "${CODEX_EXIT_CODE}" -eq 0 ]; then
   ERROR=""
 elif [ "${CODEX_EXIT_CODE}" -eq 0 ]; then
   STATUS="success"
-  SUMMARY="Codex CLI 执行成功"
+  SUMMARY="Codex non-interactive execution completed"
   ERROR=""
+elif [ "${RUNNER}" = "codex" ] && [ "${CODEX_FAILURE_KIND:-}" = "no_noninteractive" ]; then
+  STATUS="failed"
+  SUMMARY="Codex CLI is available but no non-interactive execution mode was found"
+  ERROR="Codex appears to require an interactive TTY/TUI; worker runs without TTY"
+elif [ "${RUNNER}" = "python_fallback" ]; then
+  STATUS="failed"
+  SUMMARY="Python fallback execution failed"
+  ERROR="python fallback exit_code=${CODEX_EXIT_CODE}"
 else
   STATUS="failed"
-  SUMMARY="runner 执行失败"
-  ERROR="codex runner exit_code=${CODEX_EXIT_CODE}"
+  SUMMARY="Codex non-interactive execution failed"
+  ERROR="codex exec exit_code=${CODEX_EXIT_CODE}"
 fi
 
 log "执行结束，status=${STATUS}, exit_code=${CODEX_EXIT_CODE}"
