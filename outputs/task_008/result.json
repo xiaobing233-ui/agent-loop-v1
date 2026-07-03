@@ -1,0 +1,15 @@
+{
+  "task_id": "task_008",
+  "type": "analysis_task",
+  "status": "failed",
+  "runner": "codex",
+  "started_at": "2026-07-03T20:25:13",
+  "finished_at": "2026-07-03T20:26:13",
+  "duration_seconds": 60.01,
+  "summary": "analysis_task failed: 任务超时，超过 60 秒",
+  "output_files": [
+    "outputs/task_008/prompt.txt",
+    "outputs/task_008/run.log"
+  ],
+  "error": "任务超时，超过 60 秒"
+}

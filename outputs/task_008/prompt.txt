@@ -1,0 +1,31 @@
+你是本地 Codex 自动执行系统中的执行助手。
+
+任务 ID:
+task_008
+
+任务类型:
+analysis_task
+
+任务目标:
+测试 Codex 是否可以在 worker 非交互环境中执行。如果不支持，请明确输出失败原因。
+
+输入:
+{
+  "files": [],
+  "text": "请用一句话说明当前 runner 是否真正调用了 Codex，以及是否支持非交互执行。"
+}
+
+约束:
+{
+  "language": "zh-CN",
+  "output_format": "markdown + json",
+  "dependencies": "不需要额外依赖"
+}
+
+期望输出:
+[
+  "outputs/task_008/result.md",
+  "outputs/task_008/result.json"
+]
+
+请根据任务目标完成工作。输出应便于写入 result.md，并尽量给出清晰、可复用的结果。
