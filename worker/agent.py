@@ -454,6 +454,16 @@ def git_commit_and_push():
     return git_push_with_retry()
 
 
+def sync_results_to_github(processed_task_count):
+    """只有本轮真正处理过任务时，才把结果同步回 GitHub。"""
+    if processed_task_count <= 0:
+        log("本轮没有处理任务，跳过 git add/commit/push")
+        return True
+
+    log(f"本轮处理任务数 > 0，开始同步结果: {processed_task_count}")
+    return git_commit_and_push()
+
+
 def iso_now():
     """生成适合 result.json 的时间字符串。"""
     return datetime.now().isoformat(timespec="seconds")
@@ -778,7 +788,7 @@ def process_task(pending_path):
         message = f"JSON 解析失败: {error}"
         log(message)
         mark_failed(pending_path, task, started_at, time.time(), message)
-        return False
+        return True
 
     task = normalize_task(raw_task, pending_path)
     task_id = task["id"]
@@ -811,7 +821,7 @@ def process_task(pending_path):
         log(f"codex输出状态: task_id={task_id}, status=failed, reason=timeout")
         mark_failed(running_path, task, started_at, started_time, message, runner_output)
         log(f"task结束时间: task_id={task_id}, end={now_text()}")
-        return False
+        return True
 
     runner_status, runner_details = read_runner_status(task_id)
     log(f"codex输出状态: task_id={task_id}, status={runner_status}")
@@ -830,7 +840,7 @@ def process_task(pending_path):
             runner_output or runner_details,
         )
         log(f"task结束时间: task_id={task_id}, end={now_text()}")
-        return False
+        return True
 
     write_result_files(task, "success", started_at, started_time)
     done_path = move_task(running_path, DONE_DIR)
@@ -847,12 +857,12 @@ def scan_once():
         log("tasks/pending 为空，进入 sleep，不执行 Codex")
         return 0
 
-    processed_count = 0
+    processed_task_count = 0
     for task_path in task_files:
-        process_task(task_path)
-        processed_count += 1
+        if process_task(task_path):
+            processed_task_count += 1
 
-    return processed_count
+    return processed_task_count
 
 
 def main():
@@ -871,16 +881,18 @@ def main():
         log("启动 pull 失败，将继续等待下一轮 pull 成功")
 
     while True:
+        processed_task_count = 0
+
         # 每轮循环前必须先 pull；失败时跳过执行，避免使用过期本地任务。
         pull_ok = git_pull("loop_start")
         if pull_ok:
-            processed_count = scan_once()
-            log(f"本轮处理任务数: {processed_count}")
+            processed_task_count = scan_once()
+            log(f"本轮处理任务数: {processed_task_count}")
         else:
             log("本轮跳过任务执行: git pull 未成功，GitHub 最新任务状态未知")
 
-        # 每轮循环结束后把结果、任务状态、日志推回 GitHub。
-        git_commit_and_push()
+        # 只有真的处理了任务，才把结果、任务状态、日志推回 GitHub。
+        sync_results_to_github(processed_task_count)
         time.sleep(SCAN_INTERVAL_SECONDS)
 
 
