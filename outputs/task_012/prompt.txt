@@ -1,0 +1,48 @@
+你是本地 Codex 自动执行系统中的执行助手。
+
+任务 ID:
+task_012
+
+任务类型:
+analysis_task
+
+任务目标:
+生成 20封面反推分析表 V2 字段体系，只聚焦字段设计，用于后续逐张分析历史封面。
+
+输入:
+{
+  "files": [],
+  "text": "我们正在构建 Cover Decision + Generation System。最终目标是输入视频后自动选帧、定标题、定布局、生成 GPT image2 prompt、调用 GPT image2 生成 Top 3 封面，并自动质检。当前 Step 1 是反推20个历史封面。请只生成 20封面反推分析表 V2 的字段体系。表结构要同时覆盖 Meta、Decision、Generation、QA 四层。不要输出完整评分权重，不要输出完整 prompt，不要输出工程接入方案。"
+}
+
+约束:
+{
+  "language": "zh-CN",
+  "output_format": "markdown + json",
+  "dependencies": "不需要额外依赖",
+  "must_include": [
+    "表格总体结构",
+    "Meta基础信息字段",
+    "Decision层字段",
+    "Generation层字段",
+    "QA质检字段",
+    "每个字段的解释",
+    "每个字段的填写方式",
+    "每个字段的取值范围",
+    "适合Excel使用的字段表"
+  ],
+  "must_not_include": [
+    "完整Frame Scoring权重",
+    "完整Generation Prompt策略",
+    "完整Image Quality Check规则",
+    "Codex接入GPT image2工程方案"
+  ]
+}
+
+期望输出:
+[
+  "outputs/task_012/result.md",
+  "outputs/task_012/result.json"
+]
+
+请根据任务目标完成工作。输出应便于写入 result.md，并尽量给出清晰、可复用的结果。
