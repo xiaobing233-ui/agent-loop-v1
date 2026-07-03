@@ -1,0 +1,17 @@
+{
+  "task_id": "task_002",
+  "type": "analysis_task",
+  "status": "success",
+  "started_at": "2026-07-03T16:33:09",
+  "finished_at": "2026-07-03T16:33:09",
+  "duration_seconds": 0.521,
+  "summary": "analysis_task completed: 分析这段用户反馈，总结 3 个主要问题和 3 条改进建议。",
+  "output_files": [
+    "outputs/task_002/output.txt",
+    "outputs/task_002/prompt.txt",
+    "outputs/task_002/result.json",
+    "outputs/task_002/result.md",
+    "outputs/task_002/run.log"
+  ],
+  "error": ""
+}
