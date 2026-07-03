@@ -454,34 +454,78 @@ def git_commit_and_push():
     return git_push_with_retry()
 
 
+def iso_now():
+    """生成适合 result.json 的时间字符串。"""
+    return datetime.now().isoformat(timespec="seconds")
+
+
 def load_task(task_path):
     """读取并解析 JSON task 文件。"""
     with task_path.open("r", encoding="utf-8") as file:
         return json.load(file)
 
 
-def build_prompt(task):
-    """把 task JSON 转换成 Codex CLI 可以理解的 prompt 文本。"""
-    task_id = task.get("id", "unknown_task")
-    goal = task.get("goal", "")
-    input_data = task.get("input", {})
-    constraints = task.get("constraints", {})
+def normalize_task(task, task_path):
+    """兼容旧 task，并把它转换成 v2 标准字段。"""
+    task_id = str(task.get("id") or task_path.stem)
+    task_type = str(task.get("type") or "code_task")
+    goal = str(task.get("goal") or "")
+    input_data = task.get("input") if isinstance(task.get("input"), dict) else {}
+    constraints = task.get("constraints") if isinstance(task.get("constraints"), dict) else {}
 
+    normalized_input = {
+        "files": input_data.get("files", []),
+        "text": str(input_data.get("text", "")),
+    }
+
+    normalized_constraints = {
+        "language": constraints.get("language", "zh-CN"),
+        "output_format": constraints.get("output_format", "markdown + json"),
+        "dependencies": constraints.get("dependencies", "只使用必要依赖"),
+    }
+
+    expected_outputs = task.get("expected_outputs")
+    if not isinstance(expected_outputs, list) or not expected_outputs:
+        expected_outputs = [
+            f"outputs/{task_id}/result.md",
+            f"outputs/{task_id}/result.json",
+        ]
+
+    return {
+        "id": task_id,
+        "type": task_type,
+        "goal": goal,
+        "input": normalized_input,
+        "constraints": normalized_constraints,
+        "expected_outputs": [str(item) for item in expected_outputs],
+        "status": str(task.get("status") or "pending"),
+        "raw": task,
+    }
+
+
+def build_prompt(task):
+    """把 v2 task 转换成 Codex CLI 可以理解的 prompt 文本。"""
     return f"""你是本地 Codex 自动执行系统中的执行助手。
 
 任务 ID:
-{task_id}
+{task["id"]}
+
+任务类型:
+{task["type"]}
 
 任务目标:
-{goal}
+{task["goal"]}
 
 输入:
-{json.dumps(input_data, ensure_ascii=False, indent=2)}
+{json.dumps(task["input"], ensure_ascii=False, indent=2)}
 
 约束:
-{json.dumps(constraints, ensure_ascii=False, indent=2)}
+{json.dumps(task["constraints"], ensure_ascii=False, indent=2)}
 
-请根据任务目标完成工作，并输出清晰结果。
+期望输出:
+{json.dumps(task["expected_outputs"], ensure_ascii=False, indent=2)}
+
+请根据任务目标完成工作。输出应便于写入 result.md，并尽量给出清晰、可复用的结果。
 """
 
 
@@ -492,54 +536,134 @@ def task_output_dir(task_id):
     return output_dir
 
 
-def write_prompt_file(task_id, task):
+def result_json_path(task_id):
+    """返回 v2 result.json 路径。"""
+    return task_output_dir(task_id) / "result.json"
+
+
+def result_md_path(task_id):
+    """返回 v2 result.md 路径。"""
+    return task_output_dir(task_id) / "result.md"
+
+
+def run_log_path(task_id):
+    """返回 v2 run.log 路径。"""
+    return task_output_dir(task_id) / "run.log"
+
+
+def append_run_log(task_id, message):
+    """向 outputs/{task_id}/run.log 追加执行日志。"""
+    line = f"{now_text()} [agent] {message}"
+    with run_log_path(task_id).open("a", encoding="utf-8") as file:
+        file.write(line + "\n")
+
+
+def write_prompt_file(task):
     """为当前任务生成 prompt 文件，交给 codex_runner.sh 使用。"""
-    prompt_path = task_output_dir(task_id) / "prompt.txt"
+    prompt_path = task_output_dir(task["id"]) / "prompt.txt"
     prompt_path.write_text(build_prompt(task), encoding="utf-8")
     return prompt_path
 
 
-def write_error_log(task_id, message, details=""):
-    """失败任务写入 outputs/{task_id}/error.log。"""
-    error_path = task_output_dir(task_id) / "error.log"
-    content = [
-        f"time: {now_text()}",
-        f"task_id: {task_id}",
-        f"error: {message}",
+def relative_path(path):
+    """输出相对项目根目录的路径，方便 GitHub 页面阅读。"""
+    try:
+        return str(path.relative_to(ROOT_DIR))
+    except ValueError:
+        return str(path)
+
+
+def collect_output_files(task_id):
+    """收集当前任务输出目录中的文件列表。"""
+    output_dir = task_output_dir(task_id)
+    return [
+        relative_path(path)
+        for path in sorted(output_dir.rglob("*"))
+        if path.is_file()
     ]
 
-    if details.strip():
-        content.extend(["", "details:", details.rstrip()])
 
-    error_path.write_text("\n".join(content) + "\n", encoding="utf-8")
-    log(f"失败日志已写入: {error_path}")
-    return error_path
+def read_text_if_exists(path, limit=4000):
+    """读取文本文件并截断，防止 result.md 过长。"""
+    if not path.exists():
+        return ""
+
+    text = path.read_text(encoding="utf-8", errors="replace")
+    if len(text) > limit:
+        return text[:limit] + "\n\n... output truncated ...\n"
+    return text
 
 
-def write_failure_result_json(task_id, message):
-    """当 runner 没来得及生成 result.json 时，由 agent 兜底生成失败结果。"""
-    output_dir = task_output_dir(task_id)
-    output_file = output_dir / "output.txt"
-    result_path = output_dir / "result.json"
+def make_summary(task, status, error=""):
+    """生成 result.json 中的短摘要。"""
+    if status == "success":
+        return f"{task['type']} completed: {task['goal']}"
+    return f"{task['type']} failed: {error or task['goal']}"
 
-    if not output_file.exists():
-        output_file.write_text(message + "\n", encoding="utf-8")
 
-    if result_path.exists():
-        return result_path
+def write_result_files(task, status, started_at, started_time, error=""):
+    """统一写入 v2 标准结果文件：result.json、result.md、run.log。"""
+    task_id = task["id"]
+    finished_at = iso_now()
+    duration_seconds = round(time.time() - started_time, 3)
+    summary = make_summary(task, status, error)
+    output_text = read_text_if_exists(task_output_dir(task_id) / "output.txt")
 
+    append_run_log(
+        task_id,
+        f"finish status={status} duration_seconds={duration_seconds} error={error}",
+    )
+
+    output_files = collect_output_files(task_id)
     result_data = {
         "task_id": task_id,
-        "status": "failed",
-        "output_file": str(output_file),
-        "log": message,
+        "type": task["type"],
+        "status": status,
+        "started_at": started_at,
+        "finished_at": finished_at,
+        "duration_seconds": duration_seconds,
+        "summary": summary,
+        "output_files": output_files,
+        "error": error,
     }
-    result_path.write_text(
+
+    result_json_path(task_id).write_text(
         json.dumps(result_data, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
-    log(f"失败 result.json 已写入: {result_path}")
-    return result_path
+
+    md_lines = [
+        f"# Task {task_id}",
+        "",
+        f"- Type: `{task['type']}`",
+        f"- Status: `{status}`",
+        f"- Started at: `{started_at}`",
+        f"- Finished at: `{finished_at}`",
+        f"- Duration: `{duration_seconds}` seconds",
+        "",
+        "## Goal",
+        "",
+        task["goal"],
+        "",
+        "## Summary",
+        "",
+        summary,
+        "",
+        "## Output Files",
+        "",
+    ]
+
+    md_lines.extend([f"- `{item}`" for item in collect_output_files(task_id)])
+
+    if error:
+        md_lines.extend(["", "## Error", "", error])
+
+    if output_text.strip():
+        md_lines.extend(["", "## Runner Output", "", "```text", output_text.rstrip(), "```"])
+
+    result_md_path(task_id).write_text("\n".join(md_lines) + "\n", encoding="utf-8")
+    log(f"v2结果已写入: {result_json_path(task_id)} 和 {result_md_path(task_id)}")
+    return result_data
 
 
 def move_task(source_path, target_dir):
@@ -556,41 +680,81 @@ def move_task(source_path, target_dir):
     return target_path
 
 
-def read_runner_status(task_id):
-    """读取 outputs/{task_id}/result.json 中的结构化执行状态。"""
-    result_path = task_output_dir(task_id) / "result.json"
-
-    if not result_path.exists():
-        return "failed", f"result.json 不存在: {result_path}"
+def result_is_success(task_id):
+    """判断 outputs/{task_id}/result.json 是否已经成功，防止重复执行。"""
+    path = result_json_path(task_id)
+    if not path.exists():
+        return False
 
     try:
-        data = json.loads(result_path.read_text(encoding="utf-8"))
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return False
+
+    return data.get("status") == "success"
+
+
+def should_skip_task(task, pending_path):
+    """防重复执行：done、success result、running 都会阻止再次执行。"""
+    task_id = task["id"]
+    done_path = DONE_DIR / pending_path.name
+    running_path = RUNNING_DIR / pending_path.name
+
+    if done_path.exists():
+        log(f"跳过重复任务: tasks/done 已存在 {pending_path.name}")
+        move_task(pending_path, DONE_DIR)
+        return True
+
+    if result_is_success(task_id):
+        log(f"跳过重复任务: outputs/{task_id}/result.json 已是 success")
+        move_task(pending_path, DONE_DIR)
+        return True
+
+    if running_path.exists():
+        log(f"跳过任务: tasks/running 已存在 {pending_path.name}")
+        return True
+
+    return False
+
+
+def read_runner_status(task_id):
+    """读取 runner 生成的 result.json 状态；agent 会随后改写成 v2 最终结果。"""
+    path = result_json_path(task_id)
+    if not path.exists():
+        return "failed", f"result.json 不存在: {path}"
+
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as error:
         return "failed", f"result.json 解析失败: {error}"
 
     status = str(data.get("status", "failed"))
-    output_file = str(data.get("output_file", ""))
-    result_log = str(data.get("log", ""))
-    return status, f"output_file={output_file}\n{result_log}"
+    error = str(data.get("error", ""))
+    summary = str(data.get("summary", ""))
+    return status, error or summary
 
 
-def run_codex(prompt_path, task_id):
+def run_codex(prompt_path, task):
     """使用 subprocess 调用 codex_runner.sh，并设置单任务 60 秒超时。"""
+    task_id = task["id"]
     log(f"调用 Codex runner: task_id={task_id}, timeout={TASK_TIMEOUT_SECONDS}s")
-    result = run_command(
-        [str(CODEX_RUNNER), str(prompt_path), task_id],
+    return run_command(
+        [str(CODEX_RUNNER), str(prompt_path), task_id, task["type"]],
         label=f"codex_runner task_id={task_id}",
         timeout=TASK_TIMEOUT_SECONDS,
     )
-    return result
 
 
-def mark_failed(task_path, task_id, message, details=""):
-    """把失败任务移动到 failed，并写入 error.log 和兜底 result.json。"""
-    write_error_log(task_id, message, details)
-    write_failure_result_json(task_id, message)
+def mark_failed(task_path, task, started_at, started_time, message, details=""):
+    """把失败任务移动到 failed，并写入 v2 失败结果。"""
+    task_id = task["id"]
+    append_run_log(task_id, f"failed: {message}")
+    if details.strip():
+        append_run_log(task_id, details.rstrip())
 
+    write_result_files(task, "failed", started_at, started_time, error=message)
     failed_path = move_task(task_path, FAILED_DIR)
+    log(f"任务失败: task_id={task_id}, reason={message}")
     log(f"任务已移动到 failed: {failed_path.name}")
     return failed_path
 
@@ -599,54 +763,76 @@ def process_task(pending_path):
     """处理单个 pending task。"""
     log(f"发现 GitHub pending 任务文件: {pending_path.name}")
 
-    # 第一步：读取 JSON task。JSON 错误也要归档到 failed。
     try:
-        task = load_task(pending_path)
+        raw_task = load_task(pending_path)
     except json.JSONDecodeError as error:
-        task_id = pending_path.stem
+        task = normalize_task(
+            {
+                "id": pending_path.stem,
+                "type": "analysis_task",
+                "goal": "Invalid JSON task",
+            },
+            pending_path,
+        )
+        started_at = iso_now()
         message = f"JSON 解析失败: {error}"
         log(message)
-        mark_failed(pending_path, task_id, message)
+        mark_failed(pending_path, task, started_at, time.time(), message)
         return False
 
-    # 第二步：获得 task_id；如果 JSON 没有 id，就使用文件名兜底。
-    task_id = str(task.get("id") or pending_path.stem)
-    log(f"task开始时间: task_id={task_id}, start={now_text()}")
+    task = normalize_task(raw_task, pending_path)
+    task_id = task["id"]
 
-    # 第三步：移动到 running，表示任务开始执行。
+    if should_skip_task(task, pending_path):
+        return False
+
+    started_at = iso_now()
+    started_time = time.time()
+    append_run_log(task_id, f"start type={task['type']} source={pending_path}")
+    log(f"task开始时间: task_id={task_id}, type={task['type']}, start={started_at}")
+
     running_path = move_task(pending_path, RUNNING_DIR)
     log(f"任务已移动到 running: {running_path.name}")
 
-    # 第四步：生成 prompt 文件。
-    prompt_path = write_prompt_file(task_id, task)
+    prompt_path = write_prompt_file(task)
     log(f"已生成 prompt: {prompt_path}")
+    append_run_log(task_id, f"prompt={prompt_path}")
 
-    # 第五步：调用 runner 执行任务。
-    runner_result = run_codex(prompt_path, task_id)
+    runner_result = run_codex(prompt_path, task)
     runner_output = "\n".join(
         part for part in [runner_result.stdout, runner_result.stderr] if part.strip()
     )
 
+    if runner_output.strip():
+        append_run_log(task_id, runner_output.rstrip())
+
     if runner_result.timed_out:
         message = f"任务超时，超过 {TASK_TIMEOUT_SECONDS} 秒"
         log(f"codex输出状态: task_id={task_id}, status=failed, reason=timeout")
-        mark_failed(running_path, task_id, message, runner_output)
+        mark_failed(running_path, task, started_at, started_time, message, runner_output)
         log(f"task结束时间: task_id={task_id}, end={now_text()}")
         return False
 
-    result_status, result_details = read_runner_status(task_id)
-    log(f"codex输出状态: task_id={task_id}, status={result_status}")
+    runner_status, runner_details = read_runner_status(task_id)
+    log(f"codex输出状态: task_id={task_id}, status={runner_status}")
 
-    if runner_result.returncode != 0 or result_status != "success":
+    if runner_result.returncode != 0 or runner_status != "success":
         message = (
             f"runner 执行失败: exit_code={runner_result.returncode}, "
-            f"status={result_status}"
+            f"status={runner_status}"
         )
-        mark_failed(running_path, task_id, message, runner_output or result_details)
+        mark_failed(
+            running_path,
+            task,
+            started_at,
+            started_time,
+            message,
+            runner_output or runner_details,
+        )
         log(f"task结束时间: task_id={task_id}, end={now_text()}")
         return False
 
-    # 第六步：成功任务移动到 done。
+    write_result_files(task, "success", started_at, started_time)
     done_path = move_task(running_path, DONE_DIR)
     log(f"任务已移动到 done: {done_path.name}")
     log(f"task结束时间: task_id={task_id}, end={now_text()}")
