@@ -1,0 +1,19 @@
+{
+  "id": "task_006",
+  "type": "analysis_task",
+  "goal": "测试 runner 状态标记是否准确：如果没有真正调用 Codex，不应该显示 success。",
+  "input": {
+    "files": [],
+    "text": "请判断当前 runner 是 codex 还是 fallback，并在结果里明确标记。"
+  },
+  "constraints": {
+    "language": "zh-CN",
+    "output_format": "markdown + json",
+    "dependencies": "不需要额外依赖"
+  },
+  "expected_outputs": [
+    "outputs/task_006/result.md",
+    "outputs/task_006/result.json"
+  ],
+  "status": "pending"
+}

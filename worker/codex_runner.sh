@@ -2,12 +2,12 @@
 
 # codex_runner.sh
 # 用法：
-#   ./worker/codex_runner.sh <prompt文件路径> <task_id>
+#   ./worker/codex_runner.sh <prompt文件路径> <task_id> [task_type] [task_json]
 #
 # 功能：
 # 1. 接收 prompt 文件路径和 task_id
 # 2. 如果本机有 codex CLI，就调用 codex 执行
-# 3. 如果本机没有 codex CLI，就使用 Python 标准库 fallback
+# 3. 如果本机没有 codex CLI，就使用 Python 标准库 fallback，并明确标记 status=fallback
 # 4. 输出 v2 标准文件到 outputs/{task_id}/result.json、result.md、run.log
 
 set -u
@@ -16,6 +16,7 @@ set -u
 PROMPT_FILE="${1:-}"
 TASK_ID="${2:-}"
 TASK_TYPE="${3:-unknown}"
+TASK_JSON="${4:-}"
 
 # 第二步：定位项目根目录，也就是 agent-loop-v1/。
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -36,6 +37,8 @@ OUTPUT_FILE="${OUTPUT_DIR}/output.txt"
 RESULT_JSON="${OUTPUT_DIR}/result.json"
 RESULT_MD="${OUTPUT_DIR}/result.md"
 RUN_LOG="${OUTPUT_DIR}/run.log"
+STARTED_AT="$(date "+%Y-%m-%dT%H:%M:%S")"
+START_SECONDS="$(date "+%s")"
 mkdir -p "${OUTPUT_DIR}"
 : > "${RUN_LOG}"
 
@@ -46,40 +49,62 @@ log() {
 write_result_json() {
   # 使用 Python 标准库写 JSON，避免 bash 手写 JSON 转义出错。
   local status="$1"
-  local error="${2:-}"
+  local runner="$2"
+  local summary="$3"
+  local error="${4:-}"
 
   if command -v "${PYTHON_BIN}" >/dev/null 2>&1; then
-    "${PYTHON_BIN}" - "${TASK_ID}" "${TASK_TYPE}" "${status}" "${OUTPUT_FILE}" "${RESULT_JSON}" "${RESULT_MD}" "${RUN_LOG}" "${error}" <<'PY'
+    "${PYTHON_BIN}" - "${TASK_ID}" "${TASK_TYPE}" "${status}" "${runner}" "${STARTED_AT}" "${START_SECONDS}" "${ROOT_DIR}" "${OUTPUT_FILE}" "${RESULT_JSON}" "${RESULT_MD}" "${RUN_LOG}" "${summary}" "${error}" <<'PY'
 import json
 import sys
+import time
 from datetime import datetime
 from pathlib import Path
 
 task_id = sys.argv[1]
 task_type = sys.argv[2]
 status = sys.argv[3]
-output_file = Path(sys.argv[4])
-result_json = Path(sys.argv[5])
-result_md = Path(sys.argv[6])
-run_log = Path(sys.argv[7])
-error = sys.argv[8]
+runner = sys.argv[4]
+started_at = sys.argv[5]
+start_seconds = float(sys.argv[6])
+root_dir = Path(sys.argv[7])
+output_file = Path(sys.argv[8])
+result_json = Path(sys.argv[9])
+result_md = Path(sys.argv[10])
+run_log = Path(sys.argv[11])
+summary = sys.argv[12]
+error = sys.argv[13]
 
-now = datetime.now().isoformat(timespec="seconds")
+finished_at = datetime.now().isoformat(timespec="seconds")
+duration_seconds = round(max(0, time.time() - start_seconds), 3)
 log_text = run_log.read_text(encoding="utf-8") if run_log.exists() else ""
-summary = f"Runner finished with status={status}"
-output_files = [
-    str(path)
-    for path in sorted(result_json.parent.glob("*"))
-    if path.is_file()
-]
+
+
+def relative(path):
+    try:
+        return str(path.relative_to(root_dir))
+    except ValueError:
+        return str(path)
+
+
+known_files = [output_file, result_json, result_md, run_log]
+known_files.extend(path for path in sorted(result_json.parent.glob("*")) if path.is_file())
+output_files = []
+seen = set()
+for path in known_files:
+    item = relative(path)
+    if item not in seen:
+        output_files.append(item)
+        seen.add(item)
 
 data = {
     "task_id": task_id,
     "type": task_type,
     "status": status,
-    "started_at": "",
-    "finished_at": now,
-    "duration_seconds": 0,
+    "runner": runner,
+    "started_at": started_at,
+    "finished_at": finished_at,
+    "duration_seconds": duration_seconds,
     "summary": summary,
     "output_files": output_files,
     "error": error,
@@ -94,7 +119,11 @@ output_text = output_file.read_text(encoding="utf-8", errors="replace") if outpu
 result_md.write_text(
     "# Task " + task_id + "\n\n"
     "- Type: `" + task_type + "`\n"
-    "- Status: `" + status + "`\n\n"
+    "- Status: `" + status + "`\n"
+    "- Runner: `" + runner + "`\n"
+    "- Started at: `" + started_at + "`\n"
+    "- Finished at: `" + finished_at + "`\n"
+    "- Duration: `" + str(duration_seconds) + "` seconds\n\n"
     "## Summary\n\n"
     + summary + "\n\n"
     + ("## Error\n\n" + error + "\n\n" if error else "")
@@ -109,24 +138,150 @@ result_md.write_text(
 PY
   else
     # 极简兜底：如果连 Python 都没有，也尽量生成一个可读的 result.json。
-    printf '{"task_id":"%s","type":"%s","status":"%s","started_at":"","finished_at":"","duration_seconds":0,"summary":"python unavailable","output_files":["%s"],"error":"%s"}\n' \
-      "${TASK_ID}" "${TASK_TYPE}" "${status}" "${OUTPUT_FILE}" "${error}" > "${RESULT_JSON}"
+    printf '{"task_id":"%s","type":"%s","status":"%s","runner":"%s","started_at":"%s","finished_at":"","duration_seconds":0,"summary":"%s","output_files":["%s"],"error":"%s"}\n' \
+      "${TASK_ID}" "${TASK_TYPE}" "${status}" "${runner}" "${STARTED_AT}" "${summary}" "${OUTPUT_FILE}" "${error}" > "${RESULT_JSON}"
     {
       echo "# Task ${TASK_ID}"
       echo
       echo "- Type: \`${TASK_TYPE}\`"
       echo "- Status: \`${status}\`"
+      echo "- Runner: \`${runner}\`"
       echo
-      echo "Python unavailable; see run.log."
+      echo "${summary}"
     } > "${RESULT_MD}"
   fi
+}
+
+write_fallback_output() {
+  if ! command -v "${PYTHON_BIN}" >/dev/null 2>&1; then
+    echo "未检测到 codex CLI，本次未真正执行 Codex，只生成 fallback 结果" > "${OUTPUT_FILE}"
+    return 1
+  fi
+
+  "${PYTHON_BIN}" - "${PROMPT_FILE}" "${TASK_JSON}" "${OUTPUT_FILE}" "${TASK_ID}" "${TASK_TYPE}" >> "${RUN_LOG}" 2>&1 <<'PY'
+import json
+import re
+import sys
+from pathlib import Path
+
+prompt_file = Path(sys.argv[1])
+task_json_arg = sys.argv[2]
+output_file = Path(sys.argv[3])
+task_id_arg = sys.argv[4]
+task_type_arg = sys.argv[5]
+
+
+def load_task():
+    if task_json_arg:
+        task_path = Path(task_json_arg)
+        if task_path.exists():
+            return json.loads(task_path.read_text(encoding="utf-8"))
+
+    prompt = prompt_file.read_text(encoding="utf-8", errors="replace")
+
+    def section(name):
+        pattern = rf"{re.escape(name)}:\n(.*?)(?=\n\n\S|$)"
+        match = re.search(pattern, prompt, re.S)
+        return match.group(1).strip() if match else ""
+
+    task = {
+        "id": section("任务 ID") or task_id_arg,
+        "type": section("任务类型") or task_type_arg,
+        "goal": section("任务目标"),
+        "input": {},
+        "constraints": {},
+        "expected_outputs": [],
+    }
+
+    for key, label, fallback in [
+        ("input", "输入", {}),
+        ("constraints", "约束", {}),
+        ("expected_outputs", "期望输出", []),
+    ]:
+        raw_value = section(label)
+        try:
+            task[key] = json.loads(raw_value) if raw_value else fallback
+        except json.JSONDecodeError:
+            task[key] = fallback
+
+    return task
+
+
+task = load_task()
+task_id = str(task.get("id") or task_id_arg)
+task_type = str(task.get("type") or task_type_arg)
+goal = str(task.get("goal") or "")
+input_data = task.get("input") if isinstance(task.get("input"), dict) else {}
+constraints = task.get("constraints") if isinstance(task.get("constraints"), dict) else {}
+expected_outputs = task.get("expected_outputs") if isinstance(task.get("expected_outputs"), list) else []
+must_include = constraints.get("must_include", [])
+if not isinstance(must_include, list):
+    must_include = [str(must_include)]
+
+lines = [
+    "# Fallback 任务摘要",
+    "",
+    "> 未检测到 codex CLI，本次未真正执行 Codex，只生成 fallback 结果",
+    "",
+    "这不是 Codex 生成的最终业务结果，只是 fallback 摘要。它用于保留任务信息，方便安装或修复 Codex CLI 后重新执行。",
+    "",
+    "## 基本信息",
+    "",
+    f"- Task ID: `{task_id}`",
+    f"- Task Type: `{task_type}`",
+    "",
+    "## Goal",
+    "",
+    goal or "未提供",
+    "",
+    "## Input Text",
+    "",
+    str(input_data.get("text") or "未提供"),
+    "",
+    "## Constraints Must Include",
+    "",
+]
+
+if must_include:
+    lines.extend(f"- {item}" for item in must_include)
+else:
+    lines.append("未提供")
+
+lines.extend([
+    "",
+    "## Expected Outputs",
+    "",
+])
+
+if expected_outputs:
+    lines.extend(f"- `{item}`" for item in expected_outputs)
+else:
+    lines.append("未提供")
+
+lines.extend([
+    "",
+    "## 原始约束",
+    "",
+    "```json",
+    json.dumps(constraints, ensure_ascii=False, indent=2),
+    "```",
+    "",
+    "## 下一步",
+    "",
+    "请确认本地已安装 codex CLI，并且运行 worker 的终端中 `command -v codex` 能找到该命令，然后重新提交或重新执行任务。",
+    "",
+])
+
+output_file.write_text("\n".join(lines), encoding="utf-8")
+print(f"python fallback wrote: {output_file}")
+PY
 }
 
 # 第六步：检查 prompt 文件是否存在。
 if [ ! -f "${PROMPT_FILE}" ]; then
   log "prompt 文件不存在: ${PROMPT_FILE}"
   echo "prompt 文件不存在: ${PROMPT_FILE}" > "${OUTPUT_FILE}"
-  write_result_json "failed" "prompt 文件不存在: ${PROMPT_FILE}"
+  write_result_json "failed" "python_fallback" "prompt 文件不存在" "prompt 文件不存在: ${PROMPT_FILE}"
   exit 1
 fi
 
@@ -140,113 +295,41 @@ log "run_log: ${RUN_LOG}"
 
 # 第七步：如果安装了 codex CLI，就真实调用；否则使用 Python fallback。
 if command -v codex >/dev/null 2>&1; then
-  log "检测到 codex CLI，正在调用..."
+  CODEX_BIN="$(command -v codex)"
+  log "检测到 codex CLI: ${CODEX_BIN}，正在调用..."
 
   # 这里使用 prompt 文件内容作为 Codex 输入，并把结果写入 output.txt。
   # 如果你的 codex CLI 参数不同，可以只调整这一行。
   codex "$(cat "${PROMPT_FILE}")" > "${OUTPUT_FILE}" 2>> "${RUN_LOG}"
   CODEX_EXIT_CODE=$?
+  RUNNER="codex"
 else
-  log "未检测到 codex CLI，使用 Python fallback 执行简单脚本..."
-
-  if command -v "${PYTHON_BIN}" >/dev/null 2>&1; then
-    "${PYTHON_BIN}" - "${PROMPT_FILE}" "${OUTPUT_DIR}" "${OUTPUT_FILE}" >> "${RUN_LOG}" 2>&1 <<'PY'
-import sys
-from pathlib import Path
-
-prompt_file = Path(sys.argv[1])
-output_dir = Path(sys.argv[2])
-output_file = Path(sys.argv[3])
-
-prompt = prompt_file.read_text(encoding="utf-8")
-output_dir.mkdir(parents=True, exist_ok=True)
-
-# 这是 fallback 的简单可执行逻辑：
-# 如果任务提到 CSV 和平均值，就生成一个只依赖标准库的 csv_average.py。
-if "CSV" in prompt or "csv" in prompt:
-    script_path = output_dir / "csv_average.py"
-    script_path.write_text(
-        '''#!/usr/bin/env python3
-import csv
-import sys
-
-
-def parse_number(value):
-    try:
-        return float(value)
-    except ValueError:
-        return None
-
-
-def main():
-    if len(sys.argv) < 2:
-        print("用法: python3 csv_average.py <csv文件路径> [列名]")
-        sys.exit(1)
-
-    csv_path = sys.argv[1]
-    target_column = sys.argv[2] if len(sys.argv) >= 3 else None
-    numbers = []
-
-    with open(csv_path, "r", encoding="utf-8-sig", newline="") as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            values = [row.get(target_column, "")] if target_column else row.values()
-            for value in values:
-                number = parse_number(str(value).strip())
-                if number is not None:
-                    numbers.append(number)
-
-    if not numbers:
-        print("没有找到可计算的数字")
-        sys.exit(1)
-
-    average = sum(numbers) / len(numbers)
-    print(f"平均值: {average}")
-
-
-if __name__ == "__main__":
-    main()
-''',
-        encoding="utf-8",
-    )
-
-    output_file.write_text(
-        "Python fallback 已生成脚本:\n"
-        f"{script_path}\n\n"
-        "运行示例:\n"
-        f"python3 {script_path} data.csv amount\n",
-        encoding="utf-8",
-    )
-else:
-    output_file.write_text(
-        "Python fallback 已执行。\n\n收到的 prompt 内容如下：\n"
-        "----------------------------------------\n"
-        f"{prompt}\n"
-        "----------------------------------------\n",
-        encoding="utf-8",
-    )
-
-print(f"python fallback wrote: {output_file}")
-PY
-    CODEX_EXIT_CODE=$?
-  else
-    log "codex CLI 不可用，Python fallback 也不可用"
-    echo "codex CLI 不可用，Python fallback 也不可用" > "${OUTPUT_FILE}"
-    CODEX_EXIT_CODE=1
-  fi
+  log "未检测到 codex CLI，本次未真正执行 Codex，只生成 fallback 结果"
+  write_fallback_output
+  CODEX_EXIT_CODE=$?
+  RUNNER="python_fallback"
 fi
 
 # 第八步：根据退出码写入结构化 result.json。
-if [ "${CODEX_EXIT_CODE}" -eq 0 ]; then
+if [ "${RUNNER}" = "python_fallback" ] && [ "${CODEX_EXIT_CODE}" -eq 0 ]; then
+  STATUS="fallback"
+  SUMMARY="未检测到 codex CLI，未真正调用 Codex，仅生成兜底结果"
+  ERROR=""
+elif [ "${CODEX_EXIT_CODE}" -eq 0 ]; then
   STATUS="success"
+  SUMMARY="Codex CLI 执行成功"
+  ERROR=""
 else
   STATUS="failed"
+  SUMMARY="runner 执行失败"
+  ERROR="codex runner exit_code=${CODEX_EXIT_CODE}"
 fi
 
 log "执行结束，status=${STATUS}, exit_code=${CODEX_EXIT_CODE}"
-if [ "${STATUS}" = "success" ]; then
-  write_result_json "${STATUS}" ""
-else
-  write_result_json "${STATUS}" "codex runner exit_code=${CODEX_EXIT_CODE}"
+write_result_json "${STATUS}" "${RUNNER}" "${SUMMARY}" "${ERROR}"
+
+if [ "${STATUS}" = "fallback" ]; then
+  exit 0
 fi
+
 exit "${CODEX_EXIT_CODE}"

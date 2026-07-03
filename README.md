@@ -165,6 +165,7 @@ outputs/{task_id}/run.log
   "task_id": "task_002",
   "type": "analysis_task",
   "status": "success",
+  "runner": "codex",
   "started_at": "2026-07-03T15:00:00",
   "finished_at": "2026-07-03T15:00:01",
   "duration_seconds": 1.0,
@@ -179,13 +180,23 @@ outputs/{task_id}/run.log
 
 ## 如何判断任务成功
 
-满足这 3 个条件就是成功：
+`result.json` 里的 `status` 有 3 种重要语义：
+
+```text
+success  = 真正执行器成功完成，runner 通常是 codex
+fallback = 系统流程成功，但没有真正调用 Codex，只生成兜底摘要
+failed   = 执行失败
+```
+
+只有满足下面 3 个条件，才算真正业务成功：
 
 ```text
 tasks/done/{task_id}.json 存在
 outputs/{task_id}/result.json 存在
 result.json 里的 status 是 success
 ```
+
+如果 `status` 是 `fallback`，说明 worker 闭环跑通了，但没有真正调用 Codex。需要检查本地是否安装 `codex` CLI，以及运行 worker 的终端里 `codex` 命令是否可用。
 
 worker 还会防止重复执行：
 
@@ -253,4 +264,13 @@ worker 会自动完成后续闭环。
 codex "<prompt内容>"
 ```
 
-如果没有安装，会使用 Python 标准库 fallback。fallback 会写入 `output.txt`、`result.md`、`result.json` 和 `run.log`。
+如果没有安装，会使用 Python 标准库 fallback。fallback 会写入 `output.txt`、`result.md`、`result.json` 和 `run.log`，但 `result.json` 会明确标记：
+
+```json
+{
+  "status": "fallback",
+  "runner": "python_fallback"
+}
+```
+
+看到 `fallback` 时，不要把它当作真正的业务结果；请先确认 `command -v codex` 能在启动 worker 的同一个终端里找到 Codex CLI。
