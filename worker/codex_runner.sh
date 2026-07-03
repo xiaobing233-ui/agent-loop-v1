@@ -8,13 +8,14 @@
 # 1. 接收 prompt 文件路径和 task_id
 # 2. 如果本机有 codex CLI，就调用 codex 执行
 # 3. 如果本机没有 codex CLI，就使用 Python 标准库 fallback
-# 4. 输出结构化结果到 outputs/{task_id}/result.json
+# 4. 输出 v2 标准文件到 outputs/{task_id}/result.json、result.md、run.log
 
 set -u
 
 # 第一步：读取参数。
 PROMPT_FILE="${1:-}"
 TASK_ID="${2:-}"
+TASK_TYPE="${3:-unknown}"
 
 # 第二步：定位项目根目录，也就是 agent-loop-v1/。
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -33,48 +34,91 @@ fi
 OUTPUT_DIR="${ROOT_DIR}/outputs/${TASK_ID}"
 OUTPUT_FILE="${OUTPUT_DIR}/output.txt"
 RESULT_JSON="${OUTPUT_DIR}/result.json"
-RUNNER_LOG="${OUTPUT_DIR}/runner.log"
+RESULT_MD="${OUTPUT_DIR}/result.md"
+RUN_LOG="${OUTPUT_DIR}/run.log"
 mkdir -p "${OUTPUT_DIR}"
-: > "${RUNNER_LOG}"
+: > "${RUN_LOG}"
 
 log() {
-  echo "[codex_runner] $*" | tee -a "${RUNNER_LOG}"
+  echo "[codex_runner] $*" | tee -a "${RUN_LOG}"
 }
 
 write_result_json() {
   # 使用 Python 标准库写 JSON，避免 bash 手写 JSON 转义出错。
   local status="$1"
+  local error="${2:-}"
 
   if command -v "${PYTHON_BIN}" >/dev/null 2>&1; then
-    "${PYTHON_BIN}" - "${TASK_ID}" "${status}" "${OUTPUT_FILE}" "${RESULT_JSON}" "${RUNNER_LOG}" <<'PY'
+    "${PYTHON_BIN}" - "${TASK_ID}" "${TASK_TYPE}" "${status}" "${OUTPUT_FILE}" "${RESULT_JSON}" "${RESULT_MD}" "${RUN_LOG}" "${error}" <<'PY'
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
 
 task_id = sys.argv[1]
-status = sys.argv[2]
-output_file = Path(sys.argv[3])
-result_json = Path(sys.argv[4])
-runner_log = Path(sys.argv[5])
+task_type = sys.argv[2]
+status = sys.argv[3]
+output_file = Path(sys.argv[4])
+result_json = Path(sys.argv[5])
+result_md = Path(sys.argv[6])
+run_log = Path(sys.argv[7])
+error = sys.argv[8]
 
-log_text = runner_log.read_text(encoding="utf-8") if runner_log.exists() else ""
+now = datetime.now().isoformat(timespec="seconds")
+log_text = run_log.read_text(encoding="utf-8") if run_log.exists() else ""
+summary = f"Runner finished with status={status}"
+output_files = [
+    str(path)
+    for path in sorted(result_json.parent.glob("*"))
+    if path.is_file()
+]
 
 data = {
     "task_id": task_id,
+    "type": task_type,
     "status": status,
-    "output_file": str(output_file),
-    "log": log_text,
+    "started_at": "",
+    "finished_at": now,
+    "duration_seconds": 0,
+    "summary": summary,
+    "output_files": output_files,
+    "error": error,
 }
 
 result_json.write_text(
     json.dumps(data, ensure_ascii=False, indent=2) + "\n",
     encoding="utf-8",
 )
+
+output_text = output_file.read_text(encoding="utf-8", errors="replace") if output_file.exists() else ""
+result_md.write_text(
+    "# Task " + task_id + "\n\n"
+    "- Type: `" + task_type + "`\n"
+    "- Status: `" + status + "`\n\n"
+    "## Summary\n\n"
+    + summary + "\n\n"
+    + ("## Error\n\n" + error + "\n\n" if error else "")
+    + "## Output\n\n```text\n"
+    + output_text.rstrip()
+    + "\n```\n\n"
+    + "## Run Log\n\n```text\n"
+    + log_text.rstrip()
+    + "\n```\n",
+    encoding="utf-8",
+)
 PY
   else
     # 极简兜底：如果连 Python 都没有，也尽量生成一个可读的 result.json。
-    printf '{"task_id":"%s","status":"%s","output_file":"%s","log":"python unavailable; see runner.log"}\n' \
-      "${TASK_ID}" "${status}" "${OUTPUT_FILE}" > "${RESULT_JSON}"
+    printf '{"task_id":"%s","type":"%s","status":"%s","started_at":"","finished_at":"","duration_seconds":0,"summary":"python unavailable","output_files":["%s"],"error":"%s"}\n' \
+      "${TASK_ID}" "${TASK_TYPE}" "${status}" "${OUTPUT_FILE}" "${error}" > "${RESULT_JSON}"
+    {
+      echo "# Task ${TASK_ID}"
+      echo
+      echo "- Type: \`${TASK_TYPE}\`"
+      echo "- Status: \`${status}\`"
+      echo
+      echo "Python unavailable; see run.log."
+    } > "${RESULT_MD}"
   fi
 }
 
@@ -82,14 +126,17 @@ PY
 if [ ! -f "${PROMPT_FILE}" ]; then
   log "prompt 文件不存在: ${PROMPT_FILE}"
   echo "prompt 文件不存在: ${PROMPT_FILE}" > "${OUTPUT_FILE}"
-  write_result_json "failed"
+  write_result_json "failed" "prompt 文件不存在: ${PROMPT_FILE}"
   exit 1
 fi
 
 log "开始执行 task: ${TASK_ID}"
+log "type: ${TASK_TYPE}"
 log "prompt: ${PROMPT_FILE}"
 log "output: ${OUTPUT_FILE}"
 log "result_json: ${RESULT_JSON}"
+log "result_md: ${RESULT_MD}"
+log "run_log: ${RUN_LOG}"
 
 # 第七步：如果安装了 codex CLI，就真实调用；否则使用 Python fallback。
 if command -v codex >/dev/null 2>&1; then
@@ -97,13 +144,13 @@ if command -v codex >/dev/null 2>&1; then
 
   # 这里使用 prompt 文件内容作为 Codex 输入，并把结果写入 output.txt。
   # 如果你的 codex CLI 参数不同，可以只调整这一行。
-  codex "$(cat "${PROMPT_FILE}")" > "${OUTPUT_FILE}" 2>> "${RUNNER_LOG}"
+  codex "$(cat "${PROMPT_FILE}")" > "${OUTPUT_FILE}" 2>> "${RUN_LOG}"
   CODEX_EXIT_CODE=$?
 else
   log "未检测到 codex CLI，使用 Python fallback 执行简单脚本..."
 
   if command -v "${PYTHON_BIN}" >/dev/null 2>&1; then
-    "${PYTHON_BIN}" - "${PROMPT_FILE}" "${OUTPUT_DIR}" "${OUTPUT_FILE}" >> "${RUNNER_LOG}" 2>&1 <<'PY'
+    "${PYTHON_BIN}" - "${PROMPT_FILE}" "${OUTPUT_DIR}" "${OUTPUT_FILE}" >> "${RUN_LOG}" 2>&1 <<'PY'
 import sys
 from pathlib import Path
 
@@ -197,5 +244,9 @@ else
 fi
 
 log "执行结束，status=${STATUS}, exit_code=${CODEX_EXIT_CODE}"
-write_result_json "${STATUS}"
+if [ "${STATUS}" = "success" ]; then
+  write_result_json "${STATUS}" ""
+else
+  write_result_json "${STATUS}" "codex runner exit_code=${CODEX_EXIT_CODE}"
+fi
 exit "${CODEX_EXIT_CODE}"

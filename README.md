@@ -1,4 +1,4 @@
-# GPT + GitHub + Codex 自动任务执行系统
+# GPT + GitHub + Codex 自动任务执行系统 v2
 
 这是一个轻量的 GitHub 驱动 Agent 闭环系统：
 
@@ -10,196 +10,238 @@ GitHub Repo tasks -> git pull -> 执行任务 -> 生成结果 -> git push 回写
 
 ```text
 agent-loop-v1/
+├── schema/
+│   └── task_schema_v2.json
+├── templates/
+│   ├── code_task.json
+│   ├── analysis_task.json
+│   └── design_prompt_task.json
 ├── tasks/
 │   ├── pending/   # GitHub 任务来源
 │   ├── running/   # 正在执行的任务
 │   ├── done/      # 已执行成功的任务
 │   └── failed/    # 执行失败的任务
-├── outputs/       # 每个任务的输出结果
+├── outputs/       # 每个任务的标准输出
 ├── logs/
 │   ├── system.log
 │   └── conflict_backup/
-├── worker/
-│   ├── agent.py
-│   ├── codex_runner.sh
-│   └── init_github.sh
-└── README.md
+└── worker/
+    ├── agent.py
+    ├── codex_runner.sh
+    └── init_github.sh
 ```
 
 ## 初始化 GitHub 仓库
 
-第一步，进入项目目录：
-
 ```bash
 cd agent-loop-v1
-```
-
-第二步，初始化 git repo：
-
-```bash
 git init
-```
-
-第三步，设置默认分支为 `main`：
-
-```bash
 git branch -M main
-```
-
-第四步，绑定远程仓库。请把 URL 换成你自己的 GitHub repo：
-
-```bash
 git remote add origin <YOUR_GITHUB_REPO_URL>
+git add .
+git commit -m "init agent loop"
+git push -u origin main
 ```
 
-也可以使用脚本完成初始化：
+也可以使用脚本：
 
 ```bash
 chmod +x worker/init_github.sh
 ./worker/init_github.sh <YOUR_GITHUB_REPO_URL>
 ```
 
-首次提交项目结构：
-
-```bash
-git add .
-git commit -m "init agent loop"
-git push -u origin main
-```
-
 ## 启动 worker
 
-启动前请确认：
+启动前确认当前目录是 git repo、已经设置 `origin`、当前分支是 `main`：
 
 ```bash
 git remote -v
 git branch --show-current
 ```
 
-必须满足：
-
-```text
-当前目录是 git repo
-已设置 origin
-当前分支是 main
-```
-
-启动 worker：
+启动：
 
 ```bash
 python3 worker/agent.py
 ```
 
-worker 启动时会先执行：
+worker 会持续执行：
 
-```bash
+```text
 git pull origin main
-```
-
-每轮循环开始前也会执行：
-
-```bash
-git pull origin main
-```
-
-每轮循环结束后会执行：
-
-```bash
+扫描 tasks/pending/
+执行任务
+写入 outputs/{task_id}/
 git add .
 git commit -m "auto sync task results"
 git push origin main
 ```
 
-如果 `git pull` 或 `git push` 失败，会自动重试 3 次，并写入：
+如果 `git pull` 或 `git push` 失败，会自动重试 3 次，并写入 `logs/system.log`。
+
+## v2 任务格式
+
+标准 schema 在：
 
 ```text
-logs/system.log
+schema/task_schema_v2.json
 ```
 
-## GitHub 任务来源
+v2 task 示例：
 
-任务来源严格是 GitHub 仓库里的：
+```json
+{
+  "id": "task_002",
+  "type": "analysis_task",
+  "goal": "任务目标",
+  "input": {
+    "files": [],
+    "text": ""
+  },
+  "constraints": {
+    "language": "zh-CN",
+    "output_format": "markdown + json",
+    "dependencies": "只使用必要依赖"
+  },
+  "expected_outputs": [
+    "outputs/task_002/result.md",
+    "outputs/task_002/result.json"
+  ],
+  "status": "pending"
+}
+```
+
+支持的 `type`：
+
+```text
+code_task
+analysis_task
+file_task
+design_prompt_task
+```
+
+worker 仍然兼容旧版 task。旧版缺少的 `type`、`input.files`、`input.text`、`expected_outputs` 会自动补默认值。
+
+## 如何创建新任务
+
+推荐从 `templates/` 复制一个模板：
+
+```text
+templates/code_task.json
+templates/analysis_task.json
+templates/design_prompt_task.json
+```
+
+在 GitHub 网页中进入：
 
 ```text
 tasks/pending/
 ```
 
-请在 GitHub 上新增 task 文件，不要把本地手动创建任务作为主流程。
-
-示例 task：
-
-```json
-{
-  "id": "task_001",
-  "goal": "让 Codex 生成一个 Python 脚本，用来读取 CSV 并计算平均值",
-  "input": {},
-  "constraints": {
-    "language": "Python",
-    "dependencies": "只使用 Python 标准库"
-  }
-}
-```
-
-保存到 GitHub：
+新建文件，例如：
 
 ```text
-tasks/pending/task_001.json
+task_002.json
 ```
 
-worker 每轮会先从 GitHub pull 最新任务。如果 `tasks/pending/` 为空，worker 只会 sleep，不会执行 Codex。
+把模板内容复制进去，修改 `id`、`type`、`goal`、`input.text`，然后 commit 到 `main` 分支。
 
-## 执行结果
+worker 下一轮会自动 pull 并执行。
 
-每个任务会生成自己的输出目录：
+## 标准输出
 
-```text
-outputs/{task_id}/
-```
-
-结构化结果写入：
+每个任务都会生成：
 
 ```text
 outputs/{task_id}/result.json
+outputs/{task_id}/result.md
+outputs/{task_id}/run.log
 ```
 
-格式如下：
+`result.json` 标准格式：
 
 ```json
 {
-  "task_id": "task_001",
+  "task_id": "task_002",
+  "type": "analysis_task",
   "status": "success",
-  "output_file": "outputs/task_001/output.txt",
-  "log": "执行日志"
+  "started_at": "2026-07-03T15:00:00",
+  "finished_at": "2026-07-03T15:00:01",
+  "duration_seconds": 1.0,
+  "summary": "任务摘要",
+  "output_files": [],
+  "error": ""
 }
 ```
 
-成功的 task 文件会移动到：
+`result.md` 给人阅读。  
+`run.log` 记录执行过程。
+
+## 如何判断任务成功
+
+满足这 3 个条件就是成功：
 
 ```text
-tasks/done/
+tasks/done/{task_id}.json 存在
+outputs/{task_id}/result.json 存在
+result.json 里的 status 是 success
 ```
 
-失败的 task 文件会移动到：
+worker 还会防止重复执行：
+
+```text
+tasks/done/ 已有同名任务文件 -> 不再执行
+outputs/{task_id}/result.json 已是 success -> 不再执行
+tasks/running/ 已有同名任务文件 -> 不重复启动
+```
+
+## 如何查看失败原因
+
+如果任务失败，会移动到：
 
 ```text
 tasks/failed/
 ```
 
-失败时还会写入：
+查看这些文件：
 
 ```text
-outputs/{task_id}/error.log
+outputs/{task_id}/result.json
+outputs/{task_id}/result.md
+outputs/{task_id}/run.log
+logs/system.log
 ```
 
-## 冲突处理
+`result.json` 中：
 
-如果 `git pull` 发生冲突，worker 会自动：
+```json
+{
+  "status": "failed",
+  "error": "失败原因"
+}
+```
 
-1. 备份本地冲突版本到 `logs/conflict_backup/`
-2. 保留 GitHub 远端版本
-3. 把处理过程写入 `logs/system.log`
+## 后续如何让 GPT 生成 task.json
 
-这个策略让 GitHub 始终作为任务源优先。
+可以把下面这段提示词给 GPT：
+
+```text
+请按照 schema/task_schema_v2.json 生成一个任务 JSON。
+要求：
+1. id 使用 task_数字
+2. type 只能是 code_task、analysis_task、file_task、design_prompt_task
+3. status 必须是 pending
+4. expected_outputs 必须包含 outputs/{id}/result.md 和 outputs/{id}/result.json
+5. 只输出 JSON，不要输出解释
+```
+
+把 GPT 生成的 JSON 保存到 GitHub：
+
+```text
+tasks/pending/{task_id}.json
+```
+
+worker 会自动完成后续闭环。
 
 ## Codex CLI 和 fallback
 
@@ -211,8 +253,4 @@ outputs/{task_id}/error.log
 codex "<prompt内容>"
 ```
 
-如果没有安装，会使用 Python 标准库 fallback。当前 fallback 会在任务提到 CSV 时生成一个简单的 `csv_average.py`，并把说明写入：
-
-```text
-outputs/{task_id}/output.txt
-```
+如果没有安装，会使用 Python 标准库 fallback。fallback 会写入 `output.txt`、`result.md`、`result.json` 和 `run.log`。

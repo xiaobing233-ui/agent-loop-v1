@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "agent-loop-v1 task schema v2",
+  "type": "object",
+  "required": [
+    "id",
+    "type",
+    "goal",
+    "input",
+    "constraints",
+    "expected_outputs",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "唯一任务 ID，例如 task_002。"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "code_task",
+        "analysis_task",
+        "file_task",
+        "design_prompt_task"
+      ]
+    },
+    "goal": {
+      "type": "string",
+      "description": "任务目标，用自然语言说明要完成什么。"
+    },
+    "input": {
+      "type": "object",
+      "required": [
+        "files",
+        "text"
+      ],
+      "properties": {
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "constraints": {
+      "type": "object",
+      "required": [
+        "language",
+        "output_format",
+        "dependencies"
+      ],
+      "properties": {
+        "language": {
+          "type": "string",
+          "default": "zh-CN"
+        },
+        "output_format": {
+          "type": "string",
+          "default": "markdown + json"
+        },
+        "dependencies": {
+          "type": "string",
+          "default": "只使用必要依赖"
+        }
+      },
+      "additionalProperties": true
+    },
+    "expected_outputs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending"
+      ]
+    }
+  },
+  "additionalProperties": true
+}

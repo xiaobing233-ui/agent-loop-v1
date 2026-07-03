@@ -1,0 +1,19 @@
+{
+  "id": "task_004",
+  "type": "design_prompt_task",
+  "goal": "根据给定主题生成 3 个直播预告封面视觉方案提示词。",
+  "input": {
+    "files": [],
+    "text": "主题：AI 自动化工作流公开课。画面需要适合中文直播平台封面。"
+  },
+  "constraints": {
+    "language": "zh-CN",
+    "output_format": "markdown + json",
+    "dependencies": "不需要额外依赖"
+  },
+  "expected_outputs": [
+    "outputs/task_004/result.md",
+    "outputs/task_004/result.json"
+  ],
+  "status": "pending"
+}

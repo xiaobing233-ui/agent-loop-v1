@@ -1,0 +1,19 @@
+{
+  "id": "task_002",
+  "type": "code_task",
+  "goal": "生成一个 Python 脚本，用来读取 CSV 文件并计算指定数字列的平均值。",
+  "input": {
+    "files": [],
+    "text": "脚本需要支持命令行参数：python3 csv_average.py data.csv amount"
+  },
+  "constraints": {
+    "language": "zh-CN",
+    "output_format": "markdown + json",
+    "dependencies": "只使用 Python 标准库"
+  },
+  "expected_outputs": [
+    "outputs/task_002/result.md",
+    "outputs/task_002/result.json"
+  ],
+  "status": "pending"
+}

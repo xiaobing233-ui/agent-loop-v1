@@ -1,0 +1,19 @@
+{
+  "id": "task_003",
+  "type": "analysis_task",
+  "goal": "分析下面这段产品反馈，总结 3 个主要问题和 3 条改进建议。",
+  "input": {
+    "files": [],
+    "text": "用户反馈：页面加载慢，按钮位置不明显，新用户不知道下一步该做什么。"
+  },
+  "constraints": {
+    "language": "zh-CN",
+    "output_format": "markdown + json",
+    "dependencies": "不需要额外依赖"
+  },
+  "expected_outputs": [
+    "outputs/task_003/result.md",
+    "outputs/task_003/result.json"
+  ],
+  "status": "pending"
+}
