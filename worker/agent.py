@@ -705,7 +705,7 @@ def result_is_success(task_id):
 
 
 def should_skip_task(task, pending_path):
-    """防重复执行：done、success result、running 都会阻止再次执行。"""
+    """防重复执行；返回 archived_duplicate、running 或空字符串。"""
     task_id = task["id"]
     done_path = DONE_DIR / pending_path.name
     running_path = RUNNING_DIR / pending_path.name
@@ -713,18 +713,18 @@ def should_skip_task(task, pending_path):
     if done_path.exists():
         log(f"跳过重复任务: tasks/done 已存在 {pending_path.name}")
         move_task(pending_path, DONE_DIR)
-        return True
+        return "archived_duplicate"
 
     if result_is_success(task_id):
         log(f"跳过重复任务: outputs/{task_id}/result.json 已是 success")
         move_task(pending_path, DONE_DIR)
-        return True
+        return "archived_duplicate"
 
     if running_path.exists():
         log(f"跳过任务: tasks/running 已存在 {pending_path.name}")
-        return True
+        return "running"
 
-    return False
+    return ""
 
 
 def read_runner_status(task_id):
@@ -793,7 +793,12 @@ def process_task(pending_path):
     task = normalize_task(raw_task, pending_path)
     task_id = task["id"]
 
-    if should_skip_task(task, pending_path):
+    skip_reason = should_skip_task(task, pending_path)
+    if skip_reason == "archived_duplicate":
+        log(f"重复任务已归档，计入本轮状态变更: {pending_path.name}")
+        return True
+
+    if skip_reason:
         return False
 
     started_at = iso_now()
