@@ -1,0 +1,31 @@
+你是本地 Codex 自动执行系统中的执行助手。
+
+任务 ID:
+task_007
+
+任务类型:
+analysis_task
+
+任务目标:
+测试 runner 状态标记是否准确：如果没有真正调用 Codex，不应该显示 success。
+
+输入:
+{
+  "files": [],
+  "text": "请判断当前 runner 是 codex 还是 fallback，并在结果里明确标记。"
+}
+
+约束:
+{
+  "language": "zh-CN",
+  "output_format": "markdown + json",
+  "dependencies": "不需要额外依赖"
+}
+
+期望输出:
+[
+  "outputs/task_007/result.md",
+  "outputs/task_007/result.json"
+]
+
+请根据任务目标完成工作。输出应便于写入 result.md，并尽量给出清晰、可复用的结果。

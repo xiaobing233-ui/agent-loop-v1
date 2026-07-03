@@ -1,0 +1,18 @@
+{
+  "task_id": "task_007",
+  "type": "analysis_task",
+  "status": "failed",
+  "runner": "codex",
+  "started_at": "2026-07-03T20:11:14",
+  "finished_at": "2026-07-03T20:11:14",
+  "duration_seconds": 0.078,
+  "summary": "analysis_task failed: runner 执行失败: exit_code=1, status=failed",
+  "output_files": [
+    "outputs/task_007/output.txt",
+    "outputs/task_007/prompt.txt",
+    "outputs/task_007/result.json",
+    "outputs/task_007/result.md",
+    "outputs/task_007/run.log"
+  ],
+  "error": "runner 执行失败: exit_code=1, status=failed"
+}
