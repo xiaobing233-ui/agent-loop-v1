@@ -39,6 +39,7 @@ RESULT_MD="${OUTPUT_DIR}/result.md"
 RUN_LOG="${OUTPUT_DIR}/run.log"
 STARTED_AT="$(date "+%Y-%m-%dT%H:%M:%S")"
 START_SECONDS="$(date "+%s")"
+CODEX_EXEC_TIMEOUT_SECONDS="${CODEX_EXEC_TIMEOUT_SECONDS:-240}"
 mkdir -p "${OUTPUT_DIR}"
 : > "${RUN_LOG}"
 
@@ -303,9 +304,13 @@ run_codex_exec_with_timeout() {
     return 1
   fi
 
-  "${PYTHON_BIN}" - "${CODEX_BIN}" "${PROMPT_FILE}" "${OUTPUT_FILE}" "${RUN_LOG}" "${ROOT_DIR}" "60" >> "${RUN_LOG}" 2>&1 <<'PY'
+  "${PYTHON_BIN}" - "${CODEX_BIN}" "${PROMPT_FILE}" "${OUTPUT_FILE}" "${RUN_LOG}" "${ROOT_DIR}" "${CODEX_EXEC_TIMEOUT_SECONDS}" >> "${RUN_LOG}" 2>&1 <<'PY'
+from datetime import datetime
+import os
+import signal
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 codex_bin = sys.argv[1]
@@ -332,30 +337,70 @@ command = [
     "-",
 ]
 
+exit_code = 1
+timed_out = False
+start_time = time.time()
+
 with prompt_file.open("rb") as stdin_file, run_log.open("ab") as log_file:
+    started_at = datetime.now().isoformat(timespec="seconds")
+    log_file.write(f"codex exec started_at: {started_at}\n".encode("utf-8"))
+    log_file.write(f"codex exec timeout_seconds: {timeout_seconds}\n".encode("utf-8"))
     log_file.write(("codex exec command: " + " ".join(command) + "\n").encode("utf-8"))
+    log_file.flush()
+
+    process = subprocess.Popen(
+        command,
+        stdin=stdin_file,
+        stdout=log_file,
+        stderr=log_file,
+        start_new_session=True,
+    )
+
     try:
-        result = subprocess.run(
-            command,
-            stdin=stdin_file,
-            stdout=log_file,
-            stderr=log_file,
-            timeout=timeout_seconds,
-        )
+        exit_code = process.wait(timeout=timeout_seconds)
     except subprocess.TimeoutExpired:
-        log_file.write(
-            f"codex exec timed out after {timeout_seconds} seconds\n".encode("utf-8")
-        )
+        timed_out = True
+        log_file.write(f"codex exec timed_out: yes\n".encode("utf-8"))
+        log_file.write(f"codex exec sending SIGTERM to process group: {process.pid}\n".encode("utf-8"))
+        log_file.flush()
+
+        try:
+            os.killpg(process.pid, signal.SIGTERM)
+        except ProcessLookupError:
+            log_file.write("codex exec process group already exited before SIGTERM\n".encode("utf-8"))
+
+        try:
+            exit_code = process.wait(timeout=5)
+            log_file.write(f"codex exec exited after SIGTERM: {exit_code}\n".encode("utf-8"))
+        except subprocess.TimeoutExpired:
+            log_file.write(f"codex exec sending SIGKILL to process group: {process.pid}\n".encode("utf-8"))
+            log_file.flush()
+            try:
+                os.killpg(process.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                log_file.write("codex exec process group already exited before SIGKILL\n".encode("utf-8"))
+            exit_code = process.wait()
+            log_file.write(f"codex exec exited after SIGKILL: {exit_code}\n".encode("utf-8"))
+
         output_file.write_text(
             f"Codex non-interactive execution timed out after {timeout_seconds} seconds.\n",
             encoding="utf-8",
         )
-        sys.exit(124)
+        exit_code = 124
+    else:
+        log_file.write("codex exec timed_out: no\n".encode("utf-8"))
+
+    finished_at = datetime.now().isoformat(timespec="seconds")
+    duration_seconds = round(time.time() - start_time, 3)
+    log_file.write(f"codex exec finished_at: {finished_at}\n".encode("utf-8"))
+    log_file.write(f"codex exec duration_seconds: {duration_seconds}\n".encode("utf-8"))
+    log_file.write(f"codex exec exit_code: {exit_code}\n".encode("utf-8"))
+    log_file.flush()
 
 if not output_file.exists():
     output_file.write_text("", encoding="utf-8")
 
-sys.exit(result.returncode)
+sys.exit(exit_code)
 PY
 }
 
@@ -374,6 +419,7 @@ log "output: ${OUTPUT_FILE}"
 log "result_json: ${RESULT_JSON}"
 log "result_md: ${RESULT_MD}"
 log "run_log: ${RUN_LOG}"
+log "codex_exec_timeout_seconds: ${CODEX_EXEC_TIMEOUT_SECONDS}"
 if [ -t 0 ]; then
   STDIN_TTY="yes"
 else
@@ -442,6 +488,7 @@ else
 fi
 
 log "执行结束，status=${STATUS}, exit_code=${CODEX_EXIT_CODE}"
+log "最终 result status=${STATUS}, runner=${RUNNER}, exit_code=${CODEX_EXIT_CODE}"
 write_result_json "${STATUS}" "${RUNNER}" "${SUMMARY}" "${ERROR}"
 
 if [ "${STATUS}" = "fallback" ]; then

@@ -39,7 +39,7 @@ CODEX_RUNNER = ROOT_DIR / "worker" / "codex_runner.sh"
 
 # 基础配置。
 SCAN_INTERVAL_SECONDS = 3
-TASK_TIMEOUT_SECONDS = 60
+TASK_TIMEOUT_SECONDS = 300
 GIT_REMOTE = "origin"
 GIT_BRANCH = "main"
 GIT_COMMIT_MESSAGE = "auto sync task results"

@@ -1,0 +1,19 @@
+{
+  "id": "task_009",
+  "type": "analysis_task",
+  "goal": "测试 codex exec 在更长 timeout 下是否可以完成非交互执行。",
+  "input": {
+    "files": [],
+    "text": "请用一句话回答：当前任务是否由 codex exec 非交互模式执行成功？"
+  },
+  "constraints": {
+    "language": "zh-CN",
+    "output_format": "markdown + json",
+    "dependencies": "不需要额外依赖"
+  },
+  "expected_outputs": [
+    "outputs/task_009/result.md",
+    "outputs/task_009/result.json"
+  ],
+  "status": "pending"
+}
