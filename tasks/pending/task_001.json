@@ -1,0 +1,9 @@
+{
+  "id": "task_001",
+  "goal": "让 Codex 生成一个 Python 脚本，用来读取 CSV 并计算平均值",
+  "input": {},
+  "constraints": {
+    "language": "Python",
+    "dependencies": "只使用 Python 标准库"
+  }
+}
