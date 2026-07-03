@@ -1,0 +1,31 @@
+{
+  "id": "task_010",
+  "type": "analysis_task",
+  "goal": "基于 Cover Decision System 项目背景，生成 Step 1：20个历史封面反推分析任务包，用于后续校准 Frame Scoring 权重。",
+  "input": {
+    "files": [],
+    "text": "我们正在构建视频封面自动生成系统 Cover Decision System。系统目标是输入视频，输出3张高点击率封面方案。当前架构包括 Frame Extraction、Frame Scoring、Scene Classification、Hook Title Generation、Layout Policy Engine、Visual Renderer、Cover Output。当前最重要任务是 Step 1：对20个历史封面做反推分析，标注场景类型、是否有人脸、情绪强度、构图质量、事件感、标题类型、是否爆款、点击逻辑推测，并提炼爆款封面共性规律和 Frame Scoring 初始权重。"
+  },
+  "constraints": {
+    "language": "zh-CN",
+    "output_format": "markdown + json",
+    "dependencies": "不需要额外依赖",
+    "must_include": [
+      "Step 1任务目标",
+      "20封面反推分析表字段",
+      "字段解释",
+      "评分标准",
+      "爆款封面共性提炼框架",
+      "Frame Scoring权重初始版本",
+      "Excel表格schema",
+      "后续Step 2 Frame Scoring Prototype建议",
+      "给GPT使用的历史封面分析提示词",
+      "给Codex使用的数据结构建议"
+    ]
+  },
+  "expected_outputs": [
+    "outputs/task_010/result.md",
+    "outputs/task_010/result.json"
+  ],
+  "status": "pending"
+}
