@@ -1,0 +1,1647 @@
+[codex_runner] 开始执行 task: task_010
+[codex_runner] type: analysis_task
+[codex_runner] prompt: /Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_010/prompt.txt
+[codex_runner] output: /Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_010/output.txt
+[codex_runner] result_json: /Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_010/result.json
+[codex_runner] result_md: /Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_010/result.md
+[codex_runner] run_log: /Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_010/run.log
+[codex_runner] codex_exec_timeout_seconds: 240
+[codex_runner] tty: stdin=no, stdout=no, TERM=dumb
+[codex_runner] 检测到 codex CLI: /Applications/Codex.app/Contents/Resources/codex
+[codex_runner] 检测到 Codex 非交互子命令: exec，正在调用...
+codex exec started_at: 2026-07-03T20:55:37
+codex exec timeout_seconds: 240
+codex exec command: /Applications/Codex.app/Contents/Resources/codex -a never exec --skip-git-repo-check --color never -s workspace-write -C /Users/bing/Documents/gpt和codex互通/agent-loop-v1 -o /Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_010/output.txt -
+2026-07-03T12:55:37.057350Z  WARN codex_core_plugins::remote::remote_installed_plugin_sync: remote installed plugin bundle sync failed error=chatgpt authentication required for remote plugin catalog; api key auth is not supported
+2026-07-03T12:55:37.077093Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/bing/.codex/plugins/cache/openai-primary-runtime/template-creator/26.630.12135/.codex-plugin/plugin.json
+2026-07-03T12:55:37.077789Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt: maximum of 3 prompts is supported path=/Users/bing/.codex/plugins/cache/openai-primary-runtime/template-creator/26.630.12135/.codex-plugin/plugin.json
+OpenAI Codex v0.142.5
+--------
+workdir: /Users/bing/Documents/gpt和codex互通/agent-loop-v1
+model: gpt-5.5
+provider: OpenAI
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: xhigh
+reasoning summaries: none
+session id: 019f280c-8563-7183-850f-de7b6d20fd22
+--------
+user
+你是本地 Codex 自动执行系统中的执行助手。
+
+任务 ID:
+task_010
+
+任务类型:
+analysis_task
+
+任务目标:
+基于 Cover Decision System 项目背景，生成 Step 1：20个历史封面反推分析任务包，用于后续校准 Frame Scoring 权重。
+
+输入:
+{
+  "files": [],
+  "text": "我们正在构建视频封面自动生成系统 Cover Decision System。系统目标是输入视频，输出3张高点击率封面方案。当前架构包括 Frame Extraction、Frame Scoring、Scene Classification、Hook Title Generation、Layout Policy Engine、Visual Renderer、Cover Output。当前最重要任务是 Step 1：对20个历史封面做反推分析，标注场景类型、是否有人脸、情绪强度、构图质量、事件感、标题类型、是否爆款、点击逻辑推测，并提炼爆款封面共性规律和 Frame Scoring 初始权重。"
+}
+
+约束:
+{
+  "language": "zh-CN",
+  "output_format": "markdown + json",
+  "dependencies": "不需要额外依赖",
+  "must_include": [
+    "Step 1任务目标",
+    "20封面反推分析表字段",
+    "字段解释",
+    "评分标准",
+    "爆款封面共性提炼框架",
+    "Frame Scoring权重初始版本",
+    "Excel表格schema",
+    "后续Step 2 Frame Scoring Prototype建议",
+    "给GPT使用的历史封面分析提示词",
+    "给Codex使用的数据结构建议"
+  ]
+}
+
+期望输出:
+[
+  "outputs/task_010/result.md",
+  "outputs/task_010/result.json"
+]
+
+请根据任务目标完成工作。输出应便于写入 result.md，并尽量给出清晰、可复用的结果。
+
+2026-07-03T12:55:38.128357Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt[0]: prompt must be at most 128 characters path=/Users/bing/.codex/.tmp/plugins/plugins/ngs-analysis/.codex-plugin/plugin.json
+2026-07-03T12:55:38.129912Z  WARN codex_core_plugins::manifest: ignoring interface.defaultPrompt[0]: prompt must be at most 128 characters path=/Users/bing/.codex/.tmp/plugins/plugins/ngs-analysis/.codex-plugin/plugin.json
+2026-07-03T12:55:38.735988Z  WARN codex_core_plugins::manager: failed to warm featured plugin ids cache error=remote featured plugin request to https://chatgpt.com/backend-api/plugins/featured failed with status 401 Unauthorized: {"detail":"Unauthorized"}
+codex
+我会先看一下当前仓库的输出目录约定，然后直接生成 `outputs/task_010/result.md` 和 `outputs/task_010/result.json`。
+exec
+/bin/zsh -lc pwd in /Users/bing/Documents/gpt和codex互通/agent-loop-v1
+ succeeded in 0ms:
+/Users/bing/Documents/gpt和codex互通/agent-loop-v1
+
+exec
+/bin/zsh -lc ls in /Users/bing/Documents/gpt和codex互通/agent-loop-v1
+ succeeded in 0ms:
+README.md
+logs
+outputs
+schema
+tasks
+templates
+worker
+
+exec
+/bin/zsh -lc 'find outputs -maxdepth 3 -type f | sort | head -50' in /Users/bing/Documents/gpt和codex互通/agent-loop-v1
+ succeeded in 0ms:
+outputs/.gitkeep
+outputs/task_001/csv_average.py
+outputs/task_001/output.txt
+outputs/task_001/prompt.txt
+outputs/task_001/result.json
+outputs/task_001/runner.log
+outputs/task_002/output.txt
+outputs/task_002/prompt.txt
+outputs/task_002/result.json
+outputs/task_002/result.md
+outputs/task_002/run.log
+outputs/task_003/output.txt
+outputs/task_003/prompt.txt
+outputs/task_003/result.json
+outputs/task_003/result.md
+outputs/task_003/run.log
+outputs/task_004/output.txt
+outputs/task_004/prompt.txt
+outputs/task_004/result.json
+outputs/task_004/result.md
+outputs/task_004/run.log
+outputs/task_005/output.txt
+outputs/task_005/prompt.txt
+outputs/task_005/result.json
+outputs/task_005/result.md
+outputs/task_005/run.log
+outputs/task_006/output.txt
+outputs/task_006/prompt.txt
+outputs/task_006/result.json
+outputs/task_006/result.md
+outputs/task_006/run.log
+outputs/task_007/output.txt
+outputs/task_007/prompt.txt
+outputs/task_007/result.json
+outputs/task_007/result.md
+outputs/task_007/run.log
+outputs/task_008/prompt.txt
+outputs/task_008/result.json
+outputs/task_008/result.md
+outputs/task_008/run.log
+outputs/task_009/output.txt
+outputs/task_009/prompt.txt
+outputs/task_009/result.json
+outputs/task_009/result.md
+outputs/task_009/run.log
+outputs/task_010/prompt.txt
+outputs/task_010/run.log
+
+codex
+输出目录已经存在 `outputs/task_010/`，里面目前只有 prompt 和 run 日志。我接下来参考前几个任务的 `result.md/json` 结构，保持产物风格一致。
+exec
+/bin/zsh -lc "sed -n '1,220p' outputs/task_009/result.md" in /Users/bing/Documents/gpt和codex互通/agent-loop-v1
+exec
+/bin/zsh -lc "sed -n '1,220p' outputs/task_009/result.json" in /Users/bing/Documents/gpt和codex互通/agent-loop-v1
+ succeeded in 0ms:
+# Task task_009
+
+- Type: `analysis_task`
+- Status: `success`
+- Runner: `codex`
+- Started at: `2026-07-03T20:37:37`
+- Finished at: `2026-07-03T20:38:35`
+- Duration: `58.397` seconds
+
+## Goal
+
+测试 codex exec 在更长 timeout 下是否可以完成非交互执行。
+
+## Summary
+
+analysis_task completed: 测试 codex exec 在更长 timeout 下是否可以完成非交互执行。
+
+## Output Files
+
+- `outputs/task_009/output.txt`
+- `outputs/task_009/prompt.txt`
+- `outputs/task_009/result.json`
+- `outputs/task_009/result.md`
+- `outputs/task_009/run.log`
+
+## Runner Output
+
+```text
+已完成 task_009。
+
+已生成：
+- [result.md](/Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_009/result.md)
+- [result.json](/Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_009/result.json)
+
+校验结果：`result.json` 语法有效，`result.md` 为一句话结论。
+```
+
+ succeeded in 0ms:
+{
+  "task_id": "task_009",
+  "type": "analysis_task",
+  "status": "success",
+  "runner": "codex",
+  "started_at": "2026-07-03T20:37:37",
+  "finished_at": "2026-07-03T20:38:35",
+  "duration_seconds": 58.397,
+  "summary": "analysis_task completed: 测试 codex exec 在更长 timeout 下是否可以完成非交互执行。",
+  "output_files": [
+    "outputs/task_009/output.txt",
+    "outputs/task_009/prompt.txt",
+    "outputs/task_009/result.json",
+    "outputs/task_009/result.md",
+    "outputs/task_009/run.log"
+  ],
+  "error": ""
+}
+
+exec
+/bin/zsh -lc "sed -n '1,220p' outputs/task_008/result.md" in /Users/bing/Documents/gpt和codex互通/agent-loop-v1
+ succeeded in 0ms:
+# Task task_008
+
+- Type: `analysis_task`
+- Status: `failed`
+- Runner: `codex`
+- Started at: `2026-07-03T20:25:13`
+- Finished at: `2026-07-03T20:26:13`
+- Duration: `60.01` seconds
+
+## Goal
+
+测试 Codex 是否可以在 worker 非交互环境中执行。如果不支持，请明确输出失败原因。
+
+## Summary
+
+analysis_task failed: 任务超时，超过 60 秒
+
+## Output Files
+
+- `outputs/task_008/prompt.txt`
+- `outputs/task_008/result.json`
+- `outputs/task_008/run.log`
+
+## Error
+
+任务超时，超过 60 秒
+
+exec
+/bin/zsh -lc "sed -n '1,220p' outputs/task_010/prompt.txt" in /Users/bing/Documents/gpt和codex互通/agent-loop-v1
+ succeeded in 0ms:
+你是本地 Codex 自动执行系统中的执行助手。
+
+任务 ID:
+task_010
+
+任务类型:
+analysis_task
+
+任务目标:
+基于 Cover Decision System 项目背景，生成 Step 1：20个历史封面反推分析任务包，用于后续校准 Frame Scoring 权重。
+
+输入:
+{
+  "files": [],
+  "text": "我们正在构建视频封面自动生成系统 Cover Decision System。系统目标是输入视频，输出3张高点击率封面方案。当前架构包括 Frame Extraction、Frame Scoring、Scene Classification、Hook Title Generation、Layout Policy Engine、Visual Renderer、Cover Output。当前最重要任务是 Step 1：对20个历史封面做反推分析，标注场景类型、是否有人脸、情绪强度、构图质量、事件感、标题类型、是否爆款、点击逻辑推测，并提炼爆款封面共性规律和 Frame Scoring 初始权重。"
+}
+
+约束:
+{
+  "language": "zh-CN",
+  "output_format": "markdown + json",
+  "dependencies": "不需要额外依赖",
+  "must_include": [
+    "Step 1任务目标",
+    "20封面反推分析表字段",
+    "字段解释",
+    "评分标准",
+    "爆款封面共性提炼框架",
+    "Frame Scoring权重初始版本",
+    "Excel表格schema",
+    "后续Step 2 Frame Scoring Prototype建议",
+    "给GPT使用的历史封面分析提示词",
+    "给Codex使用的数据结构建议"
+  ]
+}
+
+期望输出:
+[
+  "outputs/task_010/result.md",
+  "outputs/task_010/result.json"
+]
+
+请根据任务目标完成工作。输出应便于写入 result.md，并尽量给出清晰、可复用的结果。
+
+codex
+已有历史结果更像 worker 运行摘要，不适合这次的内容包。我会把 `result.md` 做成可直接复用的 Step 1 任务说明，把 `result.json` 做成同构结构化版本，方便后续程序读取。
+exec
+/bin/zsh -lc 'find templates schema tasks -maxdepth 2 -type f | sort' in /Users/bing/Documents/gpt和codex互通/agent-loop-v1
+exec
+/bin/zsh -lc "sed -n '1,260p' outputs/task_002/result.json" in /Users/bing/Documents/gpt和codex互通/agent-loop-v1
+exec
+/bin/zsh -lc "sed -n '1,260p' outputs/task_002/result.md" in /Users/bing/Documents/gpt和codex互通/agent-loop-v1
+ succeeded in 0ms:
+{
+  "task_id": "task_002",
+  "type": "analysis_task",
+  "status": "success",
+  "started_at": "2026-07-03T16:33:09",
+  "finished_at": "2026-07-03T16:33:09",
+  "duration_seconds": 0.521,
+  "summary": "analysis_task completed: 分析这段用户反馈，总结 3 个主要问题和 3 条改进建议。",
+  "output_files": [
+    "outputs/task_002/output.txt",
+    "outputs/task_002/prompt.txt",
+    "outputs/task_002/result.json",
+    "outputs/task_002/result.md",
+    "outputs/task_002/run.log"
+  ],
+  "error": ""
+}
+
+ succeeded in 0ms:
+# Task task_002
+
+- Type: `analysis_task`
+- Status: `success`
+- Started at: `2026-07-03T16:33:09`
+- Finished at: `2026-07-03T16:33:09`
+- Duration: `0.521` seconds
+
+## Goal
+
+分析这段用户反馈，总结 3 个主要问题和 3 条改进建议。
+
+## Summary
+
+analysis_task completed: 分析这段用户反馈，总结 3 个主要问题和 3 条改进建议。
+
+## Output Files
+
+- `outputs/task_002/output.txt`
+- `outputs/task_002/prompt.txt`
+- `outputs/task_002/result.json`
+- `outputs/task_002/result.md`
+- `outputs/task_002/run.log`
+
+## Runner Output
+
+```text
+Python fallback 已执行。
+
+收到的 prompt 内容如下：
+----------------------------------------
+你是本地 Codex 自动执行系统中的执行助手。
+
+任务 ID:
+task_002
+
+任务类型:
+analysis_task
+
+任务目标:
+分析这段用户反馈，总结 3 个主要问题和 3 条改进建议。
+
+输入:
+{
+  "files": [],
+  "text": "用户反馈：页面打开很慢，第一次使用不知道该点哪里，结果页信息太多看不懂。"
+}
+
+约束:
+{
+  "language": "zh-CN",
+  "output_format": "markdown + json",
+  "dependencies": "不需要额外依赖"
+}
+
+期望输出:
+[
+  "outputs/task_002/result.md",
+  "outputs/task_002/result.json"
+]
+
+请根据任务目标完成工作。输出应便于写入 result.md，并尽量给出清晰、可复用的结果。
+
+----------------------------------------
+```
+
+ succeeded in 0ms:
+schema/task_schema_v2.json
+tasks/done/.gitkeep
+tasks/done/task_001.json
+tasks/done/task_002.json
+tasks/done/task_002_1783068314.json
+tasks/done/task_002_1783068567.json
+tasks/done/task_002_1783069026.json
+tasks/done/task_002_1783070218.json
+tasks/done/task_002_1783071862.json
+tasks/done/task_003.json
+tasks/done/task_004.json
+tasks/done/task_005.json
+tasks/done/task_009.json
+tasks/failed/.gitkeep
+tasks/failed/task_006.json
+tasks/failed/task_007.json
+tasks/failed/task_008.json
+tasks/pending/.gitkeep
+tasks/running/.gitkeep
+tasks/running/task_010.json
+templates/analysis_task.json
+templates/code_task.json
+templates/design_prompt_task.json
+
+codex
+我已经确认这次需要生成的是内容型产物，而不是简单的执行摘要。下面会写入两个文件：Markdown 给人读和复制使用，JSON 给后续自动化或校准脚本读取。
+exec
+/bin/zsh -lc 'ls -la outputs/task_010' in /Users/bing/Documents/gpt和codex互通/agent-loop-v1
+ succeeded in 0ms:
+total 40
+drwxr-xr-x@  4 bing  staff    128 Jul  3 20:55 .
+drwxr-xr-x@ 13 bing  staff    416 Jul  3 20:55 ..
+-rw-r--r--@  1 bing  staff   1565 Jul  3 20:55 prompt.txt
+-rw-r--r--@  1 bing  staff  14079 Jul  3 20:56 run.log
+
+codex
+我会先写 Markdown 主文档，里面包含字段、评分、权重、Excel schema、GPT 提示词和 Codex 数据结构建议；随后再写同内容的 JSON 版并做语法校验。
+apply patch
+patch: completed
+/Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_010/result.md
+diff --git a/outputs/task_010/result.md b/outputs/task_010/result.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..237f166945598d6a7608afae854e3715bb07d34c
+--- /dev/null
++++ b/outputs/task_010/result.md
+@@ -0,0 +1,588 @@
++# Cover Decision System Step 1：20个历史封面反推分析任务包
++
++## 1. Step 1任务目标
++
++本任务用于为 Cover Decision System 的 Frame Scoring 模块建立第一版人工校准数据。目标不是直接训练模型，而是通过 20 个历史封面的反推分析，找出高点击封面的可解释共性，并把这些共性转化为 Frame Scoring 的初始权重。
++
++Step 1 的交付物包括：
++
++- 20 个历史封面的结构化标注表。
++- 每个封面的点击逻辑推测与证据说明。
++- 爆款封面与非爆款封面的差异总结。
++- Frame Scoring v0 初始权重。
++- 可供后续 Step 2 Prototype 直接读取的 Excel / JSON 数据结构。
++
++本轮未提供实际历史封面图片或数据，因此本文件提供的是可执行的分析任务包、字段定义、评分标准和初始权重模板。
++
++## 2. 分析对象与执行方式
++
++建议选取同一账号、同一内容赛道或相近赛道的 20 个历史封面，避免不同账号体量、平台推荐机制和受众差异导致结论失真。
++
++推荐样本结构：
++
++- 爆款封面：8-10 个。
++- 普通封面：6-8 个。
++- 明显低表现封面：2-4 个。
++
++每个封面至少保留以下原始材料：
++
++- 封面图片。
++- 视频标题。
++- 封面上的文字。
++- 发布时间。
++- 平台。
++- 曝光量、点击率、播放量、互动率等可用数据。
++- 同账号或同栏目基准 CTR。
++
++如果没有真实 CTR，可以使用相对表现标签替代：`viral`、`normal`、`low_performing`、`unknown`。
++
++## 3. 20封面反推分析表字段
++
++| 字段名 | 中文名 | 类型 | 必填 | 示例 / 可选值 |
++|---|---|---:|---:|---|
++| sample_id | 样本编号 | string | 是 | COVER_001 |
++| cover_id | 封面ID | string | 是 | history_20260101_001 |
++| video_id | 视频ID | string | 否 | video_001 |
++| platform | 平台 | enum | 是 | douyin / kuaishou / bilibili / xiaohongshu / youtube / other |
++| content_vertical | 内容赛道 | enum | 是 | knowledge / vlog / product / news / entertainment / story / tutorial / review / other |
++| publish_date | 发布时间 | date | 否 | 2026-01-01 |
++| cover_image_path | 封面图片路径 | string | 是 | data/covers/COVER_001.jpg |
++| video_title | 视频标题 | string | 否 | 这3个习惯正在拖垮你 |
++| cover_text | 封面文字 | string | 否 | 别再这样做 |
++| baseline_ctr | 同账号基准CTR | number | 否 | 0.045 |
++| actual_ctr | 实际CTR | number | 否 | 0.082 |
++| view_count | 播放量 | integer | 否 | 120000 |
++| engagement_rate | 互动率 | number | 否 | 0.061 |
++| performance_label | 表现标签 | enum | 是 | viral / normal / low_performing / unknown |
++| scene_type | 场景类型 | enum | 是 | face_closeup / person_action / object_closeup / before_after / result_display / conflict_scene / text_heavy / landscape / screenshot / other |
++| scene_subtype | 场景子类型 | string | 否 | 户外冲突、室内讲解、产品特写 |
++| has_person | 是否有人 | boolean | 是 | true / false |
++| has_face | 是否有人脸 | boolean | 是 | true / false |
++| face_count | 人脸数量 | integer | 否 | 1 |
++| main_face_area_pct | 主人脸面积占比 | number | 否 | 0.18 |
++| face_visibility_score | 人脸清晰度 | score_0_5 | 否 | 4 |
++| emotion_type | 情绪类型 | enum | 否 | surprise / fear / anger / joy / sadness / serious / neutral / none / unclear |
++| emotion_intensity_score | 情绪强度 | score_0_5 | 是 | 4 |
++| gaze_direction | 视线方向 | enum | 否 | camera / object / offscreen / unclear / none |
++| action_event_type | 动作或事件类型 | enum | 否 | speaking / pointing / showing_result / accident / comparison / transformation / confrontation / none / other |
++| event_sense_score | 事件感 | score_0_5 | 是 | 5 |
++| conflict_or_curiosity_cue | 冲突/悬念线索 | string | 否 | 画面中人物表情紧张，标题暗示反常识 |
++| main_subject | 主体对象 | string | 是 | 人脸、产品、账单、对比图 |
++| subject_clarity_score | 主体清晰度 | score_0_5 | 是 | 4 |
++| composition_quality_score | 构图质量 | score_0_5 | 是 | 4 |
++| visual_contrast_score | 视觉对比度 | score_0_5 | 是 | 4 |
++| background_noise_score | 背景干扰度 | score_0_5 | 是 | 2 |
++| text_readability_score | 封面文字可读性 | score_0_5 | 否 | 5 |
++| title_type | 标题类型 | enum | 是 | question / result / warning / number_list / contrast / secret / identity_callout / emotional_statement / direct_benefit / other |
++| title_hook_strength_score | 标题钩子强度 | score_0_5 | 是 | 4 |
++| title_visual_match_score | 标题画面匹配度 | score_0_5 | 是 | 4 |
++| layout_type | 版式类型 | enum | 否 | face_left_text_right / face_right_text_left / centered_subject / split_before_after / full_text / screenshot_overlay / other |
++| click_logic_hypothesis | 点击逻辑推测 | text | 是 | 用户会点击是因为想知道冲突原因 |
++| likely_failure_reason | 失败原因推测 | text | 否 | 主体不清楚，标题承诺弱 |
++| analyst_confidence | 分析置信度 | score_0_5 | 是 | 4 |
++| evidence_notes | 证据备注 | text | 否 | CTR 高于基准 82%，评论区多次提到标题问题 |
++| reviewer | 标注人 | string | 否 | gpt / human_a |
++| review_date | 标注日期 | date | 否 | 2026-07-03 |
++
++## 4. 字段解释
++
++| 字段组 | 字段 | 解释 |
++|---|---|---|
++| 样本身份 | sample_id / cover_id / video_id | 用于追踪封面、视频和后续评分结果，不参与模型判断。 |
++| 平台与赛道 | platform / content_vertical | 用于控制样本来源差异。不同平台和赛道的封面规律可能不同。 |
++| 表现数据 | baseline_ctr / actual_ctr / view_count / engagement_rate / performance_label | 用于判断该封面是否为爆款。优先使用 CTR；没有 CTR 时用播放、互动和相对表现标签。 |
++| 场景判断 | scene_type / scene_subtype | 描述画面第一眼属于哪类封面场景，后续可用于 Scene Classification。 |
++| 人脸信息 | has_person / has_face / face_count / main_face_area_pct / face_visibility_score | 衡量人物与人脸是否构成视觉入口。对多数内容赛道，人脸常是强点击线索。 |
++| 情绪信息 | emotion_type / emotion_intensity_score / gaze_direction | 判断封面是否通过情绪吸引注意，以及情绪是否能被观众快速读懂。 |
++| 事件感 | action_event_type / event_sense_score / conflict_or_curiosity_cue | 判断画面是否像“正在发生一件事”，而不是静态展示。事件感通常对应更强点击动机。 |
++| 主体与构图 | main_subject / subject_clarity_score / composition_quality_score / visual_contrast_score / background_noise_score | 衡量封面在小图场景下是否能快速看懂。 |
++| 标题与版式 | cover_text / title_type / title_hook_strength_score / title_visual_match_score / text_readability_score / layout_type | 衡量文字是否补足画面悬念，并判断画面是否给标题留出可用空间。 |
++| 反推结论 | click_logic_hypothesis / likely_failure_reason / evidence_notes / analyst_confidence | 把观察转成可复用的点击逻辑，用于后续规则和权重校准。 |
++
++## 5. 评分标准
++
++所有 `score_0_5` 字段统一使用 0-5 分：
++
++| 分数 | 含义 |
++|---:|---|
++| 0 | 不存在，或完全无法判断。 |
++| 1 | 很弱，只有专业分析时才能发现，对点击几乎无贡献。 |
++| 2 | 偏弱，存在但不突出，小图下容易丢失。 |
++| 3 | 中等，普通用户能看懂，但不形成强吸引。 |
++| 4 | 较强，能明显提升第一眼注意力或理解速度。 |
++| 5 | 极强，是该封面最主要的点击驱动力之一。 |
++
++### 5.1 情绪强度 emotion_intensity_score
++
++| 分数 | 标准 |
++|---:|---|
++| 0 | 没有人脸或无情绪线索。 |
++| 1 | 表情接近中性，情绪不明显。 |
++| 2 | 有轻微情绪，但小图下不一定看得出。 |
++| 3 | 情绪可识别，例如明显认真、开心、疑惑。 |
++| 4 | 情绪强烈，例如震惊、愤怒、恐惧、强烈惊喜。 |
++| 5 | 情绪极强且与标题/事件直接相关，是主要点击入口。 |
++
++### 5.2 构图质量 composition_quality_score
++
++| 分数 | 标准 |
++|---:|---|
++| 0 | 画面严重混乱或主体缺失。 |
++| 1 | 主体边缘被截断，视觉重心不清。 |
++| 2 | 主体存在但位置、比例或留白不理想。 |
++| 3 | 构图可用，主体可辨识。 |
++| 4 | 主体突出，留白合理，适合叠加标题。 |
++| 5 | 主体、视线、动作、文字区域形成明确视觉路径。 |
++
++### 5.3 事件感 event_sense_score
++
++| 分数 | 标准 |
++|---:|---|
++| 0 | 纯静态展示，无事件线索。 |
++| 1 | 有对象但没有动作、冲突或变化。 |
++| 2 | 有轻微动作或结果，但不构成悬念。 |
++| 3 | 能看出发生了什么，例如展示、指向、对比。 |
++| 4 | 有强动作、强结果、冲突或明显前后变化。 |
++| 5 | 画面天然提出问题：“发生了什么 / 为什么会这样 / 结果是什么”。 |
++
++### 5.4 标题钩子强度 title_hook_strength_score
++
++| 分数 | 标准 |
++|---:|---|
++| 0 | 无标题或标题完全不可读。 |
++| 1 | 只是描述内容，没有承诺、悬念或利益点。 |
++| 2 | 有主题但钩子弱，例如普通陈述。 |
++| 3 | 有明确利益点、问题或结果。 |
++| 4 | 有强悬念、强反差、强收益或强警示。 |
++| 5 | 标题与画面共同制造非点不可的信息缺口。 |
++
++### 5.5 标题画面匹配度 title_visual_match_score
++
++| 分数 | 标准 |
++|---:|---|
++| 0 | 标题与画面无关。 |
++| 1 | 只有宽泛主题关联。 |
++| 2 | 关联存在，但画面不能支撑标题承诺。 |
++| 3 | 标题和画面一致，信息互补一般。 |
++| 4 | 标题解释画面悬念，画面增强标题可信度。 |
++| 5 | 标题和画面形成强互锁：少任意一方点击动机都会明显下降。 |
++
++### 5.6 爆款判定 performance_label
++
++优先使用相对指标，而不是绝对播放量。
++
++| 标签 | 建议判定规则 |
++|---|---|
++| viral | CTR >= 同账号/同栏目基准 CTR 的 1.3 倍，且播放或互动不低于中位数；或播放量进入近 30 天同类内容 Top 20%。 |
++| normal | CTR 在基准的 0.8-1.3 倍之间，表现接近常态。 |
++| low_performing | CTR < 基准的 0.8 倍，或曝光充分但播放/互动明显低。 |
++| unknown | 缺少足够指标，不能可靠判断。 |
++
++## 6. 爆款封面共性提炼框架
++
++分析完 20 个封面后，从以下维度提炼规律。
++
++### 6.1 注意力入口
++
++观察爆款是否更常出现以下特征：
++
++- 大面积清晰人脸。
++- 强情绪表情。
++- 高对比主体。
++- 明确动作或结果。
++- 画面中存在异常、冲突、反常识线索。
++
++### 6.2 理解速度
++
++判断用户在 1 秒内是否能回答：
++
++- 画面主体是什么？
++- 这件事和我有什么关系？
++- 标题承诺了什么结果、风险或故事？
++- 我点击后可能获得什么信息？
++
++### 6.3 悬念与信息缺口
++
++提炼标题与画面共同制造的信息缺口：
++
++- 问题型：为什么会这样？
++- 结果型：最终发生了什么？
++- 警示型：我是否也踩了这个坑？
++- 对比型：前后差异为什么这么大？
++- 身份代入型：这是不是在说我？
++
++### 6.4 事件承诺
++
++爆款封面通常不只是“展示一个东西”，而是承诺一个事件：
++
++- 冲突即将发生。
++- 结果已经出现但原因未知。
++- 人物正在做出关键动作。
++- 对比前后有明显变化。
++- 标题暗示看完能解决具体问题。
++
++### 6.5 版式可用性
++
++封面不仅要从历史样本中好看，还要能被系统渲染复现。需要提炼：
++
++- 人物和标题是否有稳定相对位置。
++- 文字是否有足够留白。
++- 主体是否适合裁切成 16:9、4:5、1:1。
++- 高点击封面是否集中在某些布局模板。
++
++### 6.6 定量比较方法
++
++对 `viral` 与 `normal/low_performing` 两组分别计算：
++
++- 各评分字段均值差：`mean(viral_score) - mean(non_viral_score)`。
++- 特征提升比：`P(viral | feature_present) / P(viral | feature_absent)`。
++- 场景类型分布：哪些 `scene_type` 在爆款中占比更高。
++- 标题类型分布：哪些 `title_type` 更容易爆。
++- 组合特征：例如 `has_face=true + emotion_intensity>=4 + title_type=question`。
++
++输出规律时建议使用这种格式：
++
++```text
++规律：强情绪人脸 + 问题型标题更容易获得高点击。
++证据：10 个爆款中有 7 个满足该组合；非爆款中只有 2 个满足。
++适用场景：观点、故事、娱乐、知识类内容。
++系统动作：Frame Scoring 中提高 emotion_intensity 与 face_salience 权重。
++风险：产品展示类视频可能不适用。
++```
++
++## 7. Frame Scoring权重初始版本
++
++Frame Scoring v0 只评估候选帧本身是否适合成为高点击封面的视觉底图。标题生成和最终排版仍由 Hook Title Generation 与 Layout Policy Engine 处理，但 Frame Scoring 需要提前考虑文字叠加空间。
++
++### 7.1 权重表
++
++| 评分项 | 权重 | 来源字段 | 说明 |
++|---|---:|---|---|
++| face_person_salience | 18 | has_person, has_face, main_face_area_pct, face_visibility_score | 人物和清晰人脸是否构成第一视觉入口。 |
++| emotion_intensity | 16 | emotion_intensity_score, emotion_type | 情绪是否强烈且可被快速识别。 |
++| event_action_tension | 16 | event_sense_score, action_event_type, conflict_or_curiosity_cue | 画面是否像正在发生一件值得点击的事。 |
++| subject_scene_clarity | 14 | main_subject, subject_clarity_score, scene_type | 主体和场景是否一眼能看懂。 |
++| composition_quality | 12 | composition_quality_score, layout_type | 主体位置、裁切、视觉路径、标题空间是否合理。 |
++| curiosity_visual_cue | 10 | conflict_or_curiosity_cue, scene_type | 画面本身是否包含疑问、冲突、反差或异常。 |
++| text_layout_affordance | 6 | text_readability_score, layout_type | 是否适合后续叠加标题而不遮挡主体。 |
++| visual_contrast | 5 | visual_contrast_score, background_noise_score | 小图下是否足够醒目，背景是否干扰。 |
++| technical_quality | 3 | 清晰度、曝光、噪点、运动模糊 | 基础画质门槛。 |
++| 合计 | 100 | - | - |
++
++### 7.2 计算公式
++
++```text
++normalized_score_i = score_0_5 / 5
++frame_score_v0 = sum(weight_i * normalized_score_i)
++```
++
++对 boolean 字段建议转换：
++
++```text
++has_face=true => 1.0
++has_person=true 且 has_face=false => 0.5
++has_person=false => 0.0
++```
++
++`background_noise_score` 是负向指标，进入 `visual_contrast` 时建议转换：
++
++```text
++background_cleanliness = 1 - background_noise_score / 5
++```
++
++### 7.3 初始解释
++
++- 如果历史样本显示爆款高度依赖人脸，则提高 `face_person_salience` 到 22 左右。
++- 如果赛道是产品、教程、测评，可能需要降低人脸权重，提高 `subject_scene_clarity` 与 `result_display` 相关权重。
++- 如果视频强依赖故事和冲突，优先提高 `event_action_tension` 与 `curiosity_visual_cue`。
++- 如果后续渲染常因文字遮挡失败，提高 `text_layout_affordance`。
++
++## 8. Excel表格schema
++
++建议建立一个 workbook：`cover_reverse_analysis_step1.xlsx`。
++
++| Sheet 名 | 用途 |
++|---|---|
++| cover_analysis | 20 个封面的逐条标注主表。 |
++| scoring_legend | 评分标准和 enum 取值说明。 |
++| weight_config_v0 | Frame Scoring 初始权重。 |
++| pattern_summary | 爆款共性、证据、适用范围和风险。 |
++
++### 8.1 cover_analysis sheet schema
++
++| 列名 | 类型 | 必填 | 校验规则 |
++|---|---|---:|---|
++| sample_id | string | 是 | COVER_001 到 COVER_020，不重复 |
++| cover_id | string | 是 | 不为空 |
++| video_id | string | 否 | 可为空 |
++| platform | enum | 是 | douyin/kuaishou/bilibili/xiaohongshu/youtube/other |
++| content_vertical | enum | 是 | knowledge/vlog/product/news/entertainment/story/tutorial/review/other |
++| publish_date | date | 否 | YYYY-MM-DD |
++| cover_image_path | string | 是 | 本地相对路径或URL |
++| video_title | string | 否 | 原始视频标题 |
++| cover_text | string | 否 | 封面可见文字 |
++| baseline_ctr | number | 否 | 0-1 |
++| actual_ctr | number | 否 | 0-1 |
++| view_count | integer | 否 | >=0 |
++| engagement_rate | number | 否 | 0-1 |
++| performance_label | enum | 是 | viral/normal/low_performing/unknown |
++| scene_type | enum | 是 | face_closeup/person_action/object_closeup/before_after/result_display/conflict_scene/text_heavy/landscape/screenshot/other |
++| scene_subtype | string | 否 | 自由文本 |
++| has_person | boolean | 是 | TRUE/FALSE |
++| has_face | boolean | 是 | TRUE/FALSE |
++| face_count | integer | 否 | >=0 |
++| main_face_area_pct | number | 否 | 0-1 |
++| face_visibility_score | integer | 否 | 0-5 |
++| emotion_type | enum | 否 | surprise/fear/anger/joy/sadness/serious/neutral/none/unclear |
++| emotion_intensity_score | integer | 是 | 0-5 |
++| gaze_direction | enum | 否 | camera/object/offscreen/unclear/none |
++| action_event_type | enum | 否 | speaking/pointing/showing_result/accident/comparison/transformation/confrontation/none/other |
++| event_sense_score | integer | 是 | 0-5 |
++| conflict_or_curiosity_cue | string | 否 | 自由文本 |
++| main_subject | string | 是 | 自由文本 |
++| subject_clarity_score | integer | 是 | 0-5 |
++| composition_quality_score | integer | 是 | 0-5 |
++| visual_contrast_score | integer | 是 | 0-5 |
++| background_noise_score | integer | 是 | 0-5，越高表示越干扰 |
++| text_readability_score | integer | 否 | 0-5 |
++| title_type | enum | 是 | question/result/warning/number_list/contrast/secret/identity_callout/emotional_statement/direct_benefit/other |
++| title_hook_strength_score | integer | 是 | 0-5 |
++| title_visual_match_score | integer | 是 | 0-5 |
++| layout_type | enum | 否 | face_left_text_right/face_right_text_left/centered_subject/split_before_after/full_text/screenshot_overlay/other |
++| click_logic_hypothesis | text | 是 | 至少一句完整解释 |
++| likely_failure_reason | text | 否 | 非爆款样本建议填写 |
++| analyst_confidence | integer | 是 | 0-5 |
++| evidence_notes | text | 否 | 指标、截图观察、评论证据 |
++| reviewer | string | 否 | 标注人 |
++| review_date | date | 否 | YYYY-MM-DD |
++
++### 8.2 20行样本模板
++
++| sample_id | cover_id | performance_label | scene_type | has_face | emotion_intensity_score | composition_quality_score | event_sense_score | title_type | click_logic_hypothesis |
++|---|---|---|---|---|---:|---:|---:|---|---|
++| COVER_001 |  | unknown | other |  |  |  |  | other |  |
++| COVER_002 |  | unknown | other |  |  |  |  | other |  |
++| COVER_003 |  | unknown | other |  |  |  |  | other |  |
++| COVER_004 |  | unknown | other |  |  |  |  | other |  |
++| COVER_005 |  | unknown | other |  |  |  |  | other |  |
++| COVER_006 |  | unknown | other |  |  |  |  | other |  |
++| COVER_007 |  | unknown | other |  |  |  |  | other |  |
++| COVER_008 |  | unknown | other |  |  |  |  | other |  |
++| COVER_009 |  | unknown | other |  |  |  |  | other |  |
++| COVER_010 |  | unknown | other |  |  |  |  | other |  |
++| COVER_011 |  | unknown | other |  |  |  |  | other |  |
++| COVER_012 |  | unknown | other |  |  |  |  | other |  |
++| COVER_013 |  | unknown | other |  |  |  |  | other |  |
++| COVER_014 |  | unknown | other |  |  |  |  | other |  |
++| COVER_015 |  | unknown | other |  |  |  |  | other |  |
++| COVER_016 |  | unknown | other |  |  |  |  | other |  |
++| COVER_017 |  | unknown | other |  |  |  |  | other |  |
++| COVER_018 |  | unknown | other |  |  |  |  | other |  |
++| COVER_019 |  | unknown | other |  |  |  |  | other |  |
++| COVER_020 |  | unknown | other |  |  |  |  | other |  |
++
++## 9. 后续Step 2 Frame Scoring Prototype建议
++
++Step 2 建议做一个轻量原型，不需要依赖完整视觉模型。先用 Step 1 的人工标注字段模拟 Frame Scoring，验证权重方向是否合理。
++
++建议实现顺序：
++
++1. 读取 `cover_analysis` 表，过滤 `performance_label=unknown` 的样本。
++2. 将 0-5 分字段归一化到 0-1。
++3. 根据 `weight_config_v0` 计算每个封面的 `frame_score_v0`。
++4. 对比 `frame_score_v0` 与 `performance_label`、`actual_ctr` 的关系。
++5. 输出爆款组与非爆款组的平均分差、Top N 特征差异、误判样本。
++6. 调整权重并保存为 `weight_config_v1`。
++7. 在真实视频候选帧上复用同一评分结构，输出 Top 3 帧及评分解释。
++
++Step 2 的最小可用函数：
++
++```text
++score_frame(candidate_frame_features, weight_config) -> {
++  frame_score,
++  score_breakdown,
++  top_positive_reasons,
++  top_negative_reasons
++}
++```
++
++建议评估指标：
++
++- `viral_mean_score - non_viral_mean_score` 是否为正。
++- 爆款封面是否集中在得分 Top 30%。
++- 非爆款高分样本的误判原因是什么。
++- 低分爆款样本是否依赖标题、账号势能或热点，而非画面本身。
++
++## 10. 给GPT使用的历史封面分析提示词
++
++```text
++你是 Cover Decision System 的封面反推分析助手。
++
++任务：请对我提供的历史视频封面进行结构化分析，用于校准 Frame Scoring 初始权重。你需要从封面图片、视频标题、封面文字和可用表现数据中，判断该封面的点击逻辑。
++
++请严格按以下字段输出 JSON 和简短解释：
++
++1. sample_id
++2. cover_id
++3. platform
++4. content_vertical
++5. performance_label: viral / normal / low_performing / unknown
++6. scene_type
++7. scene_subtype
++8. has_person
++9. has_face
++10. face_count
++11. main_face_area_pct
++12. face_visibility_score: 0-5
++13. emotion_type
++14. emotion_intensity_score: 0-5
++15. gaze_direction
++16. action_event_type
++17. event_sense_score: 0-5
++18. conflict_or_curiosity_cue
++19. main_subject
++20. subject_clarity_score: 0-5
++21. composition_quality_score: 0-5
++22. visual_contrast_score: 0-5
++23. background_noise_score: 0-5
++24. text_readability_score: 0-5
++25. title_type
++26. title_hook_strength_score: 0-5
++27. title_visual_match_score: 0-5
++28. layout_type
++29. click_logic_hypothesis
++30. likely_failure_reason
++31. analyst_confidence: 0-5
++32. evidence_notes
++
++评分规则：
++- 0 表示不存在或完全无法判断。
++- 3 表示可识别但不强。
++- 5 表示非常强，是主要点击驱动力。
++- 不要臆造 CTR、播放量或发布时间；缺失就写 null。
++- 如果图片无法判断某项，请写 unclear 或 null，并降低 analyst_confidence。
++- click_logic_hypothesis 必须说明用户为什么会点，而不是只描述画面。
++
++最后请补充：
++- 该封面最强的 3 个点击因素。
++- 该封面最大的 2 个问题。
++- 如果要从视频中自动选帧，Frame Scoring 应该奖励哪些视觉特征。
++```
++
++## 11. 给Codex使用的数据结构建议
++
++推荐在后续工程中使用三个文件承接 Step 1 到 Step 2：
++
++```text
++data/historical_covers/covers_manifest.json
++data/annotations/cover_reverse_analysis_v1.json
++config/frame_scoring_weights_v0.json
++```
++
++### 11.1 covers_manifest.json
++
++```json
++{
++  "dataset_id": "cover_reverse_step1_20",
++  "items": [
++    {
++      "sample_id": "COVER_001",
++      "cover_id": "",
++      "video_id": "",
++      "platform": "",
++      "content_vertical": "",
++      "cover_image_path": "",
++      "video_title": "",
++      "cover_text": "",
++      "metrics": {
++        "baseline_ctr": null,
++        "actual_ctr": null,
++        "view_count": null,
++        "engagement_rate": null
++      }
++    }
++  ]
++}
++```
++
++### 11.2 cover_reverse_analysis_v1.json
++
++```json
++{
++  "schema_version": "cover_reverse_analysis_v1",
++  "covers": [
++    {
++      "sample_id": "COVER_001",
++      "labels": {
++        "performance_label": "unknown",
++        "scene_type": "other",
++        "has_person": null,
++        "has_face": null,
++        "emotion_type": "unclear",
++        "title_type": "other"
++      },
++      "scores": {
++        "face_visibility_score": null,
++        "emotion_intensity_score": null,
++        "event_sense_score": null,
++        "subject_clarity_score": null,
++        "composition_quality_score": null,
++        "visual_contrast_score": null,
++        "background_noise_score": null,
++        "text_readability_score": null,
++        "title_hook_strength_score": null,
++        "title_visual_match_score": null,
++        "analyst_confidence": null
++      },
++      "reasoning": {
++        "click_logic_hypothesis": "",
++        "likely_failure_reason": "",
++        "evidence_notes": ""
++      }
++    }
++  ]
++}
++```
++
++### 11.3 frame_scoring_weights_v0.json
++
++```json
++{
++  "version": "frame_scoring_weights_v0",
++  "total_weight": 100,
++  "weights": {
++    "face_person_salience": 18,
++    "emotion_intensity": 16,
++    "event_action_tension": 16,
++    "subject_scene_clarity": 14,
++    "composition_quality": 12,
++    "curiosity_visual_cue": 10,
++    "text_layout_affordance": 6,
++    "visual_contrast": 5,
++    "technical_quality": 3
++  }
++}
++```
++
++推荐 Codex 在 Step 2 中输出每个候选帧的分数解释，而不是只输出总分：
++
++```json
++{
++  "frame_id": "video_001_frame_000123",
++  "frame_score": 82.4,
++  "score_breakdown": {
++    "face_person_salience": 16.2,
++    "emotion_intensity": 12.8,
++    "event_action_tension": 14.4
++  },
++  "top_positive_reasons": [
++    "清晰人脸占比高",
++    "表情强烈",
++    "动作形成事件感"
++  ],
++  "top_negative_reasons": [
++    "右侧文字空间偏少"
++  ]
++}
++```
++
+
+diff --git a/outputs/task_010/result.md b/outputs/task_010/result.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..237f166945598d6a7608afae854e3715bb07d34c
+--- /dev/null
++++ b/outputs/task_010/result.md
+@@ -0,0 +1,588 @@
++# Cover Decision System Step 1：20个历史封面反推分析任务包
++
++## 1. Step 1任务目标
++
++本任务用于为 Cover Decision System 的 Frame Scoring 模块建立第一版人工校准数据。目标不是直接训练模型，而是通过 20 个历史封面的反推分析，找出高点击封面的可解释共性，并把这些共性转化为 Frame Scoring 的初始权重。
++
++Step 1 的交付物包括：
++
++- 20 个历史封面的结构化标注表。
++- 每个封面的点击逻辑推测与证据说明。
++- 爆款封面与非爆款封面的差异总结。
++- Frame Scoring v0 初始权重。
++- 可供后续 Step 2 Prototype 直接读取的 Excel / JSON 数据结构。
++
++本轮未提供实际历史封面图片或数据，因此本文件提供的是可执行的分析任务包、字段定义、评分标准和初始权重模板。
++
++## 2. 分析对象与执行方式
++
++建议选取同一账号、同一内容赛道或相近赛道的 20 个历史封面，避免不同账号体量、平台推荐机制和受众差异导致结论失真。
++
++推荐样本结构：
++
++- 爆款封面：8-10 个。
++- 普通封面：6-8 个。
++- 明显低表现封面：2-4 个。
++
++每个封面至少保留以下原始材料：
++
++- 封面图片。
++- 视频标题。
++- 封面上的文字。
++- 发布时间。
++- 平台。
++- 曝光量、点击率、播放量、互动率等可用数据。
++- 同账号或同栏目基准 CTR。
++
++如果没有真实 CTR，可以使用相对表现标签替代：`viral`、`normal`、`low_performing`、`unknown`。
++
++## 3. 20封面反推分析表字段
++
++| 字段名 | 中文名 | 类型 | 必填 | 示例 / 可选值 |
++|---|---|---:|---:|---|
++| sample_id | 样本编号 | string | 是 | COVER_001 |
++| cover_id | 封面ID | string | 是 | history_20260101_001 |
++| video_id | 视频ID | string | 否 | video_001 |
++| platform | 平台 | enum | 是 | douyin / kuaishou / bilibili / xiaohongshu / youtube / other |
++| content_vertical | 内容赛道 | enum | 是 | knowledge / vlog / product / news / entertainment / story / tutorial / review / other |
++| publish_date | 发布时间 | date | 否 | 2026-01-01 |
++| cover_image_path | 封面图片路径 | string | 是 | data/covers/COVER_001.jpg |
++| video_title | 视频标题 | string | 否 | 这3个习惯正在拖垮你 |
++| cover_text | 封面文字 | string | 否 | 别再这样做 |
++| baseline_ctr | 同账号基准CTR | number | 否 | 0.045 |
++| actual_ctr | 实际CTR | number | 否 | 0.082 |
++| view_count | 播放量 | integer | 否 | 120000 |
++| engagement_rate | 互动率 | number | 否 | 0.061 |
++| performance_label | 表现标签 | enum | 是 | viral / normal / low_performing / unknown |
++| scene_type | 场景类型 | enum | 是 | face_closeup / person_action / object_closeup / before_after / result_display / conflict_scene / text_heavy / landscape / screenshot / other |
++| scene_subtype | 场景子类型 | string | 否 | 户外冲突、室内讲解、产品特写 |
++| has_person | 是否有人 | boolean | 是 | true / false |
++| has_face | 是否有人脸 | boolean | 是 | true / false |
++| face_count | 人脸数量 | integer | 否 | 1 |
++| main_face_area_pct | 主人脸面积占比 | number | 否 | 0.18 |
++| face_visibility_score | 人脸清晰度 | score_0_5 | 否 | 4 |
++| emotion_type | 情绪类型 | enum | 否 | surprise / fear / anger / joy / sadness / serious / neutral / none / unclear |
++| emotion_intensity_score | 情绪强度 | score_0_5 | 是 | 4 |
++| gaze_direction | 视线方向 | enum | 否 | camera / object / offscreen / unclear / none |
++| action_event_type | 动作或事件类型 | enum | 否 | speaking / pointing / showing_result / accident / comparison / transformation / confrontation / none / other |
++| event_sense_score | 事件感 | score_0_5 | 是 | 5 |
++| conflict_or_curiosity_cue | 冲突/悬念线索 | string | 否 | 画面中人物表情紧张，标题暗示反常识 |
++| main_subject | 主体对象 | string | 是 | 人脸、产品、账单、对比图 |
++| subject_clarity_score | 主体清晰度 | score_0_5 | 是 | 4 |
++| composition_quality_score | 构图质量 | score_0_5 | 是 | 4 |
++| visual_contrast_score | 视觉对比度 | score_0_5 | 是 | 4 |
++| background_noise_score | 背景干扰度 | score_0_5 | 是 | 2 |
++| text_readability_score | 封面文字可读性 | score_0_5 | 否 | 5 |
++| title_type | 标题类型 | enum | 是 | question / result / warning / number_list / contrast / secret / identity_callout / emotional_statement / direct_benefit / other |
++| title_hook_strength_score | 标题钩子强度 | score_0_5 | 是 | 4 |
++| title_visual_match_score | 标题画面匹配度 | score_0_5 | 是 | 4 |
++| layout_type | 版式类型 | enum | 否 | face_left_text_right / face_right_text_left / centered_subject / split_before_after / full_text / screenshot_overlay / other |
++| click_logic_hypothesis | 点击逻辑推测 | text | 是 | 用户会点击是因为想知道冲突原因 |
++| likely_failure_reason | 失败原因推测 | text | 否 | 主体不清楚，标题承诺弱 |
++| analyst_confidence | 分析置信度 | score_0_5 | 是 | 4 |
++| evidence_notes | 证据备注 | text | 否 | CTR 高于基准 82%，评论区多次提到标题问题 |
++| reviewer | 标注人 | string | 否 | gpt / human_a |
++| review_date | 标注日期 | date | 否 | 2026-07-03 |
++
++## 4. 字段解释
++
++| 字段组 | 字段 | 解释 |
++|---|---|---|
++| 样本身份 | sample_id / cover_id / video_id | 用于追踪封面、视频和后续评分结果，不参与模型判断。 |
++| 平台与赛道 | platform / content_vertical | 用于控制样本来源差异。不同平台和赛道的封面规律可能不同。 |
++| 表现数据 | baseline_ctr / actual_ctr / view_count / engagement_rate / performance_label | 用于判断该封面是否为爆款。优先使用 CTR；没有 CTR 时用播放、互动和相对表现标签。 |
++| 场景判断 | scene_type / scene_subtype | 描述画面第一眼属于哪类封面场景，后续可用于 Scene Classification。 |
++| 人脸信息 | has_person / has_face / face_count / main_face_area_pct / face_visibility_score | 衡量人物与人脸是否构成视觉入口。对多数内容赛道，人脸常是强点击线索。 |
++| 情绪信息 | emotion_type / emotion_intensity_score / gaze_direction | 判断封面是否通过情绪吸引注意，以及情绪是否能被观众快速读懂。 |
++| 事件感 | action_event_type / event_sense_score / conflict_or_curiosity_cue | 判断画面是否像“正在发生一件事”，而不是静态展示。事件感通常对应更强点击动机。 |
++| 主体与构图 | main_subject / subject_clarity_score / composition_quality_score / visual_contrast_score / background_noise_score | 衡量封面在小图场景下是否能快速看懂。 |
++| 标题与版式 | cover_text / title_type / title_hook_strength_score / title_visual_match_score / text_readability_score / layout_type | 衡量文字是否补足画面悬念，并判断画面是否给标题留出可用空间。 |
++| 反推结论 | click_logic_hypothesis / likely_failure_reason / evidence_notes / analyst_confidence | 把观察转成可复用的点击逻辑，用于后续规则和权重校准。 |
++
++## 5. 评分标准
++
++所有 `score_0_5` 字段统一使用 0-5 分：
++
++| 分数 | 含义 |
++|---:|---|
++| 0 | 不存在，或完全无法判断。 |
++| 1 | 很弱，只有专业分析时才能发现，对点击几乎无贡献。 |
++| 2 | 偏弱，存在但不突出，小图下容易丢失。 |
++| 3 | 中等，普通用户能看懂，但不形成强吸引。 |
++| 4 | 较强，能明显提升第一眼注意力或理解速度。 |
++| 5 | 极强，是该封面最主要的点击驱动力之一。 |
++
++### 5.1 情绪强度 emotion_intensity_score
++
++| 分数 | 标准 |
++|---:|---|
++| 0 | 没有人脸或无情绪线索。 |
++| 1 | 表情接近中性，情绪不明显。 |
++| 2 | 有轻微情绪，但小图下不一定看得出。 |
++| 3 | 情绪可识别，例如明显认真、开心、疑惑。 |
++| 4 | 情绪强烈，例如震惊、愤怒、恐惧、强烈惊喜。 |
++| 5 | 情绪极强且与标题/事件直接相关，是主要点击入口。 |
++
++### 5.2 构图质量 composition_quality_score
++
++| 分数 | 标准 |
++|---:|---|
++| 0 | 画面严重混乱或主体缺失。 |
++| 1 | 主体边缘被截断，视觉重心不清。 |
++| 2 | 主体存在但位置、比例或留白不理想。 |
++| 3 | 构图可用，主体可辨识。 |
++| 4 | 主体突出，留白合理，适合叠加标题。 |
++| 5 | 主体、视线、动作、文字区域形成明确视觉路径。 |
++
++### 5.3 事件感 event_sense_score
++
++| 分数 | 标准 |
++|---:|---|
++| 0 | 纯静态展示，无事件线索。 |
++| 1 | 有对象但没有动作、冲突或变化。 |
++| 2 | 有轻微动作或结果，但不构成悬念。 |
++| 3 | 能看出发生了什么，例如展示、指向、对比。 |
++| 4 | 有强动作、强结果、冲突或明显前后变化。 |
++| 5 | 画面天然提出问题：“发生了什么 / 为什么会这样 / 结果是什么”。 |
++
++### 5.4 标题钩子强度 title_hook_strength_score
++
++| 分数 | 标准 |
++|---:|---|
++| 0 | 无标题或标题完全不可读。 |
++| 1 | 只是描述内容，没有承诺、悬念或利益点。 |
++| 2 | 有主题但钩子弱，例如普通陈述。 |
++| 3 | 有明确利益点、问题或结果。 |
++| 4 | 有强悬念、强反差、强收益或强警示。 |
++| 5 | 标题与画面共同制造非点不可的信息缺口。 |
++
++### 5.5 标题画面匹配度 title_visual_match_score
++
++| 分数 | 标准 |
++|---:|---|
++| 0 | 标题与画面无关。 |
++| 1 | 只有宽泛主题关联。 |
++| 2 | 关联存在，但画面不能支撑标题承诺。 |
++| 3 | 标题和画面一致，信息互补一般。 |
++| 4 | 标题解释画面悬念，画面增强标题可信度。 |
++| 5 | 标题和画面形成强互锁：少任意一方点击动机都会明显下降。 |
++
++### 5.6 爆款判定 performance_label
++
++优先使用相对指标，而不是绝对播放量。
++
++| 标签 | 建议判定规则 |
++|---|---|
++| viral | CTR >= 同账号/同栏目基准 CTR 的 1.3 倍，且播放或互动不低于中位数；或播放量进入近 30 天同类内容 Top 20%。 |
++| normal | CTR 在基准的 0.8-1.3 倍之间，表现接近常态。 |
++| low_performing | CTR < 基准的 0.8 倍，或曝光充分但播放/互动明显低。 |
++| unknown | 缺少足够指标，不能可靠判断。 |
++
++## 6. 爆款封面共性提炼框架
++
++分析完 20 个封面后，从以下维度提炼规律。
++
++### 6.1 注意力入口
++
++观察爆款是否更常出现以下特征：
++
++- 大面积清晰人脸。
++- 强情绪表情。
++- 高对比主体。
++- 明确动作或结果。
++- 画面中存在异常、冲突、反常识线索。
++
++### 6.2 理解速度
++
++判断用户在 1 秒内是否能回答：
++
++- 画面主体是什么？
++- 这件事和我有什么关系？
++- 标题承诺了什么结果、风险或故事？
++- 我点击后可能获得什么信息？
++
++### 6.3 悬念与信息缺口
++
++提炼标题与画面共同制造的信息缺口：
++
++- 问题型：为什么会这样？
++- 结果型：最终发生了什么？
++- 警示型：我是否也踩了这个坑？
++- 对比型：前后差异为什么这么大？
++- 身份代入型：这是不是在说我？
++
++### 6.4 事件承诺
++
++爆款封面通常不只是“展示一个东西”，而是承诺一个事件：
++
++- 冲突即将发生。
++- 结果已经出现但原因未知。
++- 人物正在做出关键动作。
++- 对比前后有明显变化。
++- 标题暗示看完能解决具体问题。
++
++### 6.5 版式可用性
++
++封面不仅要从历史样本中好看，还要能被系统渲染复现。需要提炼：
++
++- 人物和标题是否有稳定相对位置。
++- 文字是否有足够留白。
++- 主体是否适合裁切成 16:9、4:5、1:1。
++- 高点击封面是否集中在某些布局模板。
++
++### 6.6 定量比较方法
++
++对 `viral` 与 `normal/low_performing` 两组分别计算：
++
++- 各评分字段均值差：`mean(viral_score) - mean(non_viral_score)`。
++- 特征提升比：`P(viral | feature_present) / P(viral | feature_absent)`。
++- 场景类型分布：哪些 `scene_type` 在爆款中占比更高。
++- 标题类型分布：哪些 `title_type` 更容易爆。
++- 组合特征：例如 `has_face=true + emotion_intensity>=4 + title_type=question`。
++
++输出规律时建议使用这种格式：
++
++```text
++规律：强情绪人脸 + 问题型标题更容易获得高点击。
++证据：10 个爆款中有 7 个满足该组合；非爆款中只有 2 个满足。
++适用场景：观点、故事、娱乐、知识类内容。
++系统动作：Frame Scoring 中提高 emotion_intensity 与 face_salience 权重。
++风险：产品展示类视频可能不适用。
++```
++
++## 7. Frame Scoring权重初始版本
++
++Frame Scoring v0 只评估候选帧本身是否适合成为高点击封面的视觉底图。标题生成和最终排版仍由 Hook Title Generation 与 Layout Policy Engine 处理，但 Frame Scoring 需要提前考虑文字叠加空间。
++
++### 7.1 权重表
++
++| 评分项 | 权重 | 来源字段 | 说明 |
++|---|---:|---|---|
++| face_person_salience | 18 | has_person, has_face, main_face_area_pct, face_visibility_score | 人物和清晰人脸是否构成第一视觉入口。 |
++| emotion_intensity | 16 | emotion_intensity_score, emotion_type | 情绪是否强烈且可被快速识别。 |
++| event_action_tension | 16 | event_sense_score, action_event_type, conflict_or_curiosity_cue | 画面是否像正在发生一件值得点击的事。 |
++| subject_scene_clarity | 14 | main_subject, subject_clarity_score, scene_type | 主体和场景是否一眼能看懂。 |
++| composition_quality | 12 | composition_quality_score, layout_type | 主体位置、裁切、视觉路径、标题空间是否合理。 |
++| curiosity_visual_cue | 10 | conflict_or_curiosity_cue, scene_type | 画面本身是否包含疑问、冲突、反差或异常。 |
++| text_layout_affordance | 6 | text_readability_score, layout_type | 是否适合后续叠加标题而不遮挡主体。 |
++| visual_contrast | 5 | visual_contrast_score, background_noise_score | 小图下是否足够醒目，背景是否干扰。 |
++| technical_quality | 3 | 清晰度、曝光、噪点、运动模糊 | 基础画质门槛。 |
++| 合计 | 100 | - | - |
++
++### 7.2 计算公式
++
++```text
++normalized_score_i = score_0_5 / 5
++frame_score_v0 = sum(weight_i * normalized_score_i)
++```
++
++对 boolean 字段建议转换：
++
++```text
++has_face=true => 1.0
++has_person=true 且 has_face=false => 0.5
++has_person=false => 0.0
++```
++
++`background_noise_score` 是负向指标，进入 `visual_contrast` 时建议转换：
++
++```text
++background_cleanliness = 1 - background_noise_score / 5
++```
++
++### 7.3 初始解释
++
++- 如果历史样本显示爆款高度依赖人脸，则提高 `face_person_salience` 到 22 左右。
++- 如果赛道是产品、教程、测评，可能需要降低人脸权重，提高 `subject_scene_clarity` 与 `result_display` 相关权重。
++- 如果视频强依赖故事和冲突，优先提高 `event_action_tension` 与 `curiosity_visual_cue`。
++- 如果后续渲染常因文字遮挡失败，提高 `text_layout_affordance`。
++
++## 8. Excel表格schema
++
++建议建立一个 workbook：`cover_reverse_analysis_step1.xlsx`。
++
++| Sheet 名 | 用途 |
++|---|---|
++| cover_analysis | 20 个封面的逐条标注主表。 |
++| scoring_legend | 评分标准和 enum 取值说明。 |
++| weight_config_v0 | Frame Scoring 初始权重。 |
++| pattern_summary | 爆款共性、证据、适用范围和风险。 |
++
++### 8.1 cover_analysis sheet schema
++
++| 列名 | 类型 | 必填 | 校验规则 |
++|---|---|---:|---|
++| sample_id | string | 是 | COVER_001 到 COVER_020，不重复 |
++| cover_id | string | 是 | 不为空 |
++| video_id | string | 否 | 可为空 |
++| platform | enum | 是 | douyin/kuaishou/bilibili/xiaohongshu/youtube/other |
++| content_vertical | enum | 是 | knowledge/vlog/product/news/entertainment/story/tutorial/review/other |
++| publish_date | date | 否 | YYYY-MM-DD |
++| cover_image_path | string | 是 | 本地相对路径或URL |
++| video_title | string | 否 | 原始视频标题 |
++| cover_text | string | 否 | 封面可见文字 |
++| baseline_ctr | number | 否 | 0-1 |
++| actual_ctr | number | 否 | 0-1 |
++| view_count | integer | 否 | >=0 |
++| engagement_rate | number | 否 | 0-1 |
++| performance_label | enum | 是 | viral/normal/low_performing/unknown |
++| scene_type | enum | 是 | face_closeup/person_action/object_closeup/before_after/result_display/conflict_scene/text_heavy/landscape/screenshot/other |
++| scene_subtype | string | 否 | 自由文本 |
++| has_person | boolean | 是 | TRUE/FALSE |
++| has_face | boolean | 是 | TRUE/FALSE |
++| face_count | integer | 否 | >=0 |
++| main_face_area_pct | number | 否 | 0-1 |
++| face_visibility_score | integer | 否 | 0-5 |
++| emotion_type | enum | 否 | surprise/fear/anger/joy/sadness/serious/neutral/none/unclear |
++| emotion_intensity_score | integer | 是 | 0-5 |
++| gaze_direction | enum | 否 | camera/object/offscreen/unclear/none |
++| action_event_type | enum | 否 | speaking/pointing/showing_result/accident/comparison/transformation/confrontation/none/other |
++| event_sense_score | integer | 是 | 0-5 |
++| conflict_or_curiosity_cue | string | 否 | 自由文本 |
++| main_subject | string | 是 | 自由文本 |
++| subject_clarity_score | integer | 是 | 0-5 |
++| composition_quality_score | integer | 是 | 0-5 |
++| visual_contrast_score | integer | 是 | 0-5 |
++| background_noise_score | integer | 是 | 0-5，越高表示越干扰 |
++| text_readability_score | integer | 否 | 0-5 |
++| title_type | enum | 是 | question/result/warning/number_list/contrast/secret/identity_callout/emotional_statement/direct_benefit/other |
++| title_hook_strength_score | integer | 是 | 0-5 |
++| title_visual_match_score | integer | 是 | 0-5 |
++| layout_type | enum | 否 | face_left_text_right/face_right_text_left/centered_subject/split_before_after/full_text/screenshot_overlay/other |
++| click_logic_hypothesis | text | 是 | 至少一句完整解释 |
++| likely_failure_reason | text | 否 | 非爆款样本建议填写 |
++| analyst_confidence | integer | 是 | 0-5 |
++| evidence_notes | text | 否 | 指标、截图观察、评论证据 |
++| reviewer | string | 否 | 标注人 |
++| review_date | date | 否 | YYYY-MM-DD |
++
++### 8.2 20行样本模板
++
++| sample_id | cover_id | performance_label | scene_type | has_face | emotion_intensity_score | composition_quality_score | event_sense_score | title_type | click_logic_hypothesis |
++|---|---|---|---|---|---:|---:|---:|---|---|
++| COVER_001 |  | unknown | other |  |  |  |  | other |  |
++| COVER_002 |  | unknown | other |  |  |  |  | other |  |
++| COVER_003 |  | unknown | other |  |  |  |  | other |  |
++| COVER_004 |  | unknown | other |  |  |  |  | other |  |
++| COVER_005 |  | unknown | other |  |  |  |  | other |  |
++| COVER_006 |  | unknown | other |  |  |  |  | other |  |
++| COVER_007 |  | unknown | other |  |  |  |  | other |  |
++| COVER_008 |  | unknown | other |  |  |  |  | other |  |
++| COVER_009 |  | unknown | other |  |  |  |  | other |  |
++| COVER_010 |  | unknown | other |  |  |  |  | other |  |
++| COVER_011 |  | unknown | other |  |  |  |  | other |  |
++| COVER_012 |  | unknown | other |  |  |  |  | other |  |
++| COVER_013 |  | unknown | other |  |  |  |  | other |  |
++| COVER_014 |  | unknown | other |  |  |  |  | other |  |
++| COVER_015 |  | unknown | other |  |  |  |  | other |  |
++| COVER_016 |  | unknown | other |  |  |  |  | other |  |
++| COVER_017 |  | unknown | other |  |  |  |  | other |  |
++| COVER_018 |  | unknown | other |  |  |  |  | other |  |
++| COVER_019 |  | unknown | other |  |  |  |  | other |  |
++| COVER_020 |  | unknown | other |  |  |  |  | other |  |
++
++## 9. 后续Step 2 Frame Scoring Prototype建议
++
++Step 2 建议做一个轻量原型，不需要依赖完整视觉模型。先用 Step 1 的人工标注字段模拟 Frame Scoring，验证权重方向是否合理。
++
++建议实现顺序：
++
++1. 读取 `cover_analysis` 表，过滤 `performance_label=unknown` 的样本。
++2. 将 0-5 分字段归一化到 0-1。
++3. 根据 `weight_config_v0` 计算每个封面的 `frame_score_v0`。
++4. 对比 `frame_score_v0` 与 `performance_label`、`actual_ctr` 的关系。
++5. 输出爆款组与非爆款组的平均分差、Top N 特征差异、误判样本。
++6. 调整权重并保存为 `weight_config_v1`。
++7. 在真实视频候选帧上复用同一评分结构，输出 Top 3 帧及评分解释。
++
++Step 2 的最小可用函数：
++
++```text
++score_frame(candidate_frame_features, weight_config) -> {
++  frame_score,
++  score_breakdown,
++  top_positive_reasons,
++  top_negative_reasons
++}
++```
++
++建议评估指标：
++
++- `viral_mean_score - non_viral_mean_score` 是否为正。
++- 爆款封面是否集中在得分 Top 30%。
++- 非爆款高分样本的误判原因是什么。
++- 低分爆款样本是否依赖标题、账号势能或热点，而非画面本身。
++
++## 10. 给GPT使用的历史封面分析提示词
++
++```text
++你是 Cover Decision System 的封面反推分析助手。
++
++任务：请对我提供的历史视频封面进行结构化分析，用于校准 Frame Scoring 初始权重。你需要从封面图片、视频标题、封面文字和可用表现数据中，判断该封面的点击逻辑。
++
++请严格按以下字段输出 JSON 和简短解释：
++
++1. sample_id
++2. cover_id
++3. platform
++4. content_vertical
++5. performance_label: viral / normal / low_performing / unknown
++6. scene_type
++7. scene_subtype
++8. has_person
++9. has_face
++10. face_count
++11. main_face_area_pct
++12. face_visibility_score: 0-5
++13. emotion_type
++14. emotion_intensity_score: 0-5
++15. gaze_direction
++16. action_event_type
++17. event_sense_score: 0-5
++18. conflict_or_curiosity_cue
++19. main_subject
++20. subject_clarity_score: 0-5
++21. composition_quality_score: 0-5
++22. visual_contrast_score: 0-5
++23. background_noise_score: 0-5
++24. text_readability_score: 0-5
++25. title_type
++26. title_hook_strength_score: 0-5
++27. title_visual_match_score: 0-5
++28. layout_type
++29. click_logic_hypothesis
++30. likely_failure_reason
++31. analyst_confidence: 0-5
++32. evidence_notes
++
++评分规则：
++- 0 表示不存在或完全无法判断。
++- 3 表示可识别但不强。
++- 5 表示非常强，是主要点击驱动力。
++- 不要臆造 CTR、播放量或发布时间；缺失就写 null。
++- 如果图片无法判断某项，请写 unclear 或 null，并降低 analyst_confidence。
++- click_logic_hypothesis 必须说明用户为什么会点，而不是只描述画面。
++
++最后请补充：
++- 该封面最强的 3 个点击因素。
++- 该封面最大的 2 个问题。
++- 如果要从视频中自动选帧，Frame Scoring 应该奖励哪些视觉特征。
++```
++
++## 11. 给Codex使用的数据结构建议
++
++推荐在后续工程中使用三个文件承接 Step 1 到 Step 2：
++
++```text
++data/historical_covers/covers_manifest.json
++data/annotations/cover_reverse_analysis_v1.json
++config/frame_scoring_weights_v0.json
++```
++
++### 11.1 covers_manifest.json
++
++```json
++{
++  "dataset_id": "cover_reverse_step1_20",
++  "items": [
++    {
++      "sample_id": "COVER_001",
++      "cover_id": "",
++      "video_id": "",
++      "platform": "",
++      "content_vertical": "",
++      "cover_image_path": "",
++      "video_title": "",
++      "cover_text": "",
++      "metrics": {
++        "baseline_ctr": null,
++        "actual_ctr": null,
++        "view_count": null,
++        "engagement_rate": null
++      }
++    }
++  ]
++}
++```
++
++### 11.2 cover_reverse_analysis_v1.json
++
++```json
++{
++  "schema_version": "cover_reverse_analysis_v1",
++  "covers": [
++    {
++      "sample_id": "COVER_001",
++      "labels": {
++        "performance_label": "unknown",
++        "scene_type": "other",
++        "has_person": null,
++        "has_face": null,
++        "emotion_type": "unclear",
++        "title_type": "other"
++      },
++      "scores": {
++        "face_visibility_score": null,
++        "emotion_intensity_score": null,
++        "event_sense_score": null,
++        "subject_clarity_score": null,
++        "composition_quality_score": null,
++        "visual_contrast_score": null,
++        "background_noise_score": null,
++        "text_readability_score": null,
++        "title_hook_strength_score": null,
++        "title_visual_match_score": null,
++        "analyst_confidence": null
++      },
++      "reasoning": {
++        "click_logic_hypothesis": "",
++        "likely_failure_reason": "",
++        "evidence_notes": ""
++      }
++    }
++  ]
++}
++```
++
++### 11.3 frame_scoring_weights_v0.json
++
++```json
++{
++  "version": "frame_scoring_weights_v0",
++  "total_weight": 100,
++  "weights": {
++    "face_person_salience": 18,
++    "emotion_intensity": 16,
++    "event_action_tension": 16,
++    "subject_scene_clarity": 14,
++    "composition_quality": 12,
++    "curiosity_visual_cue": 10,
++    "text_layout_affordance": 6,
++    "visual_contrast": 5,
++    "technical_quality": 3
++  }
++}
++```
++
++推荐 Codex 在 Step 2 中输出每个候选帧的分数解释，而不是只输出总分：
++
++```json
++{
++  "frame_id": "video_001_frame_000123",
++  "frame_score": 82.4,
++  "score_breakdown": {
++    "face_person_salience": 16.2,
++    "emotion_intensity": 12.8,
++    "event_action_tension": 14.4
++  },
++  "top_positive_reasons": [
++    "清晰人脸占比高",
++    "表情强烈",
++    "动作形成事件感"
++  ],
++  "top_negative_reasons": [
++    "右侧文字空间偏少"
++  ]
++}
++```
++
+
+codex exec timed_out: yes
+codex exec sending SIGTERM to process group: 64300
+codex exec exited after SIGTERM: -15
+codex exec finished_at: 2026-07-03T20:59:37
+codex exec duration_seconds: 240.02
+codex exec exit_code: 124
+[codex_runner] 执行结束，status=failed, exit_code=124
+[codex_runner] 最终 result status=failed, runner=codex, exit_code=124
+2026-07-03 20:59:37 [agent] [codex_runner] 开始执行 task: task_010
+[codex_runner] type: analysis_task
+[codex_runner] prompt: /Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_010/prompt.txt
+[codex_runner] output: /Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_010/output.txt
+[codex_runner] result_json: /Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_010/result.json
+[codex_runner] result_md: /Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_010/result.md
+[codex_runner] run_log: /Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_010/run.log
+[codex_runner] codex_exec_timeout_seconds: 240
+[codex_runner] tty: stdin=no, stdout=no, TERM=dumb
+[codex_runner] 检测到 codex CLI: /Applications/Codex.app/Contents/Resources/codex
+[codex_runner] 检测到 Codex 非交互子命令: exec，正在调用...
+[codex_runner] 执行结束，status=failed, exit_code=124
+[codex_runner] 最终 result status=failed, runner=codex, exit_code=124
+2026-07-03 20:59:37 [agent] failed: runner 执行失败: exit_code=124, status=failed
+2026-07-03 20:59:37 [agent] [codex_runner] 开始执行 task: task_010
+[codex_runner] type: analysis_task
+[codex_runner] prompt: /Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_010/prompt.txt
+[codex_runner] output: /Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_010/output.txt
+[codex_runner] result_json: /Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_010/result.json
+[codex_runner] result_md: /Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_010/result.md
+[codex_runner] run_log: /Users/bing/Documents/gpt和codex互通/agent-loop-v1/outputs/task_010/run.log
+[codex_runner] codex_exec_timeout_seconds: 240
+[codex_runner] tty: stdin=no, stdout=no, TERM=dumb
+[codex_runner] 检测到 codex CLI: /Applications/Codex.app/Contents/Resources/codex
+[codex_runner] 检测到 Codex 非交互子命令: exec，正在调用...
+[codex_runner] 执行结束，status=failed, exit_code=124
+[codex_runner] 最终 result status=failed, runner=codex, exit_code=124
+2026-07-03 20:59:37 [agent] finish status=failed duration_seconds=240.165 error=runner 执行失败: exit_code=124, status=failed
