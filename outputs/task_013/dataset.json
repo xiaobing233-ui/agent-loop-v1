@@ -1,0 +1,22 @@
+[
+  {
+    "cover_id": "cover_001",
+    "source_file": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/不满意的封面/812632892.png",
+    "file_name": "812632892.png",
+    "label": "unsatisfied",
+    "analysis_status": "needs_model_analysis",
+    "scene_classification": "Education",
+    "frame_type": "mixed",
+    "face_signal": 0.0,
+    "emotion_signal": 0.0,
+    "composition_signal": 0.0,
+    "information_density": 0.0,
+    "event_signal": 0.0,
+    "title_hook_type": [],
+    "layout_type": "split_narrative",
+    "click_logic": "",
+    "performance_label": "low",
+    "reusable_pattern": "",
+    "scoring_notes": "Placeholder only; visual model analysis was not run."
+  }
+]

@@ -1,0 +1,46 @@
+{
+  "status": "failed",
+  "expected_count": 19,
+  "per_cover_count": 1,
+  "dataset_count": 1,
+  "all_success": false,
+  "analysis_status_counts": {
+    "needs_model_analysis": 1
+  },
+  "label_counts": {
+    "unsatisfied": 1
+  },
+  "scene_classification_counts": {
+    "Education": 1
+  },
+  "frame_type_counts": {
+    "mixed": 1
+  },
+  "layout_type_counts": {
+    "split_narrative": 1
+  },
+  "performance_label_counts": {
+    "low": 1
+  },
+  "missing_cover_ids": [
+    "cover_002",
+    "cover_003",
+    "cover_004",
+    "cover_005",
+    "cover_006",
+    "cover_007",
+    "cover_008",
+    "cover_009",
+    "cover_010",
+    "cover_011",
+    "cover_012",
+    "cover_013",
+    "cover_014",
+    "cover_015",
+    "cover_016",
+    "cover_017",
+    "cover_018",
+    "cover_019"
+  ],
+  "errors": []
+}
