@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -63,6 +64,98 @@ def ffmpeg_version_line(ffmpeg_bin: str) -> str:
     return result.stdout.splitlines()[0] if result.stdout.splitlines() else ""
 
 
+def read_frame_dimensions_with_pillow(frame_path: Path) -> tuple[int, int] | None:
+    try:
+        from PIL import Image
+    except Exception:
+        return None
+    try:
+        with Image.open(frame_path) as image:
+            width, height = image.size
+        return (int(width), int(height))
+    except Exception:
+        return None
+
+
+def read_frame_dimensions_with_sips(frame_path: Path) -> tuple[int, int] | None:
+    sips = find_binary("sips") or "/usr/bin/sips"
+    if not Path(sips).exists():
+        return None
+    result = subprocess.run(
+        [sips, "-g", "pixelWidth", "-g", "pixelHeight", str(frame_path)],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if result.returncode != 0:
+        return None
+    width_match = re.search(r"pixelWidth:\s*(\d+)", result.stdout)
+    height_match = re.search(r"pixelHeight:\s*(\d+)", result.stdout)
+    if not width_match or not height_match:
+        return None
+    return (int(width_match.group(1)), int(height_match.group(1)))
+
+
+def read_frame_dimensions_with_ffprobe(frame_path: Path) -> tuple[int, int] | None:
+    ffprobe = find_binary("ffprobe")
+    if not ffprobe:
+        return None
+    command = [
+        ffprobe,
+        "-v",
+        "error",
+        "-select_streams",
+        "v:0",
+        "-show_entries",
+        "stream=width,height",
+        "-of",
+        "json",
+        str(frame_path),
+    ]
+    result = subprocess.run(command, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if result.returncode != 0:
+        return None
+    try:
+        payload = json.loads(result.stdout)
+        stream = payload.get("streams", [{}])[0]
+        width = int(stream.get("width") or 0)
+        height = int(stream.get("height") or 0)
+    except Exception:
+        return None
+    return (width, height) if width > 0 and height > 0 else None
+
+
+def read_frame_dimensions_with_ffmpeg(frame_path: Path, ffmpeg_bin: str) -> tuple[int, int] | None:
+    result = subprocess.run(
+        [ffmpeg_bin, "-hide_banner", "-i", str(frame_path)],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    text = "\n".join([result.stdout, result.stderr])
+    matches = re.findall(r"(?<![.\w])(\d{2,5})x(\d{2,5})(?![.\w])", text)
+    if not matches:
+        return None
+    width, height = matches[-1]
+    return (int(width), int(height))
+
+
+def read_frame_dimensions(frame_path: Path, ffmpeg_bin: str) -> tuple[int, int, str | None]:
+    for reader in (
+        read_frame_dimensions_with_pillow,
+        read_frame_dimensions_with_sips,
+        read_frame_dimensions_with_ffprobe,
+    ):
+        dimensions = reader(frame_path)
+        if dimensions:
+            return (dimensions[0], dimensions[1], None)
+
+    dimensions = read_frame_dimensions_with_ffmpeg(frame_path, ffmpeg_bin)
+    if dimensions:
+        return (dimensions[0], dimensions[1], None)
+    return (0, 0, "unable_to_read_frame_dimensions")
+
+
 def probe_video_dimensions(video_path: Path) -> tuple[int, int]:
     ffprobe = find_binary("ffprobe")
     if not ffprobe:
@@ -90,12 +183,13 @@ def probe_video_dimensions(video_path: Path) -> tuple[int, int]:
         return (0, 0)
 
 
-def extract_frames(video_path: Path, interval_sec: float, max_frames: int | None) -> list[Path]:
-    ffmpeg = require_ffmpeg()
+def extract_frames(
+    video_path: Path, interval_sec: float, max_frames: int | None, ffmpeg_bin: str
+) -> list[Path]:
     FRAMES_DIR.mkdir(parents=True, exist_ok=True)
     output_pattern = FRAMES_DIR / "frame_%04d.jpg"
     command = [
-        ffmpeg,
+        ffmpeg_bin,
         "-hide_banner",
         "-loglevel",
         "error",
@@ -116,22 +210,22 @@ def extract_frames(video_path: Path, interval_sec: float, max_frames: int | None
     return sorted(FRAMES_DIR.glob("frame_*.jpg"))
 
 
-def build_manifest(
-    video_path: Path, frame_paths: list[Path], interval_sec: float, width: int, height: int
-) -> list[dict[str, Any]]:
+def build_manifest(video_path: Path, frame_paths: list[Path], interval_sec: float, ffmpeg_bin: str) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
     for index, frame_path in enumerate(frame_paths, start=1):
-        records.append(
-            {
-                "frame_id": f"frame_{index:04d}",
-                "video_path": str(video_path),
-                "frame_path": str(frame_path),
-                "timestamp_sec": round((index - 1) * interval_sec, 3),
-                "width": width,
-                "height": height,
-                "extraction_version": EXTRACTION_VERSION,
-            }
-        )
+        width, height, warning = read_frame_dimensions(frame_path, ffmpeg_bin)
+        record = {
+            "frame_id": f"frame_{index:04d}",
+            "video_path": str(video_path),
+            "frame_path": str(frame_path),
+            "timestamp_sec": round((index - 1) * interval_sec, 3),
+            "width": width,
+            "height": height,
+            "extraction_version": EXTRACTION_VERSION,
+        }
+        if warning:
+            record["warning"] = warning
+        records.append(record)
     return records
 
 
@@ -164,9 +258,9 @@ def main() -> int:
         if args.max_frames is not None and args.max_frames <= 0:
             raise ValueError("--max-frames must be greater than 0")
 
-        frame_paths = extract_frames(video_path, args.interval_sec, args.max_frames)
-        width, height = probe_video_dimensions(video_path)
-        manifest = build_manifest(video_path, frame_paths, args.interval_sec, width, height)
+        ffmpeg = require_ffmpeg()
+        frame_paths = extract_frames(video_path, args.interval_sec, args.max_frames, ffmpeg)
+        manifest = build_manifest(video_path, frame_paths, args.interval_sec, ffmpeg)
         TASK_DIR.mkdir(parents=True, exist_ok=True)
         MANIFEST_FILE.write_text(
             json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",

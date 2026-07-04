@@ -27,7 +27,7 @@ python scripts/task015_extract_frames.py --video "/path/to/video.mp4" --interval
 - `outputs/task_015/frames/frame_0001.jpg`
 - `outputs/task_015/frame_manifest.json`
 
-`frame_manifest.json` 记录 `frame_id`、`video_path`、`frame_path`、`timestamp_sec`、`width`、`height` 和 `extraction_version`。
+`frame_manifest.json` 记录 `frame_id`、`video_path`、`frame_path`、`timestamp_sec`、`width`、`height` 和 `extraction_version`。其中 `width` / `height` 来自抽帧后每张输出图片的实际尺寸，而不是视频流元数据。
 
 如果 `ffmpeg` 不存在，脚本会明确报错。抽出的帧属于 runtime 产物，不提交到 Git。
 
@@ -46,6 +46,17 @@ python3 scripts/task015_extract_frames.py --check-ffmpeg
 ```
 
 如果三种方式都不可用，脚本会报错：`ffmpeg not found; install ffmpeg or pip install imageio-ffmpeg`。
+
+### frame_manifest 宽高记录
+
+抽帧完成后，脚本会逐张读取 `outputs/task_015/frames/` 里的实际图片尺寸，优先级如下：
+
+1. Pillow: `PIL.Image.open(frame_path).size`
+2. macOS `sips`
+3. `ffprobe`
+4. 已解析出的 `ffmpeg` 二进制
+
+如果所有方式都无法读取某张帧图片尺寸，该 manifest item 会写入 `width: 0`、`height: 0`，并增加 `warning: "unable_to_read_frame_dimensions"`。
 
 ## 单帧评分流程
 

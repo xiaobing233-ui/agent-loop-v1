@@ -16,3 +16,5 @@ Created:
 Dry-run validation only: script help commands pass, task_014 weights are readable, and no Codex CLI call, video extraction, frame score, raw output, or runtime frame generation was performed.
 
 Compatibility update: `scripts/task015_extract_frames.py` now resolves ffmpeg from `TASK015_FFMPEG_BIN`, PATH, or `imageio-ffmpeg`, and supports `--check-ffmpeg` for a no-video dependency check.
+
+Manifest dimension fix: `frame_manifest.json` now records width and height from each extracted frame image, using Pillow, macOS `sips`, `ffprobe`, then ffmpeg parsing as fallbacks. If all fail, the item records width/height as `0` with a warning.
