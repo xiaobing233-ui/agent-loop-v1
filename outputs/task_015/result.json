@@ -1,0 +1,44 @@
+{
+  "status": "success",
+  "task_id": "task_015",
+  "implemented_files": [
+    "scripts/task015_extract_frames.py",
+    "scripts/task015_score_frame.py",
+    "scripts/task015_rank_frames.py",
+    "prompts/task015_single_frame_scoring_prompt.md",
+    "docs/frame_scoring_pipeline_v0_1.md",
+    "outputs/task_015/result.json",
+    "outputs/task_015/result.md",
+    ".gitignore"
+  ],
+  "inputs_expected": [
+    "video file path for extraction",
+    "outputs/task_015/frame_manifest.json for scoring",
+    "outputs/task_014/frame_scoring_weights.json for scoring weights"
+  ],
+  "outputs_expected": [
+    "outputs/task_015/frame_manifest.json",
+    "outputs/task_015/frames/",
+    "outputs/task_015/runtime_prompts/",
+    "outputs/task_015/codex_raw/",
+    "outputs/task_015/frame_scores/",
+    "outputs/task_015/ranked_frames.json",
+    "outputs/task_015/top_candidates.md"
+  ],
+  "dry_run_checks": {
+    "extract_help": true,
+    "score_help": true,
+    "rank_help": true,
+    "task014_weights_readable": true,
+    "codex_cli_called": false,
+    "frames_generated": false,
+    "frame_scores_generated": false,
+    "codex_raw_generated": false
+  },
+  "warnings": [
+    "Real frame scoring must be run from a Mac terminal, not from inside the Codex window.",
+    "Runtime frames, raw Codex outputs, prompts, and frame_scores are ignored by Git by default.",
+    "This task implements the prototype only; no real video was analyzed."
+  ],
+  "next_task": "task_016 can consume ranked_frames.json top candidates to generate Top 3 cover prompts and image candidates."
+}
