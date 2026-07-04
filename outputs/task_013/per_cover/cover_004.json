@@ -1,17 +1,17 @@
 {
-  "cover_id": "cover_001",
-  "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/不满意的封面/812632892.png",
-  "file_name": "812632892.png",
-  "label": "unsatisfied",
+  "cover_id": "cover_004",
+  "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/791357866.png",
+  "file_name": "791357866.png",
+  "label": "satisfied",
   "status": "success",
   "analysis_status": "success",
   "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
   "meta": {
-    "cover_id": "cover_001",
-    "image_file": "812632892.png",
+    "cover_id": "cover_004",
+    "image_file": "791357866.png",
     "video_type": "",
     "publish_channel": "视频号",
-    "performance_label": "unsatisfied",
+    "performance_label": "satisfied",
     "performance_metric": "",
     "business_goal": "Cover Decision + Generation System dataset calibration"
   },
@@ -58,23 +58,22 @@
     "revision_instruction": ""
   },
   "reusable_prompt_signals": [
-    "竖版短视频封面",
-    "AI+教育落地主题",
-    "科技大会展馆通道",
-    "讲解员人物左侧出镜并指向活动屏幕",
-    "FORCE'26活动大屏作为背景关键元素",
-    "蓝紫科技风下划线",
-    "高对比中文大标题",
-    "背景浅景深和低噪声",
-    "品牌logo角落固定排版",
-    "人物自然光商业摄影"
+    "竖版视频号封面，浅蓝科技教育背景",
+    "右侧半身真人讲解者，黑色服装，手持笔状工具",
+    "左侧大面积中文标题排版，超粗黑体，蓝紫渐变",
+    "顶部小品牌标识，低占比不抢主视觉",
+    "青蓝到紫色渐变圆角副标题条，白色中文文字",
+    "左下半透明AI字母与环形科技图形",
+    "底部柔和蓝色雾化遮罩",
+    "教育加AI主题，权威节目感，商业课程宣传感",
+    "高对比、少装饰、移动端优先可读"
   ],
   "risk_notes": [
-    "不要评价或识别画面人物身份",
-    "生成式模型可能错误复现中文、英文活动名和品牌logo",
-    "真实品牌元素可能涉及授权和商标使用风险",
-    "若继续用于训练或提示词复用，应把人物描述为通用讲解员而非具体个人",
-    "当前分析仅基于指定压缩图的可见内容"
+    "不要直接复刻真实人物肖像、品牌标识或可识别商业素材，生成时应替换为已授权或虚构元素。",
+    "中文标题需后期排版校对，纯图像生成容易出现错字或乱码。",
+    "左下小字在移动端缩略图中风险较高，应控制为辅助信息。",
+    "人物手部和手持工具是生成难点，需重点检查畸形和遮挡。",
+    "蓝紫渐变若过度使用可能降低文字边缘清晰度，应保持高对比。"
   ],
   "error_summary": ""
 }

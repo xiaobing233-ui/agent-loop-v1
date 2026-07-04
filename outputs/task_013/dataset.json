@@ -1,22 +1,1585 @@
 [
   {
     "cover_id": "cover_001",
-    "source_file": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/不满意的封面/812632892.png",
+    "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/不满意的封面/812632892.png",
     "file_name": "812632892.png",
     "label": "unsatisfied",
-    "analysis_status": "needs_model_analysis",
-    "scene_classification": "Education",
-    "frame_type": "mixed",
-    "face_signal": 0.0,
-    "emotion_signal": 0.0,
-    "composition_signal": 0.0,
-    "information_density": 0.0,
-    "event_signal": 0.0,
-    "title_hook_type": [],
-    "layout_type": "split_narrative",
-    "click_logic": "",
-    "performance_label": "low",
-    "reusable_pattern": "",
-    "scoring_notes": "Placeholder only; visual model analysis was not run."
+    "status": "success",
+    "analysis_status": "success",
+    "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+    "meta": {
+      "cover_id": "cover_001",
+      "image_file": "812632892.png",
+      "video_type": "",
+      "publish_channel": "视频号",
+      "performance_label": "unsatisfied",
+      "performance_metric": "",
+      "business_goal": "Cover Decision + Generation System dataset calibration"
+    },
+    "image_level_observations": {
+      "primary_subject": "",
+      "visible_text_summary": "",
+      "visual_hierarchy": "",
+      "notable_design_elements": []
+    },
+    "decision_factors": {
+      "scene_classification": "",
+      "frame_type": "",
+      "face_signal": 0.0,
+      "emotion_signal": 0.0,
+      "composition_signal": 0.0,
+      "information_density": 0.0,
+      "event_signal": 0.0,
+      "product_visibility": "",
+      "title_hook_type": [],
+      "layout_type": "",
+      "click_logic": "",
+      "reusable_pattern": ""
+    },
+    "generation_strategy": {
+      "generation_mode": "",
+      "reference_frame_usage": "",
+      "subject_preservation": "",
+      "background_strategy": "",
+      "title_area_planning": "",
+      "brand_element_strategy": "",
+      "image2_prompt_direction": "",
+      "negative_constraints": [],
+      "generation_risk": ""
+    },
+    "qa_findings": {
+      "face_quality_check": "",
+      "product_accuracy_check": "",
+      "text_area_check": "",
+      "brand_consistency_check": "",
+      "clickability_check": "",
+      "platform_fit_check": "",
+      "ai_artifact_risk": "",
+      "final_usability": "failed",
+      "revision_instruction": ""
+    },
+    "reusable_prompt_signals": [
+      "竖版短视频封面",
+      "AI+教育落地主题",
+      "科技大会展馆通道",
+      "讲解员人物左侧出镜并指向活动屏幕",
+      "FORCE'26活动大屏作为背景关键元素",
+      "蓝紫科技风下划线",
+      "高对比中文大标题",
+      "背景浅景深和低噪声",
+      "品牌logo角落固定排版",
+      "人物自然光商业摄影"
+    ],
+    "risk_notes": [
+      "不要评价或识别画面人物身份",
+      "生成式模型可能错误复现中文、英文活动名和品牌logo",
+      "真实品牌元素可能涉及授权和商标使用风险",
+      "若继续用于训练或提示词复用，应把人物描述为通用讲解员而非具体个人",
+      "当前分析仅基于指定压缩图的可见内容"
+    ],
+    "error_summary": ""
+  },
+  {
+    "cover_id": "cover_002",
+    "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/不满意的封面/812632893.png",
+    "file_name": "812632893.png",
+    "label": "unsatisfied",
+    "status": "success",
+    "analysis_status": "success",
+    "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+    "meta": {
+      "cover_id": "cover_002",
+      "image_file": "812632893.png",
+      "video_type": "",
+      "publish_channel": "视频号",
+      "performance_label": "unsatisfied",
+      "performance_metric": "",
+      "business_goal": "Cover Decision + Generation System dataset calibration"
+    },
+    "image_level_observations": {
+      "primary_subject": "",
+      "visible_text_summary": "",
+      "visual_hierarchy": "最大视觉元素是底部标题和前景人物，其次是顶部 FORCE'26 横幅，品牌标识为辅助但仍明显可见。",
+      "notable_design_elements": []
+    },
+    "decision_factors": {
+      "scene_classification": "",
+      "frame_type": "",
+      "face_signal": 0.0,
+      "emotion_signal": 0.0,
+      "composition_signal": 0.0,
+      "information_density": 0.0,
+      "event_signal": 0.0,
+      "product_visibility": "",
+      "title_hook_type": [],
+      "layout_type": "",
+      "click_logic": "",
+      "reusable_pattern": ""
+    },
+    "generation_strategy": {
+      "generation_mode": "",
+      "reference_frame_usage": "",
+      "subject_preservation": "",
+      "background_strategy": "",
+      "title_area_planning": "",
+      "brand_element_strategy": "",
+      "image2_prompt_direction": "",
+      "negative_constraints": [],
+      "generation_risk": ""
+    },
+    "qa_findings": {
+      "face_quality_check": "",
+      "product_accuracy_check": "",
+      "text_area_check": "",
+      "brand_consistency_check": "",
+      "clickability_check": "",
+      "platform_fit_check": "",
+      "ai_artifact_risk": "",
+      "final_usability": "failed",
+      "revision_instruction": ""
+    },
+    "reusable_prompt_signals": [
+      "AI education landing topic",
+      "conference hall background",
+      "large FORCE event banner",
+      "presenter in foreground pointing to banner",
+      "bold white Chinese headline",
+      "answer-revealing headline tone",
+      "blue-purple underline stroke",
+      "short video cover composition",
+      "brand logo in top-left corner",
+      "dark lower gradient behind title"
+    ],
+    "risk_notes": [
+      "画面含明确品牌和活动标识，复用或生成近似图时存在商标和授权风险。",
+      "不要评价或推断人物身份。",
+      "中文文字和活动英文标识在生成任务中容易变形，需要后期排版而非完全交给图像模型。",
+      "若用于反推提示词，应把品牌露出作为可控变量，而不是默认强制保留。"
+    ],
+    "error_summary": ""
+  },
+  {
+    "cover_id": "cover_003",
+    "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/不满意的封面/Frame 4.jpg",
+    "file_name": "Frame 4.jpg",
+    "label": "unsatisfied",
+    "status": "success",
+    "analysis_status": "success",
+    "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+    "meta": {
+      "cover_id": "cover_003",
+      "image_file": "Frame 4.jpg",
+      "video_type": "",
+      "publish_channel": "视频号",
+      "performance_label": "unsatisfied",
+      "performance_metric": "",
+      "business_goal": "Cover Decision + Generation System dataset calibration"
+    },
+    "image_level_observations": {
+      "primary_subject": "",
+      "visible_text_summary": "",
+      "visual_hierarchy": "",
+      "notable_design_elements": []
+    },
+    "decision_factors": {
+      "scene_classification": "",
+      "frame_type": "",
+      "face_signal": 0.0,
+      "emotion_signal": 0.0,
+      "composition_signal": 0.0,
+      "information_density": 0.0,
+      "event_signal": 0.0,
+      "product_visibility": "",
+      "title_hook_type": [],
+      "layout_type": "",
+      "click_logic": "",
+      "reusable_pattern": ""
+    },
+    "generation_strategy": {
+      "generation_mode": "",
+      "reference_frame_usage": "",
+      "subject_preservation": "",
+      "background_strategy": "",
+      "title_area_planning": "",
+      "brand_element_strategy": "",
+      "image2_prompt_direction": "",
+      "negative_constraints": [],
+      "generation_risk": ""
+    },
+    "qa_findings": {
+      "face_quality_check": "",
+      "product_accuracy_check": "",
+      "text_area_check": "",
+      "brand_consistency_check": "",
+      "clickability_check": "",
+      "platform_fit_check": "",
+      "ai_artifact_risk": "",
+      "final_usability": "failed",
+      "revision_instruction": ""
+    },
+    "reusable_prompt_signals": [
+      "企业荣誉封面",
+      "金色证书牌匾",
+      "广东省制造业单项冠军企业主题",
+      "深紫蓝背景",
+      "清晰大标题",
+      "品牌logo左上角",
+      "竖向荣获标签",
+      "克制高级光效",
+      "稳重科技企业发布感",
+      "避免标题过度透视变形",
+      "避免证书小字乱码"
+    ],
+    "risk_notes": [
+      "证书上的小字和奖项名称是生成风险最高区域，后续生成应尽量使用可控文字排版。",
+      "底部大标题若继续使用强透视，容易在移动端缩略图中显得拥挤和低质。",
+      "深紫蓝霓虹舞台风格虽然吸睛，但与正式企业荣誉之间存在质感冲突。"
+    ],
+    "error_summary": ""
+  },
+  {
+    "cover_id": "cover_004",
+    "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/791357866.png",
+    "file_name": "791357866.png",
+    "label": "satisfied",
+    "status": "success",
+    "analysis_status": "success",
+    "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+    "meta": {
+      "cover_id": "cover_004",
+      "image_file": "791357866.png",
+      "video_type": "",
+      "publish_channel": "视频号",
+      "performance_label": "satisfied",
+      "performance_metric": "",
+      "business_goal": "Cover Decision + Generation System dataset calibration"
+    },
+    "image_level_observations": {
+      "primary_subject": "",
+      "visible_text_summary": "",
+      "visual_hierarchy": "",
+      "notable_design_elements": []
+    },
+    "decision_factors": {
+      "scene_classification": "",
+      "frame_type": "",
+      "face_signal": 0.0,
+      "emotion_signal": 0.0,
+      "composition_signal": 0.0,
+      "information_density": 0.0,
+      "event_signal": 0.0,
+      "product_visibility": "",
+      "title_hook_type": [],
+      "layout_type": "",
+      "click_logic": "",
+      "reusable_pattern": ""
+    },
+    "generation_strategy": {
+      "generation_mode": "",
+      "reference_frame_usage": "",
+      "subject_preservation": "",
+      "background_strategy": "",
+      "title_area_planning": "",
+      "brand_element_strategy": "",
+      "image2_prompt_direction": "",
+      "negative_constraints": [],
+      "generation_risk": ""
+    },
+    "qa_findings": {
+      "face_quality_check": "",
+      "product_accuracy_check": "",
+      "text_area_check": "",
+      "brand_consistency_check": "",
+      "clickability_check": "",
+      "platform_fit_check": "",
+      "ai_artifact_risk": "",
+      "final_usability": "failed",
+      "revision_instruction": ""
+    },
+    "reusable_prompt_signals": [
+      "竖版视频号封面，浅蓝科技教育背景",
+      "右侧半身真人讲解者，黑色服装，手持笔状工具",
+      "左侧大面积中文标题排版，超粗黑体，蓝紫渐变",
+      "顶部小品牌标识，低占比不抢主视觉",
+      "青蓝到紫色渐变圆角副标题条，白色中文文字",
+      "左下半透明AI字母与环形科技图形",
+      "底部柔和蓝色雾化遮罩",
+      "教育加AI主题，权威节目感，商业课程宣传感",
+      "高对比、少装饰、移动端优先可读"
+    ],
+    "risk_notes": [
+      "不要直接复刻真实人物肖像、品牌标识或可识别商业素材，生成时应替换为已授权或虚构元素。",
+      "中文标题需后期排版校对，纯图像生成容易出现错字或乱码。",
+      "左下小字在移动端缩略图中风险较高，应控制为辅助信息。",
+      "人物手部和手持工具是生成难点，需重点检查畸形和遮挡。",
+      "蓝紫渐变若过度使用可能降低文字边缘清晰度，应保持高对比。"
+    ],
+    "error_summary": ""
+  },
+  {
+    "cover_id": "cover_005",
+    "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/791357903.png",
+    "file_name": "791357903.png",
+    "label": "satisfied",
+    "status": "success",
+    "analysis_status": "success",
+    "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+    "meta": {
+      "cover_id": "cover_005",
+      "image_file": "791357903.png",
+      "video_type": "",
+      "publish_channel": "视频号",
+      "performance_label": "satisfied",
+      "performance_metric": "",
+      "business_goal": "Cover Decision + Generation System dataset calibration"
+    },
+    "image_level_observations": {
+      "primary_subject": "",
+      "visible_text_summary": "",
+      "visual_hierarchy": "",
+      "notable_design_elements": []
+    },
+    "decision_factors": {
+      "scene_classification": "",
+      "frame_type": "",
+      "face_signal": 0.0,
+      "emotion_signal": 0.0,
+      "composition_signal": 0.0,
+      "information_density": 0.0,
+      "event_signal": 0.0,
+      "product_visibility": "",
+      "title_hook_type": [],
+      "layout_type": "",
+      "click_logic": "",
+      "reusable_pattern": ""
+    },
+    "generation_strategy": {
+      "generation_mode": "",
+      "reference_frame_usage": "",
+      "subject_preservation": "",
+      "background_strategy": "",
+      "title_area_planning": "",
+      "brand_element_strategy": "",
+      "image2_prompt_direction": "",
+      "negative_constraints": [
+        "不要人物",
+        "不要复杂背景",
+        "不要暗色脏污质感",
+        "不要过多小字",
+        "不要遮挡设备主体",
+        "不要让星芒和装饰元素抢占标题"
+      ],
+      "generation_risk": ""
+    },
+    "qa_findings": {
+      "face_quality_check": "",
+      "product_accuracy_check": "",
+      "text_area_check": "",
+      "brand_consistency_check": "",
+      "clickability_check": "",
+      "platform_fit_check": "",
+      "ai_artifact_risk": "",
+      "final_usability": "failed",
+      "revision_instruction": ""
+    },
+    "reusable_prompt_signals": [
+      "浅蓝科技渐变背景",
+      "蓝紫渐变品牌角标",
+      "白色粗体中文大标题",
+      "型号胶囊标签",
+      "星芒AI感装饰",
+      "白色3D桌面智能设备",
+      "顶部屏幕显示功能卡片",
+      "玻璃拟态功能标签",
+      "批改与复盘双功能强调",
+      "产品右下构图",
+      "干净高光商业渲染",
+      "移动端竖版封面安全边距"
+    ],
+    "risk_notes": [
+      "不要把图中渲染设备误判为真实拍摄照片",
+      "复刻时避免生成不可读或乱码中文",
+      "功能承诺类文案需要与实际产品能力匹配",
+      "同类蓝白科技风容易模板化，需用产品结构和型号标签保持识别度"
+    ],
+    "error_summary": ""
+  },
+  {
+    "cover_id": "cover_006",
+    "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/791357925.png",
+    "file_name": "791357925.png",
+    "label": "satisfied",
+    "status": "success",
+    "analysis_status": "success",
+    "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+    "meta": {
+      "cover_id": "cover_006",
+      "image_file": "791357925.png",
+      "video_type": "",
+      "publish_channel": "视频号",
+      "performance_label": "satisfied",
+      "performance_metric": "",
+      "business_goal": "Cover Decision + Generation System dataset calibration"
+    },
+    "image_level_observations": {
+      "primary_subject": "",
+      "visible_text_summary": "",
+      "visual_hierarchy": "",
+      "notable_design_elements": []
+    },
+    "decision_factors": {
+      "scene_classification": "",
+      "frame_type": "",
+      "face_signal": 0.0,
+      "emotion_signal": 0.0,
+      "composition_signal": 0.0,
+      "information_density": 0.0,
+      "event_signal": 0.0,
+      "product_visibility": "",
+      "title_hook_type": [],
+      "layout_type": "",
+      "click_logic": "",
+      "reusable_pattern": ""
+    },
+    "generation_strategy": {
+      "generation_mode": "",
+      "reference_frame_usage": "",
+      "subject_preservation": "",
+      "background_strategy": "",
+      "title_area_planning": "",
+      "brand_element_strategy": "",
+      "image2_prompt_direction": "",
+      "negative_constraints": [
+        "不要弱化标题字号",
+        "不要使用低对比浅色背景",
+        "不要让人物遮挡主标题",
+        "不要让设备过小或被裁切",
+        "不要加入与AI批改无关的杂乱元素"
+      ],
+      "generation_risk": ""
+    },
+    "qa_findings": {
+      "face_quality_check": "",
+      "product_accuracy_check": "",
+      "text_area_check": "",
+      "brand_consistency_check": "",
+      "clickability_check": "",
+      "platform_fit_check": "",
+      "ai_artifact_risk": "",
+      "final_usability": "failed",
+      "revision_instruction": ""
+    },
+    "reusable_prompt_signals": [
+      "深蓝黑科技感背景",
+      "超粗中文海报字",
+      "白色加浅蓝双色主标题",
+      "蓝紫渐变圆角胶囊卖点条",
+      "右下人物半身抠图",
+      "人物边缘蓝色发光描边",
+      "左下手托白色智能设备",
+      "标题强调效率和省事",
+      "信息流广告封面构图",
+      "高对比移动端可读排版"
+    ],
+    "risk_notes": [
+      "人物与设备属于合成式商业封面风格，生成时需避免边缘抠图生硬。",
+      "标题字形需要保持中文可读性，AI生成时容易出现错字或笔画变形。",
+      "品牌标识和产品细节较小，复刻时需要单独控制清晰度。",
+      "不要根据人物外观推断或评价真实身份。"
+    ],
+    "error_summary": ""
+  },
+  {
+    "cover_id": "cover_007",
+    "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/791357966.png",
+    "file_name": "791357966.png",
+    "label": "satisfied",
+    "status": "success",
+    "analysis_status": "success",
+    "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+    "meta": {
+      "cover_id": "cover_007",
+      "image_file": "791357966.png",
+      "video_type": "",
+      "publish_channel": "视频号",
+      "performance_label": "satisfied",
+      "performance_metric": "",
+      "business_goal": "Cover Decision + Generation System dataset calibration"
+    },
+    "image_level_observations": {
+      "primary_subject": "",
+      "visible_text_summary": "",
+      "visual_hierarchy": "",
+      "notable_design_elements": []
+    },
+    "decision_factors": {
+      "scene_classification": "",
+      "frame_type": "",
+      "face_signal": 0.0,
+      "emotion_signal": 0.0,
+      "composition_signal": 0.0,
+      "information_density": 0.0,
+      "event_signal": 0.0,
+      "product_visibility": "",
+      "title_hook_type": [],
+      "layout_type": "",
+      "click_logic": "",
+      "reusable_pattern": ""
+    },
+    "generation_strategy": {
+      "generation_mode": "",
+      "reference_frame_usage": "",
+      "subject_preservation": "",
+      "background_strategy": "",
+      "title_area_planning": "",
+      "brand_element_strategy": "",
+      "image2_prompt_direction": "",
+      "negative_constraints": [
+        "不要让背景过亮抢夺标题。",
+        "不要使用过多小字。",
+        "不要让人物面部成为主体。",
+        "不要让产品叠图遮挡主标题。",
+        "不要生成无法辨认的中文文字。"
+      ],
+      "generation_risk": ""
+    },
+    "qa_findings": {
+      "face_quality_check": "",
+      "product_accuracy_check": "",
+      "text_area_check": "",
+      "brand_consistency_check": "",
+      "clickability_check": "",
+      "platform_fit_check": "",
+      "ai_artifact_risk": "",
+      "final_usability": "failed",
+      "revision_instruction": ""
+    },
+    "reusable_prompt_signals": [
+      "竖版 3:4 视频号封面",
+      "真实课堂或学校培训现场背景",
+      "暗色遮罩压低背景",
+      "上中部超大中文粗体标题",
+      "白色主字加蓝紫渐变关键词",
+      "蓝紫手绘圈线强调重点词",
+      "左上品牌标识",
+      "右上 AI 主题活动标识",
+      "中央副标题承接案例感",
+      "右下角产品设备或软件界面叠加",
+      "底部手写体品牌口号",
+      "教育科技产品落地案例感",
+      "疑问句标题提升点击动机"
+    ],
+    "risk_notes": [
+      "生成时中文文字容易失真，建议后期排版真实文字。",
+      "右下角产品叠图需要控制透视和阴影，否则会显得漂浮。",
+      "背景人物不应成为可识别主体，重点应放在场景氛围和产品主题。",
+      "小屏展示时顶部标识和底部口号可能需要放大或减少字数。",
+      "蓝紫渐变和暗背景要保持对比，避免标题边缘糊成一片。"
+    ],
+    "error_summary": ""
+  },
+  {
+    "cover_id": "cover_008",
+    "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/791357967.jpg",
+    "file_name": "791357967.jpg",
+    "label": "satisfied",
+    "status": "success",
+    "analysis_status": "success",
+    "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+    "meta": {
+      "cover_id": "cover_008",
+      "image_file": "791357967.jpg",
+      "video_type": "",
+      "publish_channel": "视频号",
+      "performance_label": "satisfied",
+      "performance_metric": "",
+      "business_goal": "Cover Decision + Generation System dataset calibration"
+    },
+    "image_level_observations": {
+      "primary_subject": "",
+      "visible_text_summary": "",
+      "visual_hierarchy": "",
+      "notable_design_elements": []
+    },
+    "decision_factors": {
+      "scene_classification": "",
+      "frame_type": "",
+      "face_signal": 0.0,
+      "emotion_signal": 0.0,
+      "composition_signal": 0.0,
+      "information_density": 0.0,
+      "event_signal": 0.0,
+      "product_visibility": "",
+      "title_hook_type": [],
+      "layout_type": "",
+      "click_logic": "",
+      "reusable_pattern": ""
+    },
+    "generation_strategy": {
+      "generation_mode": "",
+      "reference_frame_usage": "",
+      "subject_preservation": "",
+      "background_strategy": "",
+      "title_area_planning": "",
+      "brand_element_strategy": "",
+      "image2_prompt_direction": "",
+      "negative_constraints": [],
+      "generation_risk": ""
+    },
+    "qa_findings": {
+      "face_quality_check": "",
+      "product_accuracy_check": "",
+      "text_area_check": "",
+      "brand_consistency_check": "",
+      "clickability_check": "",
+      "platform_fit_check": "",
+      "ai_artifact_risk": "",
+      "final_usability": "failed",
+      "revision_instruction": ""
+    },
+    "reusable_prompt_signals": [
+      "真人讲解者+智能设备+大标题三段式结构",
+      "左右人物夹中间产品的展示构图",
+      "深蓝紫科技教育背景",
+      "白衬衫和紫色挂绳带来的专业展会感",
+      "手写笔刷中文大标题",
+      "标题使用问题句式和数字痛点",
+      "关键词使用紫蓝渐变强调",
+      "底部长下划线增强视觉收束",
+      "产品屏幕用彩色卡片暗示功能丰富",
+      "左上角放置小品牌标识"
+    ],
+    "risk_notes": [
+      "仅基于当前压缩图视觉内容分析，不推断人物真实身份。",
+      "生成复用时应替换品牌、人物和具体文案，避免直接仿制原图。",
+      "如果用于训练提示词，应把可复用结构和具体商标元素分离。",
+      "压缩图无法可靠判断细小文字和设备屏幕内所有内容。"
+    ],
+    "error_summary": ""
+  },
+  {
+    "cover_id": "cover_009",
+    "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/791357984.png",
+    "file_name": "791357984.png",
+    "label": "satisfied",
+    "status": "success",
+    "analysis_status": "success",
+    "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+    "meta": {
+      "cover_id": "cover_009",
+      "image_file": "791357984.png",
+      "video_type": "",
+      "publish_channel": "视频号",
+      "performance_label": "satisfied",
+      "performance_metric": "",
+      "business_goal": "Cover Decision + Generation System dataset calibration"
+    },
+    "image_level_observations": {
+      "primary_subject": "",
+      "visible_text_summary": "",
+      "visual_hierarchy": "",
+      "notable_design_elements": []
+    },
+    "decision_factors": {
+      "scene_classification": "",
+      "frame_type": "",
+      "face_signal": 0.0,
+      "emotion_signal": 0.0,
+      "composition_signal": 0.0,
+      "information_density": 0.0,
+      "event_signal": 0.0,
+      "product_visibility": "",
+      "title_hook_type": [],
+      "layout_type": "",
+      "click_logic": "",
+      "reusable_pattern": ""
+    },
+    "generation_strategy": {
+      "generation_mode": "",
+      "reference_frame_usage": "",
+      "subject_preservation": "",
+      "background_strategy": "",
+      "title_area_planning": "",
+      "brand_element_strategy": "",
+      "image2_prompt_direction": "",
+      "negative_constraints": [],
+      "generation_risk": ""
+    },
+    "qa_findings": {
+      "face_quality_check": "",
+      "product_accuracy_check": "",
+      "text_area_check": "",
+      "brand_consistency_check": "",
+      "clickability_check": "",
+      "platform_fit_check": "",
+      "ai_artifact_risk": "",
+      "final_usability": "failed",
+      "revision_instruction": ""
+    },
+    "reusable_prompt_signals": [
+      "竖版短视频封面",
+      "深色课堂背景",
+      "蓝紫科技感光效",
+      "左侧悬浮圆角AI教学后台界面",
+      "右下角惊讶学生表情",
+      "右上半透明思考气泡",
+      "底部两行超大中文标题",
+      "白色到紫蓝渐变粗体字",
+      "强阴影描边提升可读性",
+      "课堂摸鱼被老师一眼看穿的反转主题",
+      "品牌标识放左上角",
+      "界面发光边缘和透视倾斜"
+    ],
+    "risk_notes": [
+      "不要评价或推断人物身份。",
+      "生成时中文大字必须严格校对。",
+      "软件界面小字不适合作为必须精准复刻的内容。",
+      "避免让背景课堂文字抢夺主标题注意力。",
+      "如涉及真实品牌复刻，应确认使用权限。"
+    ],
+    "error_summary": ""
+  },
+  {
+    "cover_id": "cover_010",
+    "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/791358002.png",
+    "file_name": "791358002.png",
+    "label": "satisfied",
+    "status": "success",
+    "analysis_status": "success",
+    "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+    "meta": {
+      "cover_id": "cover_010",
+      "image_file": "791358002.png",
+      "video_type": "",
+      "publish_channel": "视频号",
+      "performance_label": "satisfied",
+      "performance_metric": "",
+      "business_goal": "Cover Decision + Generation System dataset calibration"
+    },
+    "image_level_observations": {
+      "primary_subject": "",
+      "visible_text_summary": "",
+      "visual_hierarchy": "先看到两位人物和问号，再看到主标题，最后读取栏目标签、品牌和开播时间。",
+      "notable_design_elements": []
+    },
+    "decision_factors": {
+      "scene_classification": "",
+      "frame_type": "",
+      "face_signal": 0.0,
+      "emotion_signal": 0.0,
+      "composition_signal": 0.0,
+      "information_density": 0.0,
+      "event_signal": 0.0,
+      "product_visibility": "",
+      "title_hook_type": [],
+      "layout_type": "",
+      "click_logic": "",
+      "reusable_pattern": ""
+    },
+    "generation_strategy": {
+      "generation_mode": "",
+      "reference_frame_usage": "",
+      "subject_preservation": "",
+      "background_strategy": "",
+      "title_area_planning": "",
+      "brand_element_strategy": "",
+      "image2_prompt_direction": "",
+      "negative_constraints": [],
+      "generation_risk": ""
+    },
+    "qa_findings": {
+      "face_quality_check": "",
+      "product_accuracy_check": "",
+      "text_area_check": "",
+      "brand_consistency_check": "",
+      "clickability_check": "",
+      "platform_fit_check": "",
+      "ai_artifact_risk": "",
+      "final_usability": "failed",
+      "revision_instruction": ""
+    },
+    "reusable_prompt_signals": [
+      "vertical 3:4 livestream cover",
+      "two adults in office discussion at desk",
+      "laptop centered in foreground",
+      "one person holding smartphone",
+      "dark purple blue AI technology background",
+      "glowing white rim light around people",
+      "large floating question marks above conversation",
+      "bold oversized Chinese headline area in lower half",
+      "white heavy title text with dark shadow",
+      "purple blue gradient emphasis word",
+      "small rounded label badge near title",
+      "brand logo in top left",
+      "subtle code UI text and tech frame in background",
+      "clear livestream date and time at bottom",
+      "high contrast short video cover style"
+    ],
+    "risk_notes": [
+      "复杂中文文字不应依赖图像生成模型一次性生成，建议后期手工排版。",
+      "人物不要被描述或处理成可识别真实身份。",
+      "强发光描边需要适度，避免产生粗糙抠图感。",
+      "底部时间信息在小缩略图中可能变弱，需要做移动端预览。",
+      "背景科技元素应保持低权重，避免抢占标题可读性。"
+    ],
+    "error_summary": ""
+  },
+  {
+    "cover_id": "cover_011",
+    "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/791358006.png",
+    "file_name": "791358006.png",
+    "label": "satisfied",
+    "status": "success",
+    "analysis_status": "success",
+    "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+    "meta": {
+      "cover_id": "cover_011",
+      "image_file": "791358006.png",
+      "video_type": "",
+      "publish_channel": "视频号",
+      "performance_label": "satisfied",
+      "performance_metric": "",
+      "business_goal": "Cover Decision + Generation System dataset calibration"
+    },
+    "image_level_observations": {
+      "primary_subject": "",
+      "visible_text_summary": "",
+      "visual_hierarchy": "",
+      "notable_design_elements": []
+    },
+    "decision_factors": {
+      "scene_classification": "",
+      "frame_type": "",
+      "face_signal": 0.0,
+      "emotion_signal": 0.0,
+      "composition_signal": 0.0,
+      "information_density": 0.0,
+      "event_signal": 0.0,
+      "product_visibility": "",
+      "title_hook_type": [],
+      "layout_type": "",
+      "click_logic": "",
+      "reusable_pattern": ""
+    },
+    "generation_strategy": {
+      "generation_mode": "",
+      "reference_frame_usage": "",
+      "subject_preservation": "",
+      "background_strategy": "",
+      "title_area_planning": "",
+      "brand_element_strategy": "",
+      "image2_prompt_direction": "",
+      "negative_constraints": [],
+      "generation_risk": ""
+    },
+    "qa_findings": {
+      "face_quality_check": "",
+      "product_accuracy_check": "",
+      "text_area_check": "",
+      "brand_consistency_check": "",
+      "clickability_check": "",
+      "platform_fit_check": "",
+      "ai_artifact_risk": "",
+      "final_usability": "failed",
+      "revision_instruction": ""
+    },
+    "reusable_prompt_signals": [
+      "dark tech launch poster",
+      "AI education teacher mini program",
+      "floating mobile UI mockup",
+      "glassmorphism feature launcher",
+      "three colorful 3D function icons",
+      "bold oversized Chinese typography",
+      "white and purple-blue gradient headline",
+      "neon rim light and soft bloom",
+      "high contrast black background",
+      "product interface screenshot aesthetic",
+      "social media cover composition",
+      "bottom-heavy headline hierarchy"
+    ],
+    "risk_notes": [
+      "未读取或比较其它封面，仅基于指定压缩图进行视觉分析",
+      "未调用外部API，未生成图片，未输出base64",
+      "背景小字存在压缩模糊，OCR式描述只应作为近似观察",
+      "不评价或推断任何人物身份",
+      "复刻时应避免把品牌或产品标识改造成不可读的装饰符号"
+    ],
+    "error_summary": ""
+  },
+  {
+    "cover_id": "cover_012",
+    "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/791358008.png",
+    "file_name": "791358008.png",
+    "label": "satisfied",
+    "status": "success",
+    "analysis_status": "success",
+    "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+    "meta": {
+      "cover_id": "cover_012",
+      "image_file": "791358008.png",
+      "video_type": "",
+      "publish_channel": "视频号",
+      "performance_label": "satisfied",
+      "performance_metric": "",
+      "business_goal": "Cover Decision + Generation System dataset calibration"
+    },
+    "image_level_observations": {
+      "primary_subject": "",
+      "visible_text_summary": "",
+      "visual_hierarchy": "",
+      "notable_design_elements": []
+    },
+    "decision_factors": [
+      "clear problem-solution hook in the headline",
+      "expert-presenter framing increases perceived authority",
+      "product board in background anchors the niche topic",
+      "bold bottom typography creates strong thumbnail impact",
+      "cool tech palette matches AI and hardware-analysis theme",
+      "realistic work setting makes the analysis feel practical"
+    ],
+    "generation_strategy": {
+      "generation_mode": "",
+      "reference_frame_usage": "",
+      "subject_preservation": "",
+      "background_strategy": "",
+      "title_area_planning": "",
+      "brand_element_strategy": "",
+      "image2_prompt_direction": "",
+      "negative_constraints": [
+        "avoid clutter over the presenter face",
+        "avoid tiny main headline text",
+        "avoid low-contrast headline colors",
+        "avoid unrelated decorative backgrounds",
+        "avoid placing key text outside safe margins",
+        "avoid making background poster text compete with the main headline"
+      ],
+      "generation_risk": ""
+    },
+    "qa_findings": {
+      "face_quality_check": "",
+      "product_accuracy_check": "",
+      "text_area_check": "",
+      "brand_consistency_check": "",
+      "clickability_check": "",
+      "platform_fit_check": "",
+      "ai_artifact_risk": "",
+      "final_usability": "failed",
+      "revision_instruction": ""
+    },
+    "reusable_prompt_signals": [
+      "Chinese vertical tech explainer cover",
+      "real person presenter at desk",
+      "laptop foreground",
+      "assignment grading machine product board background",
+      "dark blue studio lighting",
+      "bold white Chinese headline",
+      "cyan-blue keyword emphasis",
+      "purple gradient underline",
+      "right-edge nameplate overlay",
+      "top-left brand logo placement",
+      "professional product analysis tone",
+      "thumbnail-optimized high contrast"
+    ],
+    "risk_notes": [
+      "Do not infer or evaluate the real person's identity beyond visible on-image text.",
+      "Small background text should not be treated as reliably readable in generation targets.",
+      "Claims such as 全网最细 should be used cautiously if factual substantiation is required.",
+      "Generated variants should preserve text hierarchy so the bottom headline remains dominant."
+    ],
+    "error_summary": ""
+  },
+  {
+    "cover_id": "cover_013",
+    "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/791358013.png",
+    "file_name": "791358013.png",
+    "label": "satisfied",
+    "status": "success",
+    "analysis_status": "success",
+    "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+    "meta": {
+      "cover_id": "cover_013",
+      "image_file": "791358013.png",
+      "video_type": "",
+      "publish_channel": "视频号",
+      "performance_label": "satisfied",
+      "performance_metric": "",
+      "business_goal": "Cover Decision + Generation System dataset calibration"
+    },
+    "image_level_observations": {
+      "primary_subject": "",
+      "visible_text_summary": "",
+      "visual_hierarchy": "",
+      "notable_design_elements": []
+    },
+    "decision_factors": {
+      "scene_classification": "",
+      "frame_type": "",
+      "face_signal": 0.0,
+      "emotion_signal": 0.0,
+      "composition_signal": 0.0,
+      "information_density": 0.0,
+      "event_signal": 0.0,
+      "product_visibility": "设备占比足够大，外观完整，用户能立即理解这是实体教育硬件。",
+      "title_hook_type": [],
+      "layout_type": "",
+      "click_logic": "",
+      "reusable_pattern": ""
+    },
+    "generation_strategy": {
+      "generation_mode": "",
+      "reference_frame_usage": "",
+      "subject_preservation": "",
+      "background_strategy": "",
+      "title_area_planning": "",
+      "brand_element_strategy": "",
+      "image2_prompt_direction": "",
+      "negative_constraints": [
+        "不要让设备被标题大面积遮挡",
+        "不要使用低对比浅色背景",
+        "不要让人物挡住触控屏交互点",
+        "不要把小字功能说明作为主要信息",
+        "不要使用复杂多栏排版"
+      ],
+      "generation_risk": ""
+    },
+    "qa_findings": {
+      "face_quality_check": "",
+      "product_accuracy_check": "",
+      "text_area_check": "",
+      "brand_consistency_check": "",
+      "clickability_check": "",
+      "platform_fit_check": "",
+      "ai_artifact_risk": "",
+      "final_usability": "failed",
+      "revision_instruction": ""
+    },
+    "reusable_prompt_signals": [
+      "深紫蓝渐变背景加圆形聚光光晕",
+      "白色智能批改机/扫描打印一体设备作为主视觉",
+      "右侧儿童伸手触摸上方屏幕，体现容易操作",
+      "左上角品牌标识，左侧竖排产品类目胶囊标签",
+      "底部三行超大中文广告标题",
+      "痛点文案：别人操作太繁琐",
+      "利益点文案：小学生都能快速上手",
+      "白色粗体标题配紫蓝渐变强调字和笔刷下划线",
+      "教育科技产品、家长决策、短视频封面高转化风格"
+    ],
+    "risk_notes": [
+      "不要评价或推断画面中人物的真实身份。",
+      "复用品牌名、商标或具体产品外观时可能涉及授权风险。",
+      "生成模型可能难以稳定生成准确中文，需要后期排版或文字层单独处理。",
+      "儿童形象用于商业广告时需注意肖像、合规和平台审核风险。",
+      "屏幕界面细节在压缩图中不可读，不应据此编造具体功能界面。"
+    ],
+    "error_summary": ""
+  },
+  {
+    "cover_id": "cover_014",
+    "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/791358014.png",
+    "file_name": "791358014.png",
+    "label": "satisfied",
+    "status": "success",
+    "analysis_status": "success",
+    "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+    "meta": {
+      "cover_id": "cover_014",
+      "image_file": "791358014.png",
+      "video_type": "",
+      "publish_channel": "视频号",
+      "performance_label": "satisfied",
+      "performance_metric": "",
+      "business_goal": "Cover Decision + Generation System dataset calibration"
+    },
+    "image_level_observations": {
+      "primary_subject": "",
+      "visible_text_summary": "",
+      "visual_hierarchy": "",
+      "notable_design_elements": []
+    },
+    "decision_factors": {
+      "scene_classification": "",
+      "frame_type": "",
+      "face_signal": 0.0,
+      "emotion_signal": 0.0,
+      "composition_signal": 0.0,
+      "information_density": 0.0,
+      "event_signal": 0.0,
+      "product_visibility": "",
+      "title_hook_type": [],
+      "layout_type": "",
+      "click_logic": "",
+      "reusable_pattern": ""
+    },
+    "generation_strategy": {
+      "generation_mode": "",
+      "reference_frame_usage": "",
+      "subject_preservation": "",
+      "background_strategy": "",
+      "title_area_planning": "",
+      "brand_element_strategy": "",
+      "image2_prompt_direction": "",
+      "negative_constraints": [
+        "Do not imply or identify specific people.",
+        "Do not depend on exact tiny booth text for meaning.",
+        "Avoid generic stock-photo emptiness; the booth should look active and documentary-like.",
+        "Avoid excessive decorative effects that make the headline unreadable."
+      ],
+      "generation_risk": ""
+    },
+    "qa_findings": {
+      "face_quality_check": "",
+      "product_accuracy_check": "",
+      "text_area_check": "",
+      "brand_consistency_check": "",
+      "clickability_check": "",
+      "platform_fit_check": "",
+      "ai_artifact_risk": "",
+      "final_usability": "failed",
+      "revision_instruction": ""
+    },
+    "reusable_prompt_signals": [
+      "vertical 3:4 Chinese tech-expo cover",
+      "dark purple AI neon background",
+      "top centered brand logo text",
+      "event title line under brand",
+      "central real exhibition booth photo with glowing border",
+      "several visitors gathered at booth demonstration",
+      "large white brush-script Chinese headline in lower third",
+      "headline phrase about exhibition现场 and machine receiving attention",
+      "violet light streaks and futuristic motion accents",
+      "high contrast documentary plus promotional poster style"
+    ],
+    "risk_notes": [
+      "Compressed image limits reliable reading of small booth text.",
+      "Exact organization names and product claims should be treated as visual text only unless separately verified.",
+      "When regenerating, avoid facial identity emphasis and keep people as anonymous exhibition attendees."
+    ],
+    "error_summary": ""
+  },
+  {
+    "cover_id": "cover_015",
+    "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/812632887.png",
+    "file_name": "812632887.png",
+    "label": "satisfied",
+    "status": "success",
+    "analysis_status": "success",
+    "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+    "meta": {
+      "cover_id": "cover_015",
+      "image_file": "812632887.png",
+      "video_type": "",
+      "publish_channel": "视频号",
+      "performance_label": "satisfied",
+      "performance_metric": "",
+      "business_goal": "Cover Decision + Generation System dataset calibration"
+    },
+    "image_level_observations": {
+      "primary_subject": "",
+      "visible_text_summary": "",
+      "visual_hierarchy": "",
+      "notable_design_elements": []
+    },
+    "decision_factors": {
+      "scene_classification": "",
+      "frame_type": "",
+      "face_signal": 0.0,
+      "emotion_signal": 0.0,
+      "composition_signal": 0.0,
+      "information_density": 0.0,
+      "event_signal": 0.0,
+      "product_visibility": "",
+      "title_hook_type": [],
+      "layout_type": "",
+      "click_logic": "",
+      "reusable_pattern": ""
+    },
+    "generation_strategy": {
+      "generation_mode": "",
+      "reference_frame_usage": "",
+      "subject_preservation": "",
+      "background_strategy": "",
+      "title_area_planning": "",
+      "brand_element_strategy": "",
+      "image2_prompt_direction": "",
+      "negative_constraints": [
+        "不要让主标题遮挡面部",
+        "不要让背景文字抢过主标题",
+        "不要把装饰元素铺满全图",
+        "不要降低人物边缘清晰度"
+      ],
+      "generation_risk": ""
+    },
+    "qa_findings": {
+      "face_quality_check": "",
+      "product_accuracy_check": "",
+      "text_area_check": "",
+      "brand_consistency_check": "",
+      "clickability_check": "",
+      "platform_fit_check": "",
+      "ai_artifact_risk": "",
+      "final_usability": "failed",
+      "revision_instruction": ""
+    },
+    "reusable_prompt_signals": [
+      "activity check-in cover",
+      "presenter cutout with thick white outline",
+      "conference venue entrance background",
+      "large handwritten Chinese headline across lower middle",
+      "blue purple underline strokes",
+      "brand logo in top left",
+      "cute mascot sticker in bottom right",
+      "dark tech-event color grading",
+      "high contrast mobile thumbnail",
+      "welcoming hand gesture toward event signage"
+    ],
+    "risk_notes": [
+      "Do not infer or evaluate the person's identity.",
+      "Visible brand and event text should be treated as image text, not verified external facts.",
+      "If recreating, preserve title readability before adding decorative effects.",
+      "Small supporting text may lose readability after further compression."
+    ],
+    "error_summary": ""
+  },
+  {
+    "cover_id": "cover_016",
+    "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/812632897.png",
+    "file_name": "812632897.png",
+    "label": "satisfied",
+    "status": "success",
+    "analysis_status": "success",
+    "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+    "meta": {
+      "cover_id": "cover_016",
+      "image_file": "812632897.png",
+      "video_type": "",
+      "publish_channel": "视频号",
+      "performance_label": "satisfied",
+      "performance_metric": "",
+      "business_goal": "Cover Decision + Generation System dataset calibration"
+    },
+    "image_level_observations": {
+      "primary_subject": "",
+      "visible_text_summary": "",
+      "visual_hierarchy": "",
+      "notable_design_elements": []
+    },
+    "decision_factors": {
+      "scene_classification": "",
+      "frame_type": "",
+      "face_signal": 0.0,
+      "emotion_signal": 0.0,
+      "composition_signal": 0.0,
+      "information_density": 0.0,
+      "event_signal": 0.0,
+      "product_visibility": "",
+      "title_hook_type": [],
+      "layout_type": "",
+      "click_logic": "",
+      "reusable_pattern": ""
+    },
+    "generation_strategy": {
+      "generation_mode": "",
+      "reference_frame_usage": "",
+      "subject_preservation": "",
+      "background_strategy": "",
+      "title_area_planning": "",
+      "brand_element_strategy": "",
+      "image2_prompt_direction": "",
+      "negative_constraints": [
+        "Do not make the central headline small.",
+        "Do not use a plain flat background.",
+        "Do not let the bottom photo overpower the headline.",
+        "Do not remove the live-event proof layer.",
+        "Do not use low-contrast thin typography for the main claim."
+      ],
+      "generation_risk": ""
+    },
+    "qa_findings": {
+      "face_quality_check": "",
+      "product_accuracy_check": "",
+      "text_area_check": "",
+      "brand_consistency_check": "",
+      "clickability_check": "",
+      "platform_fit_check": "",
+      "ai_artifact_risk": "",
+      "final_usability": "failed",
+      "revision_instruction": ""
+    },
+    "reusable_prompt_signals": [
+      "vertical 3:4 Chinese social media cover",
+      "blue FORCE conference poster background",
+      "snow mountain or summit event visual",
+      "large white handwritten brush headline",
+      "central dark gradient text band",
+      "running cartoon mascot on left",
+      "purple underline and motion accent strokes",
+      "bottom real exhibition-floor crowd photo",
+      "education AI product event recap",
+      "brand text top-left",
+      "headline about 作业批改机",
+      "high contrast white text over dark middle area",
+      "conference recap copy near bottom",
+      "tech event atmosphere with blue and white palette"
+    ],
+    "risk_notes": [
+      "Avoid implying specific personal identities from the exhibition-floor people; describe them only as crowd or event attendees.",
+      "Chinese text legibility is central to the design and may fail if regenerated with inaccurate characters.",
+      "The design depends on balancing a busy real-photo bottom section with a clean dark headline area.",
+      "A regenerated image should avoid unauthorized logo misuse unless the brand assets are licensed or provided."
+    ],
+    "error_summary": ""
+  },
+  {
+    "cover_id": "cover_017",
+    "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/812632899.png",
+    "file_name": "812632899.png",
+    "label": "satisfied",
+    "status": "success",
+    "analysis_status": "success",
+    "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+    "meta": {
+      "cover_id": "cover_017",
+      "image_file": "812632899.png",
+      "video_type": "",
+      "publish_channel": "视频号",
+      "performance_label": "satisfied",
+      "performance_metric": "",
+      "business_goal": "Cover Decision + Generation System dataset calibration"
+    },
+    "image_level_observations": {
+      "primary_subject": "",
+      "visible_text_summary": "",
+      "visual_hierarchy": "",
+      "notable_design_elements": []
+    },
+    "decision_factors": {
+      "scene_classification": "",
+      "frame_type": "",
+      "face_signal": 0.0,
+      "emotion_signal": 0.0,
+      "composition_signal": 0.0,
+      "information_density": 0.0,
+      "event_signal": 0.0,
+      "product_visibility": "",
+      "title_hook_type": [],
+      "layout_type": "",
+      "click_logic": "",
+      "reusable_pattern": ""
+    },
+    "generation_strategy": {
+      "generation_mode": "",
+      "reference_frame_usage": "",
+      "subject_preservation": "",
+      "background_strategy": "",
+      "title_area_planning": "",
+      "brand_element_strategy": "",
+      "image2_prompt_direction": "",
+      "negative_constraints": [
+        "避免主标题被人物或复杂背景遮挡",
+        "避免顶部品牌低对比",
+        "避免过多小字堆叠",
+        "避免人物面部成为封面主体"
+      ],
+      "generation_risk": ""
+    },
+    "qa_findings": {
+      "face_quality_check": "",
+      "product_accuracy_check": "",
+      "text_area_check": "",
+      "brand_consistency_check": "",
+      "clickability_check": "",
+      "platform_fit_check": "",
+      "ai_artifact_risk": "",
+      "final_usability": "failed",
+      "revision_instruction": ""
+    },
+    "reusable_prompt_signals": [
+      "4:3 event cover poster",
+      "blue sky and snowy mountain conference backdrop",
+      "large bold white Chinese brush lettering with heavy black shadow",
+      "expo crowd photo strip at bottom",
+      "running mascot character on left with motion lines",
+      "FORCE conference branding at top",
+      "2026 SUMMER event text",
+      "high-energy product launch atmosphere",
+      "strong thumbnail readability",
+      "blue white black palette with purple accent underline"
+    ],
+    "risk_notes": [
+      "“全场唯一”属于强主张，复用时需要确保事实可验证。",
+      "FORCE、读书郎Ai等品牌和大会元素可能涉及授权或商标使用风险。",
+      "底部真人现场照片复用时需注意肖像、场地和活动素材授权。",
+      "中文手写标题在生成模型中容易出现错字，需后期校对。",
+      "复杂拼贴构图在小尺寸平台缩略图中可能降低副标题可读性。"
+    ],
+    "error_summary": ""
+  },
+  {
+    "cover_id": "cover_018",
+    "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/Frame 1925204765.png",
+    "file_name": "Frame 1925204765.png",
+    "label": "satisfied",
+    "status": "success",
+    "analysis_status": "success",
+    "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+    "meta": {
+      "cover_id": "cover_018",
+      "image_file": "Frame 1925204765.png",
+      "video_type": "",
+      "publish_channel": "视频号",
+      "performance_label": "satisfied",
+      "performance_metric": "",
+      "business_goal": "Cover Decision + Generation System dataset calibration"
+    },
+    "image_level_observations": {
+      "primary_subject": "",
+      "visible_text_summary": "",
+      "visual_hierarchy": "",
+      "notable_design_elements": []
+    },
+    "decision_factors": {
+      "scene_classification": "",
+      "frame_type": "",
+      "face_signal": 0.0,
+      "emotion_signal": 0.0,
+      "composition_signal": 0.0,
+      "information_density": 0.0,
+      "event_signal": 0.0,
+      "product_visibility": "",
+      "title_hook_type": [],
+      "layout_type": "",
+      "click_logic": "",
+      "reusable_pattern": ""
+    },
+    "generation_strategy": {
+      "generation_mode": "",
+      "reference_frame_usage": "",
+      "subject_preservation": "",
+      "background_strategy": "",
+      "title_area_planning": "",
+      "brand_element_strategy": "",
+      "image2_prompt_direction": "",
+      "negative_constraints": [],
+      "generation_risk": ""
+    },
+    "qa_findings": {
+      "face_quality_check": "",
+      "product_accuracy_check": "",
+      "text_area_check": "",
+      "brand_consistency_check": "",
+      "clickability_check": "",
+      "platform_fit_check": "",
+      "ai_artifact_risk": "",
+      "final_usability": "failed",
+      "revision_instruction": ""
+    },
+    "reusable_prompt_signals": [
+      "vertical 3:4 cover poster",
+      "dark navy black background",
+      "professional speaker on right holding microphone",
+      "white shirt with cool blue-purple rim light",
+      "large bold Chinese headline on left",
+      "AI and Agent mixed-language headline",
+      "Agent word highlighted in cyan blue gradient",
+      "top-left compact brand logo",
+      "cyan-to-purple rounded subtitle pill",
+      "lower-left vertical accent bar for speaker info",
+      "glowing 3D cube and puzzle-piece technology object",
+      "premium AI education technology visual style",
+      "high contrast white typography",
+      "conference/keynote promotional mood"
+    ],
+    "risk_notes": [
+      "Do not infer or evaluate the speaker's identity from the image.",
+      "Generated recreations may fail on exact Chinese typography unless text is added separately.",
+      "Small brand and credential text are vulnerable to compression blur.",
+      "Portrait-based recreation may raise likeness or authorization concerns if intended to depict a real person.",
+      "The lower-left 3D object should remain secondary so it does not reduce headline readability."
+    ],
+    "error_summary": ""
+  },
+  {
+    "cover_id": "cover_019",
+    "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/Frame 1925204766.png",
+    "file_name": "Frame 1925204766.png",
+    "label": "satisfied",
+    "status": "success",
+    "analysis_status": "success",
+    "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+    "meta": {
+      "cover_id": "cover_019",
+      "image_file": "Frame 1925204766.png",
+      "video_type": "",
+      "publish_channel": "视频号",
+      "performance_label": "satisfied",
+      "performance_metric": "",
+      "business_goal": "Cover Decision + Generation System dataset calibration"
+    },
+    "image_level_observations": {
+      "primary_subject": "",
+      "visible_text_summary": "",
+      "visual_hierarchy": "",
+      "notable_design_elements": []
+    },
+    "decision_factors": {
+      "scene_classification": "",
+      "frame_type": "",
+      "face_signal": 0.0,
+      "emotion_signal": 0.0,
+      "composition_signal": 0.0,
+      "information_density": 0.0,
+      "event_signal": 0.0,
+      "product_visibility": "",
+      "title_hook_type": [],
+      "layout_type": "",
+      "click_logic": "",
+      "reusable_pattern": ""
+    },
+    "generation_strategy": {
+      "generation_mode": "",
+      "reference_frame_usage": "",
+      "subject_preservation": "",
+      "background_strategy": "",
+      "title_area_planning": "",
+      "brand_element_strategy": "",
+      "image2_prompt_direction": "",
+      "negative_constraints": [
+        "不要使用浅色复杂背景",
+        "不要让人物压住主标题",
+        "不要把科技元素做得比标题更抢眼",
+        "不要使用过多小字",
+        "不要把关键词AI和Agent弱化"
+      ],
+      "generation_risk": ""
+    },
+    "qa_findings": {
+      "face_quality_check": "",
+      "product_accuracy_check": "",
+      "text_area_check": "",
+      "brand_consistency_check": "",
+      "clickability_check": "",
+      "platform_fit_check": "",
+      "ai_artifact_risk": "",
+      "final_usability": "failed",
+      "revision_instruction": ""
+    },
+    "reusable_prompt_signals": [
+      "deep navy technology conference poster",
+      "right-side speaker portrait holding microphone",
+      "large bold Chinese headline on left",
+      "AI Agent keyword highlighted in cyan violet gradient",
+      "blue-purple rounded label badge above headline",
+      "3D modular cubes and puzzle pieces at lower left",
+      "high contrast white typography",
+      "professional education technology brand cover",
+      "clean two-column composition",
+      "stage lighting with subtle glow"
+    ],
+    "risk_notes": [
+      "不要在复用时生成或暗示具体人物身份评价。",
+      "人物肖像、品牌标识和可见姓名职务属于高敏感复刻元素，生成新图时应改为泛化人物与泛化品牌。",
+      "若用于小尺寸信息流，底部科技图形和小字信息可能不清晰，应优先保留主标题和人物。"
+    ],
+    "error_summary": ""
   }
 ]

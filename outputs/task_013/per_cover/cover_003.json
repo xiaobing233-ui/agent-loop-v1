@@ -1,14 +1,14 @@
 {
-  "cover_id": "cover_001",
-  "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/不满意的封面/812632892.png",
-  "file_name": "812632892.png",
+  "cover_id": "cover_003",
+  "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/不满意的封面/Frame 4.jpg",
+  "file_name": "Frame 4.jpg",
   "label": "unsatisfied",
   "status": "success",
   "analysis_status": "success",
   "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
   "meta": {
-    "cover_id": "cover_001",
-    "image_file": "812632892.png",
+    "cover_id": "cover_003",
+    "image_file": "Frame 4.jpg",
     "video_type": "",
     "publish_channel": "视频号",
     "performance_label": "unsatisfied",
@@ -58,23 +58,22 @@
     "revision_instruction": ""
   },
   "reusable_prompt_signals": [
-    "竖版短视频封面",
-    "AI+教育落地主题",
-    "科技大会展馆通道",
-    "讲解员人物左侧出镜并指向活动屏幕",
-    "FORCE'26活动大屏作为背景关键元素",
-    "蓝紫科技风下划线",
-    "高对比中文大标题",
-    "背景浅景深和低噪声",
-    "品牌logo角落固定排版",
-    "人物自然光商业摄影"
+    "企业荣誉封面",
+    "金色证书牌匾",
+    "广东省制造业单项冠军企业主题",
+    "深紫蓝背景",
+    "清晰大标题",
+    "品牌logo左上角",
+    "竖向荣获标签",
+    "克制高级光效",
+    "稳重科技企业发布感",
+    "避免标题过度透视变形",
+    "避免证书小字乱码"
   ],
   "risk_notes": [
-    "不要评价或识别画面人物身份",
-    "生成式模型可能错误复现中文、英文活动名和品牌logo",
-    "真实品牌元素可能涉及授权和商标使用风险",
-    "若继续用于训练或提示词复用，应把人物描述为通用讲解员而非具体个人",
-    "当前分析仅基于指定压缩图的可见内容"
+    "证书上的小字和奖项名称是生成风险最高区域，后续生成应尽量使用可控文字排版。",
+    "底部大标题若继续使用强透视，容易在移动端缩略图中显得拥挤和低质。",
+    "深紫蓝霓虹舞台风格虽然吸睛，但与正式企业荣誉之间存在质感冲突。"
   ],
   "error_summary": ""
 }

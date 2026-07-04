@@ -1,17 +1,17 @@
 {
-  "cover_id": "cover_001",
-  "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/不满意的封面/812632892.png",
-  "file_name": "812632892.png",
-  "label": "unsatisfied",
+  "cover_id": "cover_019",
+  "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/Frame 1925204766.png",
+  "file_name": "Frame 1925204766.png",
+  "label": "satisfied",
   "status": "success",
   "analysis_status": "success",
   "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
   "meta": {
-    "cover_id": "cover_001",
-    "image_file": "812632892.png",
+    "cover_id": "cover_019",
+    "image_file": "Frame 1925204766.png",
     "video_type": "",
     "publish_channel": "视频号",
-    "performance_label": "unsatisfied",
+    "performance_label": "satisfied",
     "performance_metric": "",
     "business_goal": "Cover Decision + Generation System dataset calibration"
   },
@@ -43,7 +43,13 @@
     "title_area_planning": "",
     "brand_element_strategy": "",
     "image2_prompt_direction": "",
-    "negative_constraints": [],
+    "negative_constraints": [
+      "不要使用浅色复杂背景",
+      "不要让人物压住主标题",
+      "不要把科技元素做得比标题更抢眼",
+      "不要使用过多小字",
+      "不要把关键词AI和Agent弱化"
+    ],
     "generation_risk": ""
   },
   "qa_findings": {
@@ -58,23 +64,21 @@
     "revision_instruction": ""
   },
   "reusable_prompt_signals": [
-    "竖版短视频封面",
-    "AI+教育落地主题",
-    "科技大会展馆通道",
-    "讲解员人物左侧出镜并指向活动屏幕",
-    "FORCE'26活动大屏作为背景关键元素",
-    "蓝紫科技风下划线",
-    "高对比中文大标题",
-    "背景浅景深和低噪声",
-    "品牌logo角落固定排版",
-    "人物自然光商业摄影"
+    "deep navy technology conference poster",
+    "right-side speaker portrait holding microphone",
+    "large bold Chinese headline on left",
+    "AI Agent keyword highlighted in cyan violet gradient",
+    "blue-purple rounded label badge above headline",
+    "3D modular cubes and puzzle pieces at lower left",
+    "high contrast white typography",
+    "professional education technology brand cover",
+    "clean two-column composition",
+    "stage lighting with subtle glow"
   ],
   "risk_notes": [
-    "不要评价或识别画面人物身份",
-    "生成式模型可能错误复现中文、英文活动名和品牌logo",
-    "真实品牌元素可能涉及授权和商标使用风险",
-    "若继续用于训练或提示词复用，应把人物描述为通用讲解员而非具体个人",
-    "当前分析仅基于指定压缩图的可见内容"
+    "不要在复用时生成或暗示具体人物身份评价。",
+    "人物肖像、品牌标识和可见姓名职务属于高敏感复刻元素，生成新图时应改为泛化人物与泛化品牌。",
+    "若用于小尺寸信息流，底部科技图形和小字信息可能不清晰，应优先保留主标题和人物。"
   ],
   "error_summary": ""
 }

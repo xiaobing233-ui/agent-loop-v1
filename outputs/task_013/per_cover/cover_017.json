@@ -1,17 +1,17 @@
 {
-  "cover_id": "cover_001",
-  "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/不满意的封面/812632892.png",
-  "file_name": "812632892.png",
-  "label": "unsatisfied",
+  "cover_id": "cover_017",
+  "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/812632899.png",
+  "file_name": "812632899.png",
+  "label": "satisfied",
   "status": "success",
   "analysis_status": "success",
   "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
   "meta": {
-    "cover_id": "cover_001",
-    "image_file": "812632892.png",
+    "cover_id": "cover_017",
+    "image_file": "812632899.png",
     "video_type": "",
     "publish_channel": "视频号",
-    "performance_label": "unsatisfied",
+    "performance_label": "satisfied",
     "performance_metric": "",
     "business_goal": "Cover Decision + Generation System dataset calibration"
   },
@@ -43,7 +43,12 @@
     "title_area_planning": "",
     "brand_element_strategy": "",
     "image2_prompt_direction": "",
-    "negative_constraints": [],
+    "negative_constraints": [
+      "避免主标题被人物或复杂背景遮挡",
+      "避免顶部品牌低对比",
+      "避免过多小字堆叠",
+      "避免人物面部成为封面主体"
+    ],
     "generation_risk": ""
   },
   "qa_findings": {
@@ -58,23 +63,23 @@
     "revision_instruction": ""
   },
   "reusable_prompt_signals": [
-    "竖版短视频封面",
-    "AI+教育落地主题",
-    "科技大会展馆通道",
-    "讲解员人物左侧出镜并指向活动屏幕",
-    "FORCE'26活动大屏作为背景关键元素",
-    "蓝紫科技风下划线",
-    "高对比中文大标题",
-    "背景浅景深和低噪声",
-    "品牌logo角落固定排版",
-    "人物自然光商业摄影"
+    "4:3 event cover poster",
+    "blue sky and snowy mountain conference backdrop",
+    "large bold white Chinese brush lettering with heavy black shadow",
+    "expo crowd photo strip at bottom",
+    "running mascot character on left with motion lines",
+    "FORCE conference branding at top",
+    "2026 SUMMER event text",
+    "high-energy product launch atmosphere",
+    "strong thumbnail readability",
+    "blue white black palette with purple accent underline"
   ],
   "risk_notes": [
-    "不要评价或识别画面人物身份",
-    "生成式模型可能错误复现中文、英文活动名和品牌logo",
-    "真实品牌元素可能涉及授权和商标使用风险",
-    "若继续用于训练或提示词复用，应把人物描述为通用讲解员而非具体个人",
-    "当前分析仅基于指定压缩图的可见内容"
+    "“全场唯一”属于强主张，复用时需要确保事实可验证。",
+    "FORCE、读书郎Ai等品牌和大会元素可能涉及授权或商标使用风险。",
+    "底部真人现场照片复用时需注意肖像、场地和活动素材授权。",
+    "中文手写标题在生成模型中容易出现错字，需后期校对。",
+    "复杂拼贴构图在小尺寸平台缩略图中可能降低副标题可读性。"
   ],
   "error_summary": ""
 }

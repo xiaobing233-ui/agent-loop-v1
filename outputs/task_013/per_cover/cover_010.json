@@ -1,0 +1,85 @@
+{
+  "cover_id": "cover_010",
+  "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/791358002.png",
+  "file_name": "791358002.png",
+  "label": "satisfied",
+  "status": "success",
+  "analysis_status": "success",
+  "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+  "meta": {
+    "cover_id": "cover_010",
+    "image_file": "791358002.png",
+    "video_type": "",
+    "publish_channel": "视频号",
+    "performance_label": "satisfied",
+    "performance_metric": "",
+    "business_goal": "Cover Decision + Generation System dataset calibration"
+  },
+  "image_level_observations": {
+    "primary_subject": "",
+    "visible_text_summary": "",
+    "visual_hierarchy": "先看到两位人物和问号，再看到主标题，最后读取栏目标签、品牌和开播时间。",
+    "notable_design_elements": []
+  },
+  "decision_factors": {
+    "scene_classification": "",
+    "frame_type": "",
+    "face_signal": 0.0,
+    "emotion_signal": 0.0,
+    "composition_signal": 0.0,
+    "information_density": 0.0,
+    "event_signal": 0.0,
+    "product_visibility": "",
+    "title_hook_type": [],
+    "layout_type": "",
+    "click_logic": "",
+    "reusable_pattern": ""
+  },
+  "generation_strategy": {
+    "generation_mode": "",
+    "reference_frame_usage": "",
+    "subject_preservation": "",
+    "background_strategy": "",
+    "title_area_planning": "",
+    "brand_element_strategy": "",
+    "image2_prompt_direction": "",
+    "negative_constraints": [],
+    "generation_risk": ""
+  },
+  "qa_findings": {
+    "face_quality_check": "",
+    "product_accuracy_check": "",
+    "text_area_check": "",
+    "brand_consistency_check": "",
+    "clickability_check": "",
+    "platform_fit_check": "",
+    "ai_artifact_risk": "",
+    "final_usability": "failed",
+    "revision_instruction": ""
+  },
+  "reusable_prompt_signals": [
+    "vertical 3:4 livestream cover",
+    "two adults in office discussion at desk",
+    "laptop centered in foreground",
+    "one person holding smartphone",
+    "dark purple blue AI technology background",
+    "glowing white rim light around people",
+    "large floating question marks above conversation",
+    "bold oversized Chinese headline area in lower half",
+    "white heavy title text with dark shadow",
+    "purple blue gradient emphasis word",
+    "small rounded label badge near title",
+    "brand logo in top left",
+    "subtle code UI text and tech frame in background",
+    "clear livestream date and time at bottom",
+    "high contrast short video cover style"
+  ],
+  "risk_notes": [
+    "复杂中文文字不应依赖图像生成模型一次性生成，建议后期手工排版。",
+    "人物不要被描述或处理成可识别真实身份。",
+    "强发光描边需要适度，避免产生粗糙抠图感。",
+    "底部时间信息在小缩略图中可能变弱，需要做移动端预览。",
+    "背景科技元素应保持低权重，避免抢占标题可读性。"
+  ],
+  "error_summary": ""
+}

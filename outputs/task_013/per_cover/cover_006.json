@@ -1,17 +1,17 @@
 {
-  "cover_id": "cover_001",
-  "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/不满意的封面/812632892.png",
-  "file_name": "812632892.png",
-  "label": "unsatisfied",
+  "cover_id": "cover_006",
+  "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/791357925.png",
+  "file_name": "791357925.png",
+  "label": "satisfied",
   "status": "success",
   "analysis_status": "success",
   "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
   "meta": {
-    "cover_id": "cover_001",
-    "image_file": "812632892.png",
+    "cover_id": "cover_006",
+    "image_file": "791357925.png",
     "video_type": "",
     "publish_channel": "视频号",
-    "performance_label": "unsatisfied",
+    "performance_label": "satisfied",
     "performance_metric": "",
     "business_goal": "Cover Decision + Generation System dataset calibration"
   },
@@ -43,7 +43,13 @@
     "title_area_planning": "",
     "brand_element_strategy": "",
     "image2_prompt_direction": "",
-    "negative_constraints": [],
+    "negative_constraints": [
+      "不要弱化标题字号",
+      "不要使用低对比浅色背景",
+      "不要让人物遮挡主标题",
+      "不要让设备过小或被裁切",
+      "不要加入与AI批改无关的杂乱元素"
+    ],
     "generation_risk": ""
   },
   "qa_findings": {
@@ -58,23 +64,22 @@
     "revision_instruction": ""
   },
   "reusable_prompt_signals": [
-    "竖版短视频封面",
-    "AI+教育落地主题",
-    "科技大会展馆通道",
-    "讲解员人物左侧出镜并指向活动屏幕",
-    "FORCE'26活动大屏作为背景关键元素",
-    "蓝紫科技风下划线",
-    "高对比中文大标题",
-    "背景浅景深和低噪声",
-    "品牌logo角落固定排版",
-    "人物自然光商业摄影"
+    "深蓝黑科技感背景",
+    "超粗中文海报字",
+    "白色加浅蓝双色主标题",
+    "蓝紫渐变圆角胶囊卖点条",
+    "右下人物半身抠图",
+    "人物边缘蓝色发光描边",
+    "左下手托白色智能设备",
+    "标题强调效率和省事",
+    "信息流广告封面构图",
+    "高对比移动端可读排版"
   ],
   "risk_notes": [
-    "不要评价或识别画面人物身份",
-    "生成式模型可能错误复现中文、英文活动名和品牌logo",
-    "真实品牌元素可能涉及授权和商标使用风险",
-    "若继续用于训练或提示词复用，应把人物描述为通用讲解员而非具体个人",
-    "当前分析仅基于指定压缩图的可见内容"
+    "人物与设备属于合成式商业封面风格，生成时需避免边缘抠图生硬。",
+    "标题字形需要保持中文可读性，AI生成时容易出现错字或笔画变形。",
+    "品牌标识和产品细节较小，复刻时需要单独控制清晰度。",
+    "不要根据人物外观推断或评价真实身份。"
   ],
   "error_summary": ""
 }

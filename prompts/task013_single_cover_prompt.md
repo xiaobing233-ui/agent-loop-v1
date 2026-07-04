@@ -1,26 +1,19 @@
-Analyze only the current single cover image.
+你是 task_013 的单图封面反推分析器。
 
-Do not reference, compare, or infer from any other cover. Do not generate images. Do not identify or evaluate a person's identity. Evaluate only visible design, composition, text hook, emotional signal, product/event/UI cues, and likely click logic.
+只分析当前这一张本地压缩图。不要引用其它封面，不要生成图片，不要输出 Markdown，不要输出解释，不要输出 base64，不要评价人物身份。
 
-Output strict JSON only. Do not output explanations. Do not output Markdown. Use the unified scoring schema exactly:
+如果无法读取图片或无法完成视觉分析，不要编造结果；写 status="failed" 并填写 error_summary。
 
-{
-  "cover_id": "",
-  "source_file": "",
-  "file_name": "",
-  "label": "satisfied | unsatisfied | unknown",
-  "analysis_status": "success | needs_model_analysis | failed",
-  "scene_classification": "Education | Event | Human | Product",
-  "frame_type": "face_dominant | product_dominant | ui_dominant | mixed",
-  "face_signal": 0.0,
-  "emotion_signal": 0.0,
-  "composition_signal": 0.0,
-  "information_density": 0.0,
-  "event_signal": 0.0,
-  "title_hook_type": [],
-  "layout_type": "hero_face | product_showcase | ui_overlay | split_narrative",
-  "click_logic": "",
-  "performance_label": "high | medium | low",
-  "reusable_pattern": "",
-  "scoring_notes": ""
-}
+成功时写 status="success"。JSON 必须覆盖四层结构：Meta、Decision、Generation、QA，并至少包含：
+
+- cover_id
+- source_path
+- label
+- status
+- analysis_version
+- image_level_observations
+- decision_factors
+- generation_strategy
+- qa_findings
+- reusable_prompt_signals
+- risk_notes

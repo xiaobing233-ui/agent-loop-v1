@@ -1,0 +1,82 @@
+{
+  "cover_id": "cover_012",
+  "source_path": "/Users/bing/WORKSPACE_工作区/01_ACTIVE_进行中/视频号封面ai工作流/满意的封面/791358008.png",
+  "file_name": "791358008.png",
+  "label": "satisfied",
+  "status": "success",
+  "analysis_status": "success",
+  "analysis_version": "cover_reverse_dataset_v2_file_only_2026-07-04",
+  "meta": {
+    "cover_id": "cover_012",
+    "image_file": "791358008.png",
+    "video_type": "",
+    "publish_channel": "视频号",
+    "performance_label": "satisfied",
+    "performance_metric": "",
+    "business_goal": "Cover Decision + Generation System dataset calibration"
+  },
+  "image_level_observations": {
+    "primary_subject": "",
+    "visible_text_summary": "",
+    "visual_hierarchy": "",
+    "notable_design_elements": []
+  },
+  "decision_factors": [
+    "clear problem-solution hook in the headline",
+    "expert-presenter framing increases perceived authority",
+    "product board in background anchors the niche topic",
+    "bold bottom typography creates strong thumbnail impact",
+    "cool tech palette matches AI and hardware-analysis theme",
+    "realistic work setting makes the analysis feel practical"
+  ],
+  "generation_strategy": {
+    "generation_mode": "",
+    "reference_frame_usage": "",
+    "subject_preservation": "",
+    "background_strategy": "",
+    "title_area_planning": "",
+    "brand_element_strategy": "",
+    "image2_prompt_direction": "",
+    "negative_constraints": [
+      "avoid clutter over the presenter face",
+      "avoid tiny main headline text",
+      "avoid low-contrast headline colors",
+      "avoid unrelated decorative backgrounds",
+      "avoid placing key text outside safe margins",
+      "avoid making background poster text compete with the main headline"
+    ],
+    "generation_risk": ""
+  },
+  "qa_findings": {
+    "face_quality_check": "",
+    "product_accuracy_check": "",
+    "text_area_check": "",
+    "brand_consistency_check": "",
+    "clickability_check": "",
+    "platform_fit_check": "",
+    "ai_artifact_risk": "",
+    "final_usability": "failed",
+    "revision_instruction": ""
+  },
+  "reusable_prompt_signals": [
+    "Chinese vertical tech explainer cover",
+    "real person presenter at desk",
+    "laptop foreground",
+    "assignment grading machine product board background",
+    "dark blue studio lighting",
+    "bold white Chinese headline",
+    "cyan-blue keyword emphasis",
+    "purple gradient underline",
+    "right-edge nameplate overlay",
+    "top-left brand logo placement",
+    "professional product analysis tone",
+    "thumbnail-optimized high contrast"
+  ],
+  "risk_notes": [
+    "Do not infer or evaluate the real person's identity beyond visible on-image text.",
+    "Small background text should not be treated as reliably readable in generation targets.",
+    "Claims such as 全网最细 should be used cautiously if factual substantiation is required.",
+    "Generated variants should preserve text hierarchy so the bottom headline remains dominant."
+  ],
+  "error_summary": ""
+}
