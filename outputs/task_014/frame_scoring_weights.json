@@ -1,0 +1,201 @@
+{
+  "version": "frame_scoring_v0.1",
+  "source_task": "task_013",
+  "source_files": [
+    "outputs/task_013/dataset.json",
+    "outputs/task_013/pattern_summary.md",
+    "outputs/task_013/per_cover/*.json",
+    "docs/cover_reverse_table_v2.md"
+  ],
+  "sample_count": 19,
+  "label_distribution": {
+    "satisfied": 16,
+    "unsatisfied": 3,
+    "unknown": 0
+  },
+  "data_quality_notes": [
+    "All 19 task_013 records are status=success, but several structured Decision and QA fields are sparse or zero-filled.",
+    "The strongest evidence comes from reusable_prompt_signals, negative_constraints, risk_notes, and pattern_summary.md.",
+    "Because unsatisfied samples are only 3, label-difference conclusions should be treated as v0.1 hypotheses rather than stable statistical findings."
+  ],
+  "total_positive_weight": 100,
+  "dimensions": [
+    {
+      "dimension_id": "D01_subject_clarity",
+      "dimension_name": "主体清晰度",
+      "weight": 14,
+      "scoring_scale": "0-5",
+      "high_score_definition": "主体一眼可辨，人物、产品、证书、活动屏幕或关键物件没有被遮挡、裁切或背景吞没。",
+      "low_score_definition": "主体过小、边缘裁切、被文字或装饰遮挡，或多主体抢焦导致无法判断封面核心。",
+      "evidence_from_task013": "task_013 的复用信号多次出现 presenter、product/device、conference banner、certificate、mascot 等主体线索；risk_notes 反复提醒人物、设备、证书和品牌元素不能被误复刻或遮挡。",
+      "notes_for_auto_frame_selection": "选帧时优先检测大面积主体、主体完整度和主体与背景的边界清晰度；主体不清晰时即使画面漂亮也不应进入 top candidate。"
+    },
+    {
+      "dimension_id": "D02_title_carrier_space",
+      "dimension_name": "标题承载空间与可读性",
+      "weight": 15,
+      "scoring_scale": "0-5",
+      "high_score_definition": "画面有稳定的大标题区域，背景对比足够，主体不会压住主标题，移动端缩略图仍可读。",
+      "low_score_definition": "标题空间被人物、产品、复杂背景或强透视占用；主标题容易过小、低对比或被装饰抢占。",
+      "evidence_from_task013": "pattern_summary 的负向约束高频项包括低对比浅色背景、过多小字、星芒装饰抢标题、标题字号弱化；满意样本 prompt signals 出现 large bold Chinese headline、high contrast white typography。",
+      "notes_for_auto_frame_selection": "自动选帧应估计左右/上下可排版空区，优先保留高对比标题带；没有标题承载空间的帧需要进入人工二次判断。"
+    },
+    {
+      "dimension_id": "D03_visual_hierarchy",
+      "dimension_name": "画面层次与视觉重心",
+      "weight": 12,
+      "scoring_scale": "0-5",
+      "high_score_definition": "主体、标题、品牌/辅助信息有清晰主次，视觉动线稳定，背景提供语境但不抢主视觉。",
+      "low_score_definition": "人物、标题、logo、活动元素或装饰互相抢焦，视觉重心散乱，缩略图下无法形成第一眼判断。",
+      "evidence_from_task013": "pattern_summary 明确把构图重心列为低分/不满意样本优先检查项；risk_notes 提到复杂拼贴、小字和强透视会降低缩略图可读性。",
+      "notes_for_auto_frame_selection": "可用主体面积、留白比例、边缘复杂度和高对比区域数量估算层次；重心过散的帧应降级。"
+    },
+    {
+      "dimension_id": "D04_education_product_readability",
+      "dimension_name": "教育/产品信息可读性",
+      "weight": 11,
+      "scoring_scale": "0-5",
+      "high_score_definition": "教育主题、AI/产品功能、活动或荣誉信息能被快速识别，且不依赖大量小字。",
+      "low_score_definition": "主题需要读很多小字才明白，产品或活动标识不可辨认，或信息承诺与画面证据不匹配。",
+      "evidence_from_task013": "reusable_prompt_signals 高频出现 AI education、科技教育背景、产品设备、功能标签、会议/活动标识；risk_notes 反复提醒功能承诺和品牌/活动文字需要校对。",
+      "notes_for_auto_frame_selection": "对课程、产品、直播、活动帧分别检测是否有明确内容物；无法说明视频主题的漂亮画面只作为弱候选。"
+    },
+    {
+      "dimension_id": "D05_click_hook_tension",
+      "dimension_name": "点击欲望与情绪/冲突张力",
+      "weight": 10,
+      "scoring_scale": "0-5",
+      "high_score_definition": "画面和可承载标题能形成问题、结果、反差、事件感或强利益点，用户有继续点击的理由。",
+      "low_score_definition": "画面只是说明性截图或普通合影，没有问题感、结果感、冲突感或明确收益。",
+      "evidence_from_task013": "task_013 样本包含 answer-revealing headline tone、AI+教育落地、活动唯一性、功能演示等信号；但 emotion_signal/event_signal 数值均不可用，因此该维度是 v0.1 假设。",
+      "notes_for_auto_frame_selection": "优先选择有手势、指向、奖项、产品能力展示、场景事件或可承接问题标题的帧；纯背景帧降低分。"
+    },
+    {
+      "dimension_id": "D06_platform_brand_fit",
+      "dimension_name": "品牌/直播场景匹配度",
+      "weight": 9,
+      "scoring_scale": "0-5",
+      "high_score_definition": "画面适合视频号/直播封面语境，品牌角标、活动场景、课程/产品气质一致且不过度抢占。",
+      "low_score_definition": "舞台、展会、证书、产品或人物风格与直播封面目标冲突；logo/品牌过强或低对比。",
+      "evidence_from_task013": "满意样本多次出现 top-left brand logo、科技教育背景、产品/会议视觉；unsatisfied risk_notes 提到正式企业荣誉与深紫蓝霓虹舞台风格存在质感冲突。",
+      "notes_for_auto_frame_selection": "根据视频类型给品牌和场景匹配打分；正式直播、产品发布、教育讲解不应共用同一种视觉风格阈值。"
+    },
+    {
+      "dimension_id": "D07_information_density_control",
+      "dimension_name": "信息密度控制",
+      "weight": 9,
+      "scoring_scale": "0-5",
+      "high_score_definition": "主信息集中，辅助信息少而清楚，背景和装饰不会增加阅读负担。",
+      "low_score_definition": "多层小字、多个标签、复杂背景、拼贴照片和装饰同时出现，导致缩略图噪声过高。",
+      "evidence_from_task013": "negative_constraints 包含不要过多小字、不要复杂背景、不要暗色脏污质感；risk_notes 多次提到小屏展示、小字和复杂拼贴风险。",
+      "notes_for_auto_frame_selection": "可用小目标数量、文字区域数量、背景纹理复杂度做自动惩罚；高密度帧需要有更强标题空间才可保留。"
+    },
+    {
+      "dimension_id": "D08_generation_controllability",
+      "dimension_name": "AI 生成可控性",
+      "weight": 8,
+      "scoring_scale": "0-5",
+      "high_score_definition": "主体、背景、标题区和品牌元素可被清楚描述，生成时可控，中文文字可后期排版。",
+      "low_score_definition": "依赖复杂手部、真实品牌细节、小字证书、真人肖像或密集拼贴，生成模型容易变形或误用。",
+      "evidence_from_task013": "risk_notes 高频出现中文文字失真、品牌/活动标识授权、手部畸形、产品透视漂浮、证书小字风险。",
+      "notes_for_auto_frame_selection": "用于后续 image2 prompt 时，优先选择可拆分为主体、背景、标题区的帧；高生成风险帧即使点击强也要标注返工。"
+    },
+    {
+      "dimension_id": "D09_post_layout_cost",
+      "dimension_name": "后期排版成本",
+      "weight": 7,
+      "scoring_scale": "0-5",
+      "high_score_definition": "后期只需放置主标题和少量角标即可完成，遮罩、抠图、重绘和文字校对成本低。",
+      "low_score_definition": "需要大面积擦除背景、重做标题区、抠人物/产品、修复小字或调整多个品牌元素。",
+      "evidence_from_task013": "task_013 多处建议中文标题需后期真实排版，产品叠图、品牌标识和小字都需要单独控制；这些直接影响自动封面流水线成本。",
+      "notes_for_auto_frame_selection": "选帧器应把低返工帧优先推给自动生成链路，高返工帧进入人工或仅保留为参考。"
+    },
+    {
+      "dimension_id": "D10_reuse_safety",
+      "dimension_name": "复用安全性与授权风险",
+      "weight": 5,
+      "scoring_scale": "0-5",
+      "high_score_definition": "画面可泛化为通用场景，不依赖真实人物身份、未授权品牌、真实活动标识或不可验证强主张。",
+      "low_score_definition": "高度依赖可识别人物、品牌 logo、活动名、证书小字、肖像或商标，难以安全复用。",
+      "evidence_from_task013": "satisfied 与 unsatisfied 样本均有 risk_notes 提到不要识别人物身份、品牌/大会/肖像/商标授权、强主张事实核验。",
+      "notes_for_auto_frame_selection": "自动选帧阶段应标注授权风险，低安全性不一定立即淘汰，但必须影响后续生成策略和审核优先级。"
+    }
+  ],
+  "penalties": [
+    {
+      "penalty_id": "P01_unreadable_or_tiny_text",
+      "name": "文字不可读或小字过多",
+      "points": -12,
+      "trigger": "主标题或关键信息在缩略图尺寸下不可读，或小字数量明显过多。",
+      "evidence_from_task013": "negative_constraints 和 risk_notes 多次出现过多小字、标题字号弱化、中文文字失真。"
+    },
+    {
+      "penalty_id": "P02_no_title_space",
+      "name": "无稳定标题区",
+      "points": -10,
+      "trigger": "主体或复杂背景占满画面，无法放置高对比标题。",
+      "evidence_from_task013": "pattern_summary 指出应优先检查标题可读性；多条约束要求避免人物或复杂背景遮挡主标题。"
+    },
+    {
+      "penalty_id": "P03_low_contrast_background",
+      "name": "标题背景低对比",
+      "points": -8,
+      "trigger": "标题预计落点背景过亮、过花或与文字颜色接近。",
+      "evidence_from_task013": "低对比浅色背景是 pattern_summary 中出现次数最高的负向约束之一。"
+    },
+    {
+      "penalty_id": "P04_clutter_or_competing_focus",
+      "name": "杂乱或抢焦",
+      "points": -8,
+      "trigger": "装饰、logo、拼贴、人物、产品和标题互相抢焦。",
+      "evidence_from_task013": "risk_notes 提到复杂拼贴、装饰抢标题、背景复杂和小屏可读性下降。"
+    },
+    {
+      "penalty_id": "P05_ai_generation_artifact_risk",
+      "name": "AI 生成瑕疵高风险",
+      "points": -7,
+      "trigger": "画面依赖复杂手部、证书小字、真实 logo、中文长文或产品透视。",
+      "evidence_from_task013": "risk_notes 多次指出中文、手部、产品透视、品牌标识和证书文字容易出错。"
+    },
+    {
+      "penalty_id": "P06_platform_style_mismatch",
+      "name": "平台/业务风格不匹配",
+      "points": -7,
+      "trigger": "画面风格与视频号直播、教育产品或正式活动封面目标明显不一致。",
+      "evidence_from_task013": "unsatisfied 风险中出现正式企业荣誉与霓虹舞台风格冲突。"
+    },
+    {
+      "penalty_id": "P07_authorization_or_identity_risk",
+      "name": "授权或人物身份风险",
+      "points": -6,
+      "trigger": "包含可识别人物身份、真实品牌/活动/证书信息，且后续复用不可控。",
+      "evidence_from_task013": "risk_notes 反复要求不要评价人物身份，并提示品牌、肖像、商标和活动素材授权风险。"
+    }
+  ],
+  "decision_thresholds": {
+    "reject_below": 55,
+    "weak_candidate": {
+      "min": 55,
+      "max": 64
+    },
+    "acceptable_candidate": {
+      "min": 65,
+      "max": 74
+    },
+    "strong_candidate": {
+      "min": 75,
+      "max": 84
+    },
+    "top_candidate": {
+      "min": 85,
+      "max": 100
+    }
+  },
+  "scoring_formula": "positive_score=sum(weight * dimension_score / 5); final_score=max(0, min(100, positive_score + applicable_penalties)); penalties are negative values and should be capped at -25 in v0.1 unless a hard reject rule applies.",
+  "notes": [
+    "Use v0.1 for ranking candidate frames, not as an absolute truth model.",
+    "High-confidence rules: title readability, title space, subject clarity, clutter control, and AI generation risk.",
+    "Low-confidence rules: exact emotion/event/face weights, because task_013 numeric signal fields are sparse or zero-filled.",
+    "v0.2 should add per-frame human scores, actual CTR/watch metrics, and more unsatisfied examples."
+  ]
+}

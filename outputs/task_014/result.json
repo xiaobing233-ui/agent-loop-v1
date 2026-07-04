@@ -1,0 +1,36 @@
+{
+  "status": "success",
+  "task_id": "task_014",
+  "inputs": [
+    "outputs/task_013/dataset.json",
+    "outputs/task_013/pattern_summary.md",
+    "outputs/task_013/per_cover/*.json",
+    "docs/cover_reverse_table_v2.md"
+  ],
+  "outputs": [
+    "docs/frame_scoring_v0_1.md",
+    "outputs/task_014/frame_scoring_weights.json",
+    "outputs/task_014/frame_scoring_rubric.md",
+    "outputs/task_014/result.json",
+    "outputs/task_014/result.md"
+  ],
+  "sample_count": 19,
+  "label_distribution": {
+    "satisfied": 16,
+    "unsatisfied": 3,
+    "unknown": 0
+  },
+  "success_criteria": {
+    "dataset_sample_count_is_19": true,
+    "label_distribution_matches_task013": true,
+    "positive_weight_total_is_100": true,
+    "weights_json_is_valid": true,
+    "docs_include_full_scoring_table": true,
+    "no_image_base64_or_secret_detected": true
+  },
+  "warnings": [
+    "task_013 Decision numeric signal fields are sparse or zero-filled, so v0.1 weights rely mainly on qualitative prompt signals, negative constraints, and risk notes.",
+    "Only 3 unsatisfied examples are available; satisfied-vs-unsatisfied differences should be treated as hypotheses.",
+    "QA fields are sparse in task_013, so QA risk guidance is derived mostly from risk_notes and negative_constraints."
+  ]
+}
