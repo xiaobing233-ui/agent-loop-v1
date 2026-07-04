@@ -16,7 +16,7 @@ task_015 建立“视频抽帧 -> 单帧评分 -> Top N 候选帧排序”的 pr
 
 脚本：`scripts/task015_extract_frames.py`
 
-输入一个视频路径，优先使用 `ffmpeg` 按固定间隔抽帧：
+输入一个视频路径，使用 `ffmpeg` 按固定间隔抽帧：
 
 ```bash
 python scripts/task015_extract_frames.py --video "/path/to/video.mp4" --interval-sec 2 --max-frames 80
@@ -30,6 +30,22 @@ python scripts/task015_extract_frames.py --video "/path/to/video.mp4" --interval
 `frame_manifest.json` 记录 `frame_id`、`video_path`、`frame_path`、`timestamp_sec`、`width`、`height` 和 `extraction_version`。
 
 如果 `ffmpeg` 不存在，脚本会明确报错。抽出的帧属于 runtime 产物，不提交到 Git。
+
+### ffmpeg 依赖解析
+
+抽帧脚本支持三种 ffmpeg 来源，按以下优先级解析：
+
+1. 环境变量 `TASK015_FFMPEG_BIN`
+2. PATH 里的系统 `ffmpeg`
+3. Python 包 `imageio-ffmpeg` 的 fallback：`imageio_ffmpeg.get_ffmpeg_exe()`
+
+可以用轻量检查命令确认当前会使用哪个 ffmpeg，不读取视频也不生成帧：
+
+```bash
+python3 scripts/task015_extract_frames.py --check-ffmpeg
+```
+
+如果三种方式都不可用，脚本会报错：`ffmpeg not found; install ffmpeg or pip install imageio-ffmpeg`。
 
 ## 单帧评分流程
 

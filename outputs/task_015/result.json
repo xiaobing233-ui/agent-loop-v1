@@ -27,6 +27,7 @@
   ],
   "dry_run_checks": {
     "extract_help": true,
+    "extract_check_ffmpeg": true,
     "score_help": true,
     "rank_help": true,
     "task014_weights_readable": true,
@@ -36,6 +37,7 @@
     "codex_raw_generated": false
   },
   "warnings": [
+    "Frame extraction now supports TASK015_FFMPEG_BIN, PATH ffmpeg, and imageio-ffmpeg fallback.",
     "Real frame scoring must be run from a Mac terminal, not from inside the Codex window.",
     "Runtime frames, raw Codex outputs, prompts, and frame_scores are ignored by Git by default.",
     "This task implements the prototype only; no real video was analyzed."

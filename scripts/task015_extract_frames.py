@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -23,11 +24,43 @@ def find_binary(name: str) -> str | None:
     return shutil.which(name)
 
 
+def ffmpeg_from_imageio() -> str | None:
+    try:
+        import imageio_ffmpeg
+    except Exception:
+        return None
+    try:
+        ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+    except Exception:
+        return None
+    return ffmpeg if ffmpeg and Path(ffmpeg).exists() else None
+
+
 def require_ffmpeg() -> str:
+    ffmpeg = os.environ.get("TASK015_FFMPEG_BIN")
+    if ffmpeg:
+        return ffmpeg
+
     ffmpeg = find_binary("ffmpeg")
+    if ffmpeg:
+        return ffmpeg
+
+    ffmpeg = ffmpeg_from_imageio()
     if not ffmpeg:
-        raise RuntimeError("ffmpeg not found. Install ffmpeg or add it to PATH.")
+        raise RuntimeError("ffmpeg not found; install ffmpeg or pip install imageio-ffmpeg")
     return ffmpeg
+
+
+def ffmpeg_version_line(ffmpeg_bin: str) -> str:
+    result = subprocess.run(
+        [ffmpeg_bin, "-version"],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(result.stderr.strip() or "ffmpeg -version failed")
+    return result.stdout.splitlines()[0] if result.stdout.splitlines() else ""
 
 
 def probe_video_dimensions(video_path: Path) -> tuple[int, int]:
@@ -104,12 +137,25 @@ def build_manifest(
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Extract fixed-interval frames for task_015.")
-    parser.add_argument("--video", required=True, help="Path to the input video file.")
+    parser.add_argument("--video", help="Path to the input video file.")
     parser.add_argument("--interval-sec", type=float, default=2.0)
     parser.add_argument("--max-frames", type=int, default=None)
+    parser.add_argument(
+        "--check-ffmpeg",
+        action="store_true",
+        help="Print the resolved ffmpeg path and version, then exit.",
+    )
     args = parser.parse_args()
 
     try:
+        if args.check_ffmpeg:
+            ffmpeg = require_ffmpeg()
+            print(f"ffmpeg_path: {ffmpeg}")
+            print(f"ffmpeg_version: {ffmpeg_version_line(ffmpeg)}")
+            return 0
+
+        if not args.video:
+            raise ValueError("--video is required unless --check-ffmpeg is used")
         video_path = Path(args.video).expanduser().resolve()
         if not video_path.exists():
             raise FileNotFoundError(f"Video not found: {video_path}")

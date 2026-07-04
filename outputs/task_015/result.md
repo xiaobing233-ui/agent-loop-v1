@@ -14,3 +14,5 @@ Created:
 - `.gitignore`
 
 Dry-run validation only: script help commands pass, task_014 weights are readable, and no Codex CLI call, video extraction, frame score, raw output, or runtime frame generation was performed.
+
+Compatibility update: `scripts/task015_extract_frames.py` now resolves ffmpeg from `TASK015_FFMPEG_BIN`, PATH, or `imageio-ffmpeg`, and supports `--check-ffmpeg` for a no-video dependency check.
